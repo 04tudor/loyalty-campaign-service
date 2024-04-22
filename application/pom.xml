@@ -4,13 +4,34 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>md.maib.retail</groupId>
-    <artifactId>application</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>md.maib.retail</groupId>
+        <artifactId>loyalty-campaign-service</artifactId>
+        <version>1.0.0</version>
+    </parent>
 
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-    </properties>
-    <packaging>jar</packaging>
+    <artifactId>loyalty-campaign-application</artifactId>
+    <name>Application</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>md.maib.retail</groupId>
+            <artifactId>loyalty-campaign-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>md.maib.retail</groupId>
+            <artifactId>loyalty-campaign-domain</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
