@@ -1,4 +1,4 @@
-package md.maib.retail.Model.Campaign;
+package md.maib.retail.model.campaign;
 
 
 import java.util.Map;

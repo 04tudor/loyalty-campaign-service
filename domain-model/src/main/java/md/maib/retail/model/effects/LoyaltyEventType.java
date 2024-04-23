@@ -1,4 +1,4 @@
-package md.maib.retail.Model.Effects;
+package md.maib.retail.model.effects;
 
 
 import java.util.List;

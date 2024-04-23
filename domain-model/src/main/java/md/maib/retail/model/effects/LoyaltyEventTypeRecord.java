@@ -1,7 +1,7 @@
-package md.maib.retail.Model.Effects;
+package md.maib.retail.model.effects;
 
-import md.maib.retail.Model.Conditions.Condition;
-import md.maib.retail.Model.Conditions.Operator;
+import md.maib.retail.model.conditions.Condition;
+import md.maib.retail.model.conditions.Operator;
 
 public record LoyaltyEventTypeRecord (
         Condition condition,

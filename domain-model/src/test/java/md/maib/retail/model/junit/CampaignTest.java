@@ -1,9 +1,9 @@
 package md.maib.retail.model.junit;
 
-import md.maib.retail.Model.Campaign.Campaign;
-import md.maib.retail.Model.Campaign.CampaignId;
-import md.maib.retail.Model.Campaign.CampaignState;
-import md.maib.retail.Model.Conditions.Rule;
+import md.maib.retail.model.campaign.Campaign;
+import md.maib.retail.model.campaign.CampaignId;
+import md.maib.retail.model.campaign.CampaignState;
+import md.maib.retail.model.conditions.Rule;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 import org.threeten.extra.Interval;
@@ -12,7 +12,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @UnitTest
@@ -32,19 +31,17 @@ public class CampaignTest {
 
     @Test
     void testBuildWithCampaignId() {
-        UUID uuid = UUID.randomUUID();
-        CampaignBuilder campaignBuilder = new CampaignBuilder();
+        var uuid = UUID.randomUUID();
+        CampaignBuilder campaignBuilder = new CampaignBuilder(uuid);
 
-        CampaignId builtCampaignId = campaignBuilder.withCampaignId(uuid);
 
-        assertEquals(uuid, builtCampaignId.campaignId(), "Campaign ID should be set correctly");
+        assertEquals(uuid, campaignBuilder, "Campaign ID should be set correctly");
     }
 
     @Test
     void cannotActivateAlreadyActiveCampaign() throws Exception {
         CampaignId campaignId = CampaignId.newIdentity();
-        CampaignBuilder campaignBuilder = new CampaignBuilder();
-        campaignBuilder.withCampaignId(campaignId.campaignId());
+        CampaignBuilder campaignBuilder = new CampaignBuilder(campaignId.campaignId());
         Campaign campaign = new Campaign(
                 campaignId,
                 null,
@@ -62,8 +59,7 @@ public class CampaignTest {
     @Test
     void canActivateDraftCampaign() throws Exception {
         CampaignId campaignId = CampaignId.newIdentity();
-        CampaignBuilder campaignBuilder = new CampaignBuilder();
-        campaignBuilder.withCampaignId(campaignId.campaignId());
+        CampaignBuilder campaignBuilder = new CampaignBuilder(campaignId.campaignId());
         Campaign campaign = new Campaign(
                 campaignId,
                 null,
