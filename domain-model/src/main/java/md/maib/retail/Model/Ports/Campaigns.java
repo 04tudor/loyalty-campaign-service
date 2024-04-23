@@ -1,4 +1,7 @@
-package md.maib.retail.Model.Campaign;
+package md.maib.retail.Model.Ports;
+
+import md.maib.retail.Model.Campaign.Campaign;
+import md.maib.retail.Model.Campaign.CampaignId;
 
 import java.time.LocalDate;
 import java.util.List;
