@@ -1,4 +1,4 @@
-package md.maib.retail.Model.Conditions;
+package md.maib.retail.model.conditions;
 
 public enum Operator {
     EQUALS,

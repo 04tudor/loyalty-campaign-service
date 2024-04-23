@@ -1,4 +1,4 @@
-    package md.maib.retail.Model.Effects;
+    package md.maib.retail.model.campaign;
 
     public enum FieldType {
         STRING,
