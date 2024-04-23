@@ -1,4 +1,4 @@
-package md.maib.retail.Model.Campaign;
+package md.maib.retail.model.campaign;
 
 import java.util.UUID;
 import static java.util.Objects.requireNonNull;
@@ -13,10 +13,8 @@ public record CampaignId (UUID campaignId){
     public static CampaignId newIdentity() {
         return new CampaignId(randomUUID());
     }
-    public static CampaignId valueOf(UUID uuid) {
-        return new CampaignId(uuid);
+
+    public static CampaignId valueOf(UUID value) {
+        return new CampaignId(value);
     }
-
-
-
 }

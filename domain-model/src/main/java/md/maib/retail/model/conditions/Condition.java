@@ -1,14 +1,11 @@
-package md.maib.retail.Model.Conditions;
+package md.maib.retail.model.conditions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import md.maib.retail.Model.Effects.LoyaltyEventField;
+import md.maib.retail.model.effects.LoyaltyEventField;
 
 @Getter
-@Setter
-@NoArgsConstructor
+
 @AllArgsConstructor
 public class Condition  {
     private LoyaltyEventField field;

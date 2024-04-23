@@ -1,18 +1,18 @@
 package md.maib.retail.model.junit;
 
-import md.maib.retail.Model.Campaign.CampaignId;
+import md.maib.retail.model.campaign.CampaignId;
 
 import java.util.UUID;
 
 public class CampaignBuilder {
 
-    CampaignId campaignId=CampaignId.newIdentity();
+    private CampaignId campaignId = CampaignId.newIdentity();
 
-
-    public CampaignId withCampaignId(UUID campaignId) {
-        this.campaignId = CampaignId.newIdentity();
-        return CampaignId.valueOf(campaignId);
+    public CampaignBuilder (UUID campaignId) {
+        this.campaignId = CampaignId.valueOf(campaignId);
     }
 
-
+    public CampaignId build() {
+        return new CampaignId(campaignId.campaignId());
+    }
 }
