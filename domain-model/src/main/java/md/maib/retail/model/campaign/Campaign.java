@@ -1,6 +1,7 @@
         package md.maib.retail.model.campaign;
 
         import lombok.AllArgsConstructor;
+        import lombok.EqualsAndHashCode;
         import lombok.Getter;
         import md.maib.retail.model.conditions.Rule;
         import org.threeten.extra.Interval;
@@ -9,9 +10,11 @@
 
         @Getter
         @AllArgsConstructor
-        public class Campaign {
+        @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 
-            private CampaignId id;
+        public final class Campaign {
+            @EqualsAndHashCode.Include
+            private final CampaignId id;
 
             private CampaignMetaInfo metaInfo;
 

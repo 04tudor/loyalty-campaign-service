@@ -35,7 +35,7 @@ public class CampaignTest {
         CampaignBuilder campaignBuilder = new CampaignBuilder(uuid);
 
 
-        assertEquals(uuid, campaignBuilder, "Campaign ID should be set correctly");
+        assertEquals(uuid, campaignBuilder.build().campaignId(), "Campaign ID should be set correctly");
     }
 
     @Test
