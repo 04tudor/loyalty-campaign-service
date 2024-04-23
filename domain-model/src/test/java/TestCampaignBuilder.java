@@ -1,5 +1,4 @@
 import md.maib.retail.Model.Campaign.CampaignId;
-import md.maib.retail.Model.Campaign.CampaignMetaInfo;
 
 import java.util.UUID;
 
@@ -10,8 +9,8 @@ public class TestCampaignBuilder {
     public static TestCampaignBuilder randomCampaign() {
         return new TestCampaignBuilder();
     }
-    public TestCampaignBuilder withCampaignId(UUID projectId) {
-        this.campaignId = CampaignId.valueOf(projectId);
+    public TestCampaignBuilder withCampaignId(UUID campaignId) {
+        this.campaignId = CampaignId.valueOf(campaignId);
         return this;
     }
 
