@@ -3,7 +3,6 @@
         import lombok.AllArgsConstructor;
         import lombok.Getter;
         import md.maib.retail.model.conditions.Rule;
-        import md.maib.retail.model.effects.LoyaltyEventType;
         import org.threeten.extra.Interval;
         import java.util.Collection;
 

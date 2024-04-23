@@ -2,7 +2,7 @@ package md.maib.retail.dto;
 
 import md.maib.retail.model.campaign.CampaignState;
 import md.maib.retail.model.conditions.Rule;
-import md.maib.retail.model.effects.LoyaltyEventType;
+import md.maib.retail.model.campaign.LoyaltyEventType;
 import org.threeten.extra.Interval;
 
 import java.util.Collection;

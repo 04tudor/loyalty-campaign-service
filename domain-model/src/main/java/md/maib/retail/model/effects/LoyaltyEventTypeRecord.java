@@ -1,5 +1,6 @@
 package md.maib.retail.model.effects;
 
+import md.maib.retail.model.campaign.LoyaltyEventField;
 import md.maib.retail.model.conditions.Condition;
 import md.maib.retail.model.conditions.Operator;
 

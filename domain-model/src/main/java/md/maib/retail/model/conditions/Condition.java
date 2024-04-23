@@ -2,7 +2,7 @@ package md.maib.retail.model.conditions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import md.maib.retail.model.effects.LoyaltyEventField;
+import md.maib.retail.model.campaign.LoyaltyEventField;
 
 @Getter
 
