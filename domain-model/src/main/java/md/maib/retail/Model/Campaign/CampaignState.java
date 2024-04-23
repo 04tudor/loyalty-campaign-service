@@ -1,6 +1,6 @@
-package md.maib.retail.Model.Campaign;
+    package md.maib.retail.Model.Campaign;
 
-public enum CampaignState {
-    DRAFT,
-    ACTIVE
-}
+    public enum CampaignState {
+        DRAFT,
+        ACTIVE
+    }
