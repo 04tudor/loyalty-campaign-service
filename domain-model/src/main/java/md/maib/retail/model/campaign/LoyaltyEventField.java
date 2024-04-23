@@ -1,4 +1,4 @@
-package md.maib.retail.model.effects;
+package md.maib.retail.model.campaign;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
