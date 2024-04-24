@@ -1,4 +1,4 @@
-package md.maib.retail;
+package md.maib.retail.usecase;
 
 public class UseCaseProblemConflict {
     private final String message;

@@ -5,15 +5,14 @@ import md.maib.retail.model.campaign.FieldType;
 import md.maib.retail.model.campaign.LoyaltyEventField;
 import md.maib.retail.model.campaign.LoyaltyEventType;
 import md.maib.retail.model.conditions.Condition;
+import md.maib.retail.model.conditions.ConditionId;
 import md.maib.retail.model.conditions.Operator;
 import md.maib.retail.model.conditions.Rule;
 import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.effects.LoyaltyEffectType;
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -33,7 +32,7 @@ import java.util.UUID;
                 FieldType.STRING
         );
 
-        Condition condition = new Condition(loyaltyEventField, Operator.EQUALS, "value");
+        Condition condition = new Condition(ConditionId.newIdentity(), loyaltyEventField.getFieldType(), Operator.EQUALS, "value");
         LoyaltyEventType loyaltyEventType = new LoyaltyEventType();
         LoyaltyEffectType loyaltyEffectType = new LoyaltyEffectType(
                 UUID.randomUUID(),
@@ -62,7 +61,7 @@ import java.util.UUID;
         assertThat(rule).isNotEqualTo(differentIdRule);
 
         //different Condition
-        Condition differentCondition = new Condition(loyaltyEventField, Operator.GREATER, "value");
+        Condition differentCondition = new Condition(ConditionId.newIdentity(), loyaltyEventField.getFieldType(), Operator.GREATER, "value");
         Rule differentConditionsRule = new Rule(rule.getId(), Collections.singletonList(differentCondition), rule.getEffects());
         assertThat(rule).isNotEqualTo(differentConditionsRule);
 

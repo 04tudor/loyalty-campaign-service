@@ -1,19 +1,18 @@
-package md.maib.retail.model.ports;
+    package md.maib.retail.model.ports;
 
-import md.maib.retail.model.campaign.Campaign;
-import md.maib.retail.model.campaign.CampaignId;
+    import md.maib.retail.model.campaign.Campaign;
+    import md.maib.retail.model.campaign.CampaignId;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+    import java.time.LocalDate;
+    import java.util.Optional;
 
-public interface Campaigns {
+    public interface Campaigns {
 
-    List<Campaign> listByDate(LocalDate date);
+        Optional<Campaign> listByDate(LocalDate date);
 
-    Optional<Campaign> findById(CampaignId campaignId);
+        Optional<Campaign> findById(CampaignId campaignId);
 
-    Optional<Campaign> findByMetaInfo(String key,String value);
+        Optional<Campaign> findByMetaInfo(String key,String value);
 
-    boolean add(Campaign campaign);
-}
+        boolean add(Campaign campaign);
+    }

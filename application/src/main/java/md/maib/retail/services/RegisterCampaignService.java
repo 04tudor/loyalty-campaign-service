@@ -1,8 +1,8 @@
 package md.maib.retail.services;
 
 import io.vavr.control.Either;
-import md.maib.retail.UseCaseProblemConflict;
-import md.maib.retail.manage.RegisterCampaign;
+import md.maib.retail.usecase.UseCaseProblemConflict;
+import md.maib.retail.RegisterCampaign;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.conditions.*;
 import md.maib.retail.model.ports.Campaigns;
@@ -37,7 +37,6 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
                             .map(condition -> {
                                 var field = FieldType.valueOf(condition.getValue());
                                 var operator = Operator.valueOf(String.valueOf(condition.getOperator()));
-                                var value = String.valueOf(condition.getValue());
                                 return new Condition(
                                         ConditionId.newIdentity(),
                                         field,
