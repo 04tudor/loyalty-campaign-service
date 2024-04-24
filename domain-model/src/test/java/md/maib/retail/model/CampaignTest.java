@@ -17,7 +17,7 @@ import java.util.UUID;
 
 
 @UnitTest
-public class CampaignTest {
+ class CampaignTest {
 
     @Test
     void twoCampaignsAreEquals() {
@@ -31,9 +31,9 @@ public class CampaignTest {
         var uuid = UUID.randomUUID();
         CampaignBuilder campaignBuilder = new CampaignBuilder(uuid);
 
-        assertThat(uuid).isEqualTo(
+        assertThat(uuid).withFailMessage("Campaign ID should be set correctly").isEqualTo(
                 campaignBuilder.build().campaignId()
-        ).withFailMessage("Campaign ID should be set correctly");
+        );
     }
 
     @Test

@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 @UnitTest
-public class RuleTest {
+ class RuleTest {
 
 //    @Test
 //    void twoRulesAreEquals() {
