@@ -4,6 +4,7 @@
         import lombok.EqualsAndHashCode;
         import lombok.Getter;
         import md.maib.retail.model.conditions.Rule;
+        import md.maib.retail.model.exceptions.CampaignActivationException;
         import org.threeten.extra.Interval;
         import java.util.Collection;
 
@@ -26,12 +27,13 @@
 
             private Collection<Rule> rules;
 
-            public boolean activate() throws Exception {
+
+            public boolean activate() throws CampaignActivationException {
                 if (state == CampaignState.DRAFT) {
                     this.state = CampaignState.ACTIVE;
                     return true;
                 } else {
-                    return false;
+                    throw new CampaignActivationException("Campaign cannot be activated because it is not in DRAFT state.");
                 }        }
 
         }
