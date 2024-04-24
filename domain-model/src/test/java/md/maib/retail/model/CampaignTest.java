@@ -1,5 +1,6 @@
-package md.maib.retail.model.junit;
+package md.maib.retail.model;
 
+import md.maib.retail.junit.UnitTest;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.CampaignState;
@@ -7,12 +8,13 @@ import md.maib.retail.model.conditions.Rule;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 import org.threeten.extra.Interval;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @UnitTest
 public class CampaignTest {
@@ -34,8 +36,10 @@ public class CampaignTest {
         var uuid = UUID.randomUUID();
         CampaignBuilder campaignBuilder = new CampaignBuilder(uuid);
 
-
-        assertEquals(uuid, campaignBuilder.build().campaignId(), "Campaign ID should be set correctly");
+        assertThat(uuid).isEqualTo(
+                campaignBuilder.build().campaignId()
+        ).withFailMessage("Campaign ID should be set correctly");
+//        assertEquals(uuid, campaignBuilder.build().campaignId(), "Campaign ID should be set correctly");
     }
 
     @Test
