@@ -1,4 +1,4 @@
-package md.maib.retail.model.junit;
+package md.maib.retail.junit;
 
 import org.junit.jupiter.api.Tag;
 
