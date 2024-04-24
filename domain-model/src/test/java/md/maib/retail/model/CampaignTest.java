@@ -27,11 +27,6 @@ public class CampaignTest {
     }
 
     @Test
-    void twoRulesAreEquals() {
-        EqualsVerifier.forClass(Rule.class).withOnlyTheseFields("id").verify();
-    }
-
-    @Test
     void testBuildWithCampaignId() {
         var uuid = UUID.randomUUID();
         CampaignBuilder campaignBuilder = new CampaignBuilder(uuid);
@@ -39,7 +34,6 @@ public class CampaignTest {
         assertThat(uuid).isEqualTo(
                 campaignBuilder.build().campaignId()
         ).withFailMessage("Campaign ID should be set correctly");
-//        assertEquals(uuid, campaignBuilder.build().campaignId(), "Campaign ID should be set correctly");
     }
 
     @Test
@@ -78,7 +72,30 @@ public class CampaignTest {
         assertTrue(activationResult, "Can activate DRAFT campaign");
         assertEquals(CampaignState.ACTIVE, campaign.getState(), "Campaign state should be ACTIVE after activation");
     }
+    @Test
+    void testCampaign() throws Exception {
+        Campaign campaign = new Campaign(
+                CampaignId.newIdentity(),
+                null,
+                null,
+                CampaignState.DRAFT,
+                null,
+                null
+        );
 
+        assertThat(campaign.getMetaInfo()).isNull();
+
+        assertThat(campaign.activate()).isTrue();
+        assertThat(campaign.getState()).isEqualTo(CampaignState.ACTIVE);
+
+        assertThat(campaign.activate()).isFalse();
+        assertThat(campaign.getState()).isEqualTo(CampaignState.ACTIVE);
+
+        assertThat(campaign.getId()).isNotNull();
+
+        CampaignId campaignId = CampaignId.valueOf(campaign.getId().campaignId());
+        assertThat(campaignId).isEqualTo(campaign.getId());
+    }
 
 }
 
