@@ -1,4 +1,4 @@
-package md.maib.retail.manage;
+package md.maib.retail;
 
 import am.ik.yavi.builder.ValidatorBuilder;
 import am.ik.yavi.core.ConstraintViolations;
