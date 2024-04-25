@@ -16,4 +16,7 @@ public interface Campaigns {
     List<Campaign> findByMetaInfo(String key,String value);
 
     boolean add(Campaign campaign);
+
+    boolean delete(CampaignId campaignId);
+
 }
