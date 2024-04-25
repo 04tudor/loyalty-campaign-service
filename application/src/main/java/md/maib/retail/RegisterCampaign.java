@@ -50,7 +50,7 @@ public final class  RegisterCampaign {
                     "startInclusive.isBeforeEndExclusive",
                     "\"startInclusive\" must be before \"endExclusive\"")
             ._object(RegisterCampaign::loyaltyEventType,"loyaltyEventType",c -> c.notNull().message(NOTNULL))
-            .forEach(RegisterCampaign::rules, "rules", RuleValidator.getValidator())
+            ._collection(RegisterCampaign::rules, "rules", c -> c.notNull().message(NOTNULL))
             .build();
 
     public static Either<ConstraintViolations, RegisterCampaign> create(CampaignMetaInfo metaInfo, LocalDate startInclusive, LocalDate endExclusive, CampaignState state, LoyaltyEventType loyaltyEventType, List<Rule> rules) {

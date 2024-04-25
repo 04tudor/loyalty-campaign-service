@@ -1,6 +1,5 @@
 package md.maib.retail.application.services;
 
-import md.maib.retail.application.register_newcampaign.RegisterCampaignService;
 import md.maib.retail.application.register_newcampaign.RegisterCampaignValidate;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import md.maib.retail.model.campaign.*;
@@ -9,7 +8,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -36,30 +37,24 @@ class RegisterCampaignServiceTest {
 
     @AfterEach
     void tearDown() {
-        verify(campaigns).add(new Campaign(
-                CampaignId.newIdentity(),
-                new CampaignMetaInfo(Collections.emptyMap()),
-                null,
-                CampaignState.DRAFT,
-                null,
-                Collections.emptyList()
-        ));
+        ArgumentCaptor<Campaign> campaignCaptor = ArgumentCaptor.forClass(Campaign.class);
+        verify(campaigns).add(campaignCaptor.capture());
+        Campaign capturedCampaign = campaignCaptor.getValue();
+
+        assertThat(capturedCampaign).isNotNull();
     }
 
     @Test
     void registerNewCampaign_Success() {
-        CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());
-        Campaign campaign = new Campaign(
-                campaignId,
-                null,
-                null,
-                CampaignState.DRAFT,
-                null,
-                null
-        );
-        when(campaigns.add(campaign)).thenReturn(true);
-        List< LoyaltyEventField> loyaltyEventField=List.of(new LoyaltyEventField(UUID.randomUUID(),"Field",FieldType.STRING));
-         LoyaltyEventType loyaltyEventType=new LoyaltyEventType(UUID.randomUUID(),"Event",loyaltyEventField);
+        ArgumentCaptor<Campaign> campaignCaptor = ArgumentCaptor.forClass(Campaign.class);
+
+        Campaign campaignStub = Mockito.any(Campaign.class);
+
+        when(campaigns.add(campaignStub)).thenReturn(true);
+
+        List<LoyaltyEventField> loyaltyEventField = List.of(new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING));
+        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(UUID.randomUUID(), "Event", loyaltyEventField);
+
         RegisterCampaignValidate command = new RegisterCampaignValidate(
                 new CampaignMetaInfo(Collections.emptyMap()),
                 LocalDate.now(),
@@ -71,20 +66,18 @@ class RegisterCampaignServiceTest {
 
         Optional<CampaignId> result = registrationCampaignUseCase.registerCampaign(command).toJavaOptional();
 
+        verify(campaigns).add(campaignCaptor.capture());
+        Campaign capturedCampaign = campaignCaptor.getValue();
+
         assertThat(result).isPresent();
-        assertThat(result).contains(campaignId);
+        assertThat(result.get()).isEqualTo(capturedCampaign.getId());
+        assertThat(capturedCampaign.getState()).isEqualTo(CampaignState.DRAFT);
     }
 
     @Test
-    void registerNewCampaign_Failure() {
-        when(campaigns.add(new Campaign(
-                CampaignId.newIdentity(),
-                new CampaignMetaInfo(Collections.emptyMap()),
-                null,
-                CampaignState.DRAFT,
-                null,
-                Collections.emptyList()
-        ))).thenReturn(false);
+    void registerNewCampaign_Fail() {
+        ArgumentCaptor<Campaign> campaignCaptor = ArgumentCaptor.forClass(Campaign.class);
+        when(campaigns.add(campaignCaptor.capture())).thenReturn(false);
 
         RegisterCampaignValidate command = new RegisterCampaignValidate(
                 new CampaignMetaInfo(Collections.emptyMap()),
