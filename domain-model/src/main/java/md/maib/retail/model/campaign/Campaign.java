@@ -10,6 +10,7 @@
 
         @Getter
         @AllArgsConstructor
+
         @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 
         public final class Campaign {
@@ -26,7 +27,8 @@
 
             private Collection<Rule> rules;
 
-            public boolean activate() throws Exception {
+
+            public boolean activate() {
                 if (state == CampaignState.DRAFT) {
                     this.state = CampaignState.ACTIVE;
                     return true;

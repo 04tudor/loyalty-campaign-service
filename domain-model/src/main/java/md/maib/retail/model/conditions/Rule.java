@@ -8,23 +8,18 @@ import md.maib.retail.model.effects.Effect;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-
 
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 public final class Rule {
     @EqualsAndHashCode.Include
-    private final UUID id;
+    private final RuleId id;
     private Collection<Condition>conditions;
     private List<Effect>efects;
 
     public List<Effect> getEffects() {
         return efects;
-    }
-    public static UUID newIdentity() {
-        return UUID.randomUUID();
     }
     @Override
     public boolean equals(Object o) {

@@ -7,6 +7,7 @@ import md.maib.retail.model.campaign.LoyaltyEventType;
 import md.maib.retail.model.conditions.Condition;
 import md.maib.retail.model.conditions.Operator;
 import md.maib.retail.model.conditions.Rule;
+import md.maib.retail.model.conditions.RuleId;
 import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.effects.LoyaltyEffectType;
 import org.assertj.core.api.Assertions;
@@ -24,6 +25,7 @@ import java.util.UUID;
 //        EqualsVerifier.forClass(Rule.class).withOnlyTheseFields("id").verify();
 //    }
 
+
     @Test
     void testRule() {
         LoyaltyEventField loyaltyEventField = new LoyaltyEventField(
@@ -32,7 +34,7 @@ import java.util.UUID;
                 FieldType.STRING
         );
 
-        Condition condition = new Condition(loyaltyEventField, Operator.EQUALS, "value");
+        Condition condition = new Condition(loyaltyEventField.getFieldType(), Operator.EQUALS, "value");
         LoyaltyEventType loyaltyEventType = new LoyaltyEventType();
         LoyaltyEffectType loyaltyEffectType = new LoyaltyEffectType(
                 UUID.randomUUID(),
@@ -43,7 +45,7 @@ import java.util.UUID;
         Effect effect = new Effect(loyaltyEffectType, "effectValue");
 
         Rule rule = new Rule(
-                Rule.newIdentity(),
+                RuleId.newIdentity(),
                 Collections.singletonList(condition),
                 Collections.singletonList(effect)
         );
@@ -57,11 +59,11 @@ import java.util.UUID;
         assertThat(rule).isEqualTo(sameRule);
 
         //different id Rule
-        Rule differentIdRule = new Rule(UUID.randomUUID(), rule.getConditions(), rule.getEffects());
+        Rule differentIdRule = new Rule(RuleId.newIdentity(), rule.getConditions(), rule.getEffects());
         assertThat(rule).isNotEqualTo(differentIdRule);
 
         //different Condition
-        Condition differentCondition = new Condition(loyaltyEventField, Operator.GREATER, "value");
+        Condition differentCondition = new Condition(loyaltyEventField.getFieldType(), Operator.GREATER, "value");
         Rule differentConditionsRule = new Rule(rule.getId(), Collections.singletonList(differentCondition), rule.getEffects());
         assertThat(rule).isNotEqualTo(differentConditionsRule);
 

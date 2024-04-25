@@ -55,7 +55,7 @@ import static org.mockito.Mockito.when;
         Optional<CampaignAllInfo> result = findCampaignByIdUseCase.findById(campaignId);
 
         assertThat(result).isPresent();
-        assertThat(result.get().getId()).isEqualTo(campaignId);
+        assertThat(result.get().id()).isEqualTo(campaignId);
     }
 
     @Test

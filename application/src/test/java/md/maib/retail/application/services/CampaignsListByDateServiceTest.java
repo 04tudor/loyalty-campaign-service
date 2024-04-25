@@ -58,7 +58,7 @@ import static org.mockito.Mockito.when;
         List<CampaignSomeInfo> result = campaignsListByDateUseCase.activeCampaignsByDate(date);
 
         assertThat(result).isNotEmpty();
-        assertThat(result.get(0).getId()).isEqualTo(campaignId);
+        assertThat(result.get(0).id()).isEqualTo(campaignId);
     }
 
     @Test
