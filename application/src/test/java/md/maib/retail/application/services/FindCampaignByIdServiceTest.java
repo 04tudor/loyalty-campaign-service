@@ -27,7 +27,6 @@ import static org.mockito.Mockito.when;
     @Mock
     Campaigns campaigns;
 
-    @InjectMocks
     FindCampaignByIdService findCampaignByIdService;
 
     @BeforeEach
