@@ -5,12 +5,9 @@ import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.CampaignMetaInfo;
 import md.maib.retail.model.campaign.CampaignState;
 import md.maib.retail.model.campaign.LoyaltyEventType;
-import md.maib.retail.model.conditions.Rule;
 import org.threeten.extra.Interval;
-
-import java.util.Collection;
 @Getter
-public class CampaignInfo {
+public class CampaignSomeInfo {
     private final CampaignId id;
 
     private final CampaignMetaInfo metaInfo;
@@ -21,14 +18,11 @@ public class CampaignInfo {
 
     private final LoyaltyEventType loyaltyEventType;
 
-    private final Collection<Rule> rules;
-
-    public CampaignInfo(CampaignId id, CampaignMetaInfo metaInfo, Interval activityInterval, CampaignState state, LoyaltyEventType loyaltyEventType, Collection<Rule> rules) {
+    public CampaignSomeInfo(CampaignId id, CampaignMetaInfo metaInfo, Interval activityInterval, CampaignState state, LoyaltyEventType loyaltyEventType) {
         this.id = id;
         this.metaInfo = metaInfo;
         this.activityInterval = activityInterval;
         this.state = state;
         this.loyaltyEventType = loyaltyEventType;
-        this.rules = rules;
     }
 }
