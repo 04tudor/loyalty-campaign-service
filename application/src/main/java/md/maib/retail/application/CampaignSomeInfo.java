@@ -1,12 +1,14 @@
-package md.maib.retail;
+package md.maib.retail.application;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import md.maib.retail.model.campaign.CampaignId;
-import md.maib.retail.model.campaign.CampaignMetaInfo;
 import md.maib.retail.model.campaign.CampaignState;
+import md.maib.retail.model.campaign.CampaignMetaInfo;
 import md.maib.retail.model.campaign.LoyaltyEventType;
 import org.threeten.extra.Interval;
 @Getter
+@RequiredArgsConstructor
 public class CampaignSomeInfo {
     private final CampaignId id;
 
@@ -18,11 +20,5 @@ public class CampaignSomeInfo {
 
     private final LoyaltyEventType loyaltyEventType;
 
-    public CampaignSomeInfo(CampaignId id, CampaignMetaInfo metaInfo, Interval activityInterval, CampaignState state, LoyaltyEventType loyaltyEventType) {
-        this.id = id;
-        this.metaInfo = metaInfo;
-        this.activityInterval = activityInterval;
-        this.state = state;
-        this.loyaltyEventType = loyaltyEventType;
-    }
+
 }

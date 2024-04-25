@@ -1,14 +1,14 @@
-package md.maib.retail.campaigns_list_by_date;
+package md.maib.retail.application.campaigns_list_by_date;
 
-import md.maib.retail.CampaignMapper;
-import md.maib.retail.CampaignSomeInfo;
+import md.maib.retail.application.CampaignMapper;
+import md.maib.retail.application.CampaignSomeInfo;
 import md.maib.retail.model.ports.Campaigns;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
- class CampaignsListByDateService implements CampaignsListByDateUseCase{
+ public class CampaignsListByDateService implements CampaignsListByDateUseCase{
     private final Campaigns campaigns;
 
     public CampaignsListByDateService(Campaigns campaigns) {

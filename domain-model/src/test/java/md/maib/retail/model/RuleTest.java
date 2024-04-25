@@ -9,16 +9,15 @@ import md.maib.retail.model.conditions.Operator;
 import md.maib.retail.model.conditions.Rule;
 import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.effects.LoyaltyEffectType;
-import nl.jqno.equalsverifier.EqualsVerifier;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
 @UnitTest
-public class RuleTest {
+ class RuleTest {
 
 //    @Test
 //    void twoRulesAreEquals() {
@@ -52,7 +51,7 @@ public class RuleTest {
         // Rule Assertions
         assertThat(rule.getId()).isNotNull();
         assertThat(rule.getConditions()).containsExactly(condition);
-        assertThat(rule.getEffects()).containsExactly(effect);
+        Assertions.assertThat(rule.getEffects()).containsExactly(effect);
 
         Rule sameRule = new Rule(rule.getId(), rule.getConditions(), rule.getEffects());
         assertThat(rule).isEqualTo(sameRule);

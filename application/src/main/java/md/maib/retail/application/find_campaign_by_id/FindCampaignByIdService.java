@@ -1,6 +1,6 @@
-package md.maib.retail.find_campaign_by_id;
+package md.maib.retail.application.find_campaign_by_id;
 
-import md.maib.retail.CampaignAllInfo;
+import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.ports.Campaigns;
 
