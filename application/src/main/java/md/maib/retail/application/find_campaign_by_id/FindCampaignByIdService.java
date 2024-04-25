@@ -17,13 +17,8 @@ import java.util.Optional;
     @Override
     public Optional<CampaignAllInfo> findById(CampaignId campaignId) {
         return campaigns.findById(CampaignId.valueOf(campaignId.campaignId()))
-                .map(campaign -> new CampaignAllInfo(
-                        campaign.getId(),
-                        campaign.getMetaInfo(),
-                        campaign.getActivityInterval(),
-                        campaign.getState(),
-                        campaign.getLoyaltyEventType(),
-                        campaign.getRules()
-                ));
+                .map(CampaignAllInfo::valueOf);
     }
+
+
 }

@@ -1,6 +1,7 @@
 package md.maib.retail.application.find_campaign_by_metainfo;
 
 import md.maib.retail.application.CampaignAllInfo;
+import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.ports.Campaigns;
 
 import java.util.List;
@@ -16,14 +17,7 @@ public class FindCampaignByMetaInfoService implements FindCampaignByMetaInfoUseC
     @Override
     public List<CampaignAllInfo> findByMetaInfo(String key, String value) {
         return campaigns.findByMetaInfo(key, value)
-                .map(campaign -> new CampaignAllInfo(
-                        campaign.getId(),
-                        campaign.getMetaInfo(),
-                        campaign.getActivityInterval(),
-                        campaign.getState(),
-                        campaign.getLoyaltyEventType(),
-                        campaign.getRules()
-                )).stream().toList();
-    }
+                .map(CampaignAllInfo::valueOf).stream().toList();
+    }    }
 
-}
+

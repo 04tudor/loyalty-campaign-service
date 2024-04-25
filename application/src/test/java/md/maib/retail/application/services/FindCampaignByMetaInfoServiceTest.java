@@ -2,6 +2,7 @@ package md.maib.retail.application.services;
 
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoService;
+import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.CampaignState;
@@ -26,11 +27,11 @@ class FindCampaignByMetaInfoServiceTest {
     @Mock
     Campaigns campaigns;
 
-    FindCampaignByMetaInfoService findCampaignByMetaInfoService;
+    FindCampaignByMetaInfoUseCase findCampaignByMetaInfoUseCase;
 
     @BeforeEach
     void setup() {
-        findCampaignByMetaInfoService = new FindCampaignByMetaInfoService(campaigns);
+        findCampaignByMetaInfoUseCase =  FindCampaignByMetaInfoUseCase.defaultService(campaigns);
     }
 
     @AfterEach
@@ -53,7 +54,7 @@ class FindCampaignByMetaInfoServiceTest {
         );
         when(campaigns.findByMetaInfo(key, value)).thenReturn(Optional.of(campaign));
 
-        List<CampaignAllInfo> result = findCampaignByMetaInfoService.findByMetaInfo(key, value);
+        List<CampaignAllInfo> result = findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
 
         assertThat(result).isNotNull();
         assertThat(result.get(0).getId()).isEqualTo(campaignId);
@@ -65,7 +66,7 @@ class FindCampaignByMetaInfoServiceTest {
         String value = "value";
         when(campaigns.findByMetaInfo(key, value)).thenReturn(Optional.empty());
 
-        List<CampaignAllInfo> result = findCampaignByMetaInfoService.findByMetaInfo(key, value);
+        List<CampaignAllInfo> result = findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
 
         assertThat(result).isEmpty();
     }

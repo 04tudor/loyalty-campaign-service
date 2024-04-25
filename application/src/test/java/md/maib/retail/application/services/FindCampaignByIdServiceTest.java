@@ -2,6 +2,7 @@ package md.maib.retail.application.services;
 
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdService;
+import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.junit.UnitTest;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
@@ -27,11 +28,11 @@ import static org.mockito.Mockito.when;
     @Mock
     Campaigns campaigns;
 
-    FindCampaignByIdService findCampaignByIdService;
+    FindCampaignByIdUseCase findCampaignByIdUseCase;
 
     @BeforeEach
     void setup() {
-        findCampaignByIdService = new FindCampaignByIdService(campaigns);
+        findCampaignByIdUseCase = FindCampaignByIdUseCase.defaultService(campaigns);
     }
 
     @AfterEach
@@ -51,7 +52,7 @@ import static org.mockito.Mockito.when;
         );
         when(campaigns.findById(campaignId)).thenReturn(Optional.of(campaign));
 
-        Optional<CampaignAllInfo> result = findCampaignByIdService.findById(campaignId);
+        Optional<CampaignAllInfo> result = findCampaignByIdUseCase.findById(campaignId);
 
         assertThat(result).isPresent();
         assertThat(result.get().getId()).isEqualTo(campaignId);
@@ -62,7 +63,7 @@ import static org.mockito.Mockito.when;
         CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());
         when(campaigns.findById(campaignId)).thenReturn(Optional.empty());
 
-        Optional<CampaignAllInfo> result = findCampaignByIdService.findById(campaignId);
+        Optional<CampaignAllInfo> result = findCampaignByIdUseCase.findById(campaignId);
 
         assertThat(result).isEmpty();
     }

@@ -2,6 +2,7 @@ package md.maib.retail.application.services;
 
 import md.maib.retail.application.CampaignSomeInfo;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateService;
+import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.CampaignState;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -28,11 +28,11 @@ import static org.mockito.Mockito.when;
     Campaigns campaigns;
 
 
-    CampaignsListByDateService campaignsListByDateService;
+    CampaignsListByDateUseCase campaignsListByDateUseCase;
 
     @BeforeEach
     void setup() {
-        campaignsListByDateService = new CampaignsListByDateService(campaigns);
+        campaignsListByDateUseCase =  CampaignsListByDateUseCase.defaultService(campaigns);
     }
 
     @AfterEach
@@ -55,7 +55,7 @@ import static org.mockito.Mockito.when;
         );
         when(campaigns.listByDate(date)).thenReturn(List.of(campaign));
 
-        List<CampaignSomeInfo> result = campaignsListByDateService.activeCampaignsByDate(date);
+        List<CampaignSomeInfo> result = campaignsListByDateUseCase.activeCampaignsByDate(date);
 
         assertThat(result).isNotEmpty();
         assertThat(result.get(0).getId()).isEqualTo(campaignId);
@@ -66,7 +66,7 @@ import static org.mockito.Mockito.when;
         LocalDate date = LocalDate.of(2024, 4, 25);
         when(campaigns.listByDate(date)).thenReturn(new ArrayList<>());
 
-        List<CampaignSomeInfo> result = campaignsListByDateService.activeCampaignsByDate(date);
+        List<CampaignSomeInfo> result = campaignsListByDateUseCase.activeCampaignsByDate(date);
 
             assertThat(result).isEmpty();
     }
