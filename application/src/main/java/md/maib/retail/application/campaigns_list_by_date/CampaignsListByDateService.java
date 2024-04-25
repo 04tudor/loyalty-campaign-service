@@ -1,6 +1,5 @@
 package md.maib.retail.application.campaigns_list_by_date;
 
-import md.maib.retail.application.CampaignMapper;
 import md.maib.retail.application.CampaignSomeInfo;
 import md.maib.retail.model.ports.Campaigns;
 
@@ -20,8 +19,8 @@ import java.util.Objects;
 
         return campaigns.listByDate(date)
                 .stream()
-                .map(CampaignMapper::mapToCampaignSomeInfo
-                ).toList();
+                .map(CampaignSomeInfo::valueOf)
+                .toList();
 
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface FindCampaignByMetaInfoUseCase {
-    static FindCampaignByMetaInfoService defaultService(Campaigns campaigns) {
+    public static FindCampaignByMetaInfoService defaultService(Campaigns campaigns) {
         return new FindCampaignByMetaInfoService(campaigns);
     }
 

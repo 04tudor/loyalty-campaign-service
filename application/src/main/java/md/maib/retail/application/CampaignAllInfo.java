@@ -2,11 +2,8 @@ package md.maib.retail.application;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import md.maib.retail.model.campaign.CampaignId;
-import md.maib.retail.model.campaign.CampaignState;
+import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.conditions.Rule;
-import md.maib.retail.model.campaign.CampaignMetaInfo;
-import md.maib.retail.model.campaign.LoyaltyEventType;
 import org.threeten.extra.Interval;
 
 import java.util.Collection;
@@ -28,5 +25,11 @@ public class CampaignAllInfo {
                                            Interval activityInterval, CampaignState state,
                                            LoyaltyEventType loyaltyEventType,Collection<Rule>rules) {
         return new CampaignAllInfo(id, metaInfo, activityInterval, state, loyaltyEventType,rules);
+    }
+
+    public static CampaignAllInfo valueOf(Campaign campaign) {
+        return new CampaignAllInfo(campaign.getId(), campaign.getMetaInfo(),
+                campaign.getActivityInterval(), campaign.getState(),
+                campaign.getLoyaltyEventType(), campaign.getRules());
     }
 }
