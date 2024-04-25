@@ -3,7 +3,6 @@ package md.maib.retail.model.conditions;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.effects.Effect;
 
 import java.util.Collection;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
 
 @Getter
 @AllArgsConstructor
