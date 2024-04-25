@@ -6,7 +6,7 @@ import md.maib.retail.model.ports.Campaigns;
 
 
 public interface RegistrationCampaignUseCase {
-    Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaignValidate command);
+    Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaign command);
 
 
     static RegistrationCampaignUseCase defaultService(Campaigns campaigns) {

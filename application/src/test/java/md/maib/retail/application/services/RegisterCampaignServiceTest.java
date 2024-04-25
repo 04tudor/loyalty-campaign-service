@@ -1,6 +1,6 @@
 package md.maib.retail.application.services;
 
-import md.maib.retail.application.register_newcampaign.RegisterCampaignValidate;
+import md.maib.retail.application.register_newcampaign.RegisterCampaign;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.ports.Campaigns;
@@ -39,7 +39,7 @@ class RegisterCampaignServiceTest {
         List<LoyaltyEventField> loyaltyEventField = List.of(new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING));
         LoyaltyEventType loyaltyEventType = new LoyaltyEventType(UUID.randomUUID(), "Event", loyaltyEventField);
 
-        RegisterCampaignValidate command = new RegisterCampaignValidate(
+        RegisterCampaign command = new RegisterCampaign(
                 new CampaignMetaInfo(Collections.emptyMap()),
                 LocalDate.now(),
                 LocalDate.now().plusDays(7),
@@ -57,7 +57,7 @@ class RegisterCampaignServiceTest {
     void registerNewCampaign_Fail() {
         when(campaigns.add(Mockito.any(Campaign.class))).thenReturn(false);
 
-        RegisterCampaignValidate command = new RegisterCampaignValidate(
+        RegisterCampaign command = new RegisterCampaign(
                 new CampaignMetaInfo(Collections.emptyMap()),
                 LocalDate.now(),
                 LocalDate.now().plusDays(7),

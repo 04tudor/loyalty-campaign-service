@@ -22,7 +22,7 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
 
 
     @Override
-    public Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaignValidate command) {
+    public Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaign command) {
         var id = CampaignId.newIdentity();
         var metaInfo = new CampaignMetaInfo(command.metaInfo().properties());
         var startInclusive = command.startInclusive().atStartOfDay(ZoneOffset.UTC).toInstant();
@@ -53,7 +53,7 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
            
             return right(id);
         }
-        return left(new UseCaseProblemConflict("CampaignWithSameNameAlreadyExists"));
+        return left(new UseCaseProblemConflict("CampaignWithSameIdAlreadyExists"));
     }
 
 }
