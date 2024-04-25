@@ -43,7 +43,7 @@ public final class RegisterCampaignValidate {
 
     private static final Validator<RegisterCampaignValidate> validator = ValidatorBuilder
             .<RegisterCampaignValidate>of()
-            ._object(RegisterCampaignValidate::metaInfo, "metaInfo", c -> c.notNull().message(BLANK))
+            ._object(RegisterCampaignValidate::metaInfo, "metaInfo", c -> c.notNull().message(NOTNULL))
             .constraint(RegisterCampaignValidate::startInclusive, "startInclusive", c -> c.notNull().message(NOTNULL))
             .constraint(RegisterCampaignValidate::endExclusive, "endExclusive", c -> c.notNull().message(NOTNULL))
             .constraintOnTarget(RegisterCampaignValidate::validateRange,
@@ -55,9 +55,5 @@ public final class RegisterCampaignValidate {
             .build();
 
 
-    public static Either<ConstraintViolations, RegisterCampaignValidate> create(CampaignMetaInfo metaInfo, LocalDate startInclusive, LocalDate endExclusive, CampaignState state, LoyaltyEventType loyaltyEventType, List<Rule> rules) {
-        var command = new RegisterCampaignValidate(metaInfo, startInclusive, endExclusive, state, loyaltyEventType, rules);
-        var violations = validator.validate(command);
-        return violations.isValid() ? right(command) : left(violations);
-    }
+
 }
