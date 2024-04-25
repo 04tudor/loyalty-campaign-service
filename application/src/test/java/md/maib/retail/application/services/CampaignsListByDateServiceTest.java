@@ -22,11 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class) public class CampaignsListByDateServiceTest {
+@ExtendWith(MockitoExtension.class)
+ class CampaignsListByDateServiceTest {
     @Mock
     Campaigns campaigns;
 
-    @InjectMocks
+
     CampaignsListByDateService campaignsListByDateService;
 
     @BeforeEach

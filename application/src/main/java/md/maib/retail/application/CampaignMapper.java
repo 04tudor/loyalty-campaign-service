@@ -14,7 +14,7 @@ public class CampaignMapper {
         CampaignState state = campaign.getState();
         LoyaltyEventType loyaltyEventType = campaign.getLoyaltyEventType();
 
-        return new CampaignSomeInfo(id, metaInfo, activityInterval, state, loyaltyEventType);
+        return CampaignSomeInfo.valueOf(id, metaInfo, activityInterval, state, loyaltyEventType);
     }
 
     public static CampaignAllInfo mapToCampaignAllInfo(Campaign campaign) {
@@ -24,6 +24,6 @@ public class CampaignMapper {
         CampaignState state = campaign.getState();
         LoyaltyEventType loyaltyEventType = campaign.getLoyaltyEventType();
         Collection<Rule> rules=campaign.getRules();
-        return new CampaignAllInfo(id, metaInfo, activityInterval, state, loyaltyEventType,rules);
+        return CampaignAllInfo.valueOf(id, metaInfo, activityInterval, state, loyaltyEventType, rules);
     }
 }

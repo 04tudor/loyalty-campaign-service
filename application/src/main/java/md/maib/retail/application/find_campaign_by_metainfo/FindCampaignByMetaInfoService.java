@@ -3,10 +3,10 @@ package md.maib.retail.application.find_campaign_by_metainfo;
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.model.ports.Campaigns;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
- public class FindCampaignByMetaInfoService implements FindCampaignByMetaInfoUseCase{
+public class FindCampaignByMetaInfoService implements FindCampaignByMetaInfoUseCase{
     private final Campaigns campaigns;
 
     public FindCampaignByMetaInfoService(Campaigns campaigns) {
@@ -14,7 +14,7 @@ import java.util.Optional;
     }
 
     @Override
-    public Optional<CampaignAllInfo> findByMetaInfo(String key, String value) {
+    public List<CampaignAllInfo> findByMetaInfo(String key, String value) {
         return campaigns.findByMetaInfo(key, value)
                 .map(campaign -> new CampaignAllInfo(
                         campaign.getId(),
@@ -23,6 +23,7 @@ import java.util.Optional;
                         campaign.getState(),
                         campaign.getLoyaltyEventType(),
                         campaign.getRules()
-                ));    }
+                )).stream().toList();
+    }
 
 }

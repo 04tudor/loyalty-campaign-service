@@ -10,11 +10,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,11 +22,10 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
- class FindCampaignByMetaInfoServiceTest {
+class FindCampaignByMetaInfoServiceTest {
     @Mock
     Campaigns campaigns;
 
-    @InjectMocks
     FindCampaignByMetaInfoService findCampaignByMetaInfoService;
 
     @BeforeEach
@@ -54,19 +53,19 @@ import static org.mockito.Mockito.when;
         );
         when(campaigns.findByMetaInfo(key, value)).thenReturn(Optional.of(campaign));
 
-        Optional<CampaignAllInfo> result = findCampaignByMetaInfoService.findByMetaInfo(key, value);
+        List<CampaignAllInfo> result = findCampaignByMetaInfoService.findByMetaInfo(key, value);
 
-        assertThat(result).isPresent();
-        assertThat(result.get().getId()).isEqualTo(campaignId);
+        assertThat(result).isNotNull();
+        assertThat(result.get(0).getId()).isEqualTo(campaignId);
     }
 
     @Test
-    void findByMetaInfo_NotFound_ReturnsEmptyOptional() {
+    void findByMetaInfo_NotFound_ReturnsEmptyList() {
         String key = "key";
         String value = "value";
         when(campaigns.findByMetaInfo(key, value)).thenReturn(Optional.empty());
 
-        Optional<CampaignAllInfo> result = findCampaignByMetaInfoService.findByMetaInfo(key, value);
+        List<CampaignAllInfo> result = findCampaignByMetaInfoService.findByMetaInfo(key, value);
 
         assertThat(result).isEmpty();
     }
