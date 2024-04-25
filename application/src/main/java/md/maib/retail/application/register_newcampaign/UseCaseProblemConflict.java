@@ -1,4 +1,4 @@
-package md.maib.retail.usecase;
+package md.maib.retail.application.register_newcampaign;
 
 public class UseCaseProblemConflict {
     private final String message;

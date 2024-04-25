@@ -1,29 +1,28 @@
-package md.maib.retail.services;
+package md.maib.retail.application.register_newcampaign;
 
 import io.vavr.control.Either;
-import md.maib.retail.usecase.UseCaseProblemConflict;
-import md.maib.retail.RegisterCampaign;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.conditions.*;
 import md.maib.retail.model.ports.Campaigns;
-import md.maib.retail.usecase.RegistrationCampaignUseCase;
 import org.threeten.extra.Interval;
 
 import java.time.ZoneOffset;
+import java.util.Objects;
 
 import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
 
 public class RegisterCampaignService implements RegistrationCampaignUseCase {
-    Campaigns campaigns;
+   private final Campaigns campaigns;
 
     public RegisterCampaignService(Campaigns campaigns) {
-        this.campaigns=campaigns;
+        this.campaigns = Objects.requireNonNull(campaigns,"Campaigns must not be null");
+
     }
 
 
     @Override
-    public Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaign command) {
+    public Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaignValidate command) {
         var id = CampaignId.newIdentity();
         var metaInfo = new CampaignMetaInfo(command.metaInfo().properties());
         var startInclusive = command.startInclusive().atStartOfDay(ZoneOffset.UTC).toInstant();
@@ -38,14 +37,13 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
                                 var field = FieldType.valueOf(condition.getValue());
                                 var operator = Operator.valueOf(String.valueOf(condition.getOperator()));
                                 return new Condition(
-                                        ConditionId.newIdentity(),
                                         field,
                                         operator,
                                         condition.getValue()
                                 );
                             })
                             .toList();
-                    return new Rule(RuleId.newIdentity().campaignId(), conditions, null);
+                    return new Rule(RuleId.newIdentity(), conditions, null);
                 })
                 .toList();
 

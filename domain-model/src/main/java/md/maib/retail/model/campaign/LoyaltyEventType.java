@@ -1,9 +1,15 @@
 package md.maib.retail.model.campaign;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.UUID;
-
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoyaltyEventType {
     private UUID id;
 

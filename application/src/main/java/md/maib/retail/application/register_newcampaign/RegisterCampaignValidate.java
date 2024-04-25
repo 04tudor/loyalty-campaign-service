@@ -1,4 +1,4 @@
-package md.maib.retail;
+package md.maib.retail.application.register_newcampaign;
 
 import am.ik.yavi.builder.ValidatorBuilder;
 import am.ik.yavi.core.ConstraintViolations;
@@ -18,10 +18,11 @@ import java.util.List;
 
 import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
+
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor  // Removed AccessLevel.PRIVATE
 @ToString
-public final class  RegisterCampaign {
+public final class RegisterCampaignValidate {
     private final CampaignMetaInfo metaInfo;
     private final LocalDate startInclusive;
     private final LocalDate endExclusive;
@@ -40,25 +41,23 @@ public final class  RegisterCampaign {
         return startInclusive.isBefore(endExclusive);
     }
 
-    private static final Validator<RegisterCampaign> validator = ValidatorBuilder
-            .<RegisterCampaign>of()
-            ._object(RegisterCampaign::metaInfo, "metaInfo", c -> c.notNull().message(BLANK))
-            .constraint(RegisterCampaign::startInclusive, "startInclusive", c -> c.notNull().message(NOTNULL))
-            .constraint(RegisterCampaign::endExclusive, "endExclusive", c -> c.notNull().message(NOTNULL))
-            .constraintOnTarget(RegisterCampaign::validateRange,
+    private static final Validator<RegisterCampaignValidate> validator = ValidatorBuilder
+            .<RegisterCampaignValidate>of()
+            ._object(RegisterCampaignValidate::metaInfo, "metaInfo", c -> c.notNull().message(BLANK))
+            .constraint(RegisterCampaignValidate::startInclusive, "startInclusive", c -> c.notNull().message(NOTNULL))
+            .constraint(RegisterCampaignValidate::endExclusive, "endExclusive", c -> c.notNull().message(NOTNULL))
+            .constraintOnTarget(RegisterCampaignValidate::validateRange,
                     "startInclusive",
                     "startInclusive.isBeforeEndExclusive",
                     "\"startInclusive\" must be before \"endExclusive\"")
-            ._object(RegisterCampaign::loyaltyEventType,"loyaltyEventType",c -> c.notNull().message(NOTNULL))
-            .forEach(RegisterCampaign::rules, "rules", RuleValidator.getValidator())
+            ._object(RegisterCampaignValidate::loyaltyEventType, "loyaltyEventType", c -> c.notNull().message(NOTNULL))
+            ._collection(RegisterCampaignValidate::rules, "rules", c -> c.notNull().message(NOTNULL))
             .build();
 
-    public static Either<ConstraintViolations, RegisterCampaign> create(CampaignMetaInfo metaInfo, LocalDate startInclusive, LocalDate endExclusive, CampaignState state, LoyaltyEventType loyaltyEventType, List<Rule> rules) {
-        var command = new RegisterCampaign(metaInfo, startInclusive, endExclusive, state, loyaltyEventType, rules);
+
+    public static Either<ConstraintViolations, RegisterCampaignValidate> create(CampaignMetaInfo metaInfo, LocalDate startInclusive, LocalDate endExclusive, CampaignState state, LoyaltyEventType loyaltyEventType, List<Rule> rules) {
+        var command = new RegisterCampaignValidate(metaInfo, startInclusive, endExclusive, state, loyaltyEventType, rules);
         var violations = validator.validate(command);
         return violations.isValid() ? right(command) : left(violations);
     }
-
 }
-
-

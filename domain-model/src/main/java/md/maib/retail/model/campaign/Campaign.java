@@ -11,6 +11,7 @@
 
         @Getter
         @AllArgsConstructor
+
         @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 
         public final class Campaign {

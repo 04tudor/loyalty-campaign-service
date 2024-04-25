@@ -1,14 +1,12 @@
-package md.maib.retail.usecase;
+package md.maib.retail.application.register_newcampaign;
 
 import io.vavr.control.Either;
-import md.maib.retail.RegisterCampaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.ports.Campaigns;
-import md.maib.retail.services.RegisterCampaignService;
 
 
 public interface RegistrationCampaignUseCase {
-    Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaign command);
+    Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaignValidate command);
 
 
     static RegistrationCampaignUseCase defaultService(Campaigns campaigns) {

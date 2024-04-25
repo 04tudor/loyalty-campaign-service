@@ -1,7 +1,6 @@
 package md.maib.retail.application.services;
 
 import md.maib.retail.application.CampaignAllInfo;
-import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoService;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
@@ -16,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -52,19 +50,19 @@ class FindCampaignByMetaInfoServiceTest {
                 null,
                 new ArrayList<>()
         );
-        when(campaigns.findByMetaInfo(key, value)).thenReturn(Optional.of(campaign));
+        when(campaigns.findByMetaInfo(key, value)).thenReturn(List.of(campaign));
 
         List<CampaignAllInfo> result = findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
 
         assertThat(result).isNotNull();
-        assertThat(result.get(0).getId()).isEqualTo(campaignId);
+        assertThat(result.get(0).id()).isEqualTo(campaignId);
     }
 
     @Test
     void findByMetaInfo_NotFound_ReturnsEmptyList() {
         String key = "key";
         String value = "value";
-        when(campaigns.findByMetaInfo(key, value)).thenReturn(Optional.empty());
+        when(campaigns.findByMetaInfo(key, value)).thenReturn(new ArrayList<>());
 
         List<CampaignAllInfo> result = findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
 
