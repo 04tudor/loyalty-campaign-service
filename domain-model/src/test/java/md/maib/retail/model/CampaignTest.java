@@ -1,10 +1,9 @@
 package md.maib.retail.model;
 
 import md.maib.retail.junit.UnitTest;
-import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.CampaignState;
-import md.maib.retail.model.conditions.Rule;
+import md.maib.retail.model.campaign.Campaign;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 import org.threeten.extra.Interval;
@@ -17,7 +16,7 @@ import java.util.UUID;
 
 
 @UnitTest
-public class CampaignTest {
+ class CampaignTest {
 
     @Test
     void twoCampaignsAreEquals() {

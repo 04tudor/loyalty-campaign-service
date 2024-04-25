@@ -1,4 +1,4 @@
-package md.maib.retail;
+package md.maib.retail.application;
 
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.conditions.Rule;
