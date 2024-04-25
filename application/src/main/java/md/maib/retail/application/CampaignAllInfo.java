@@ -21,11 +21,7 @@ public class CampaignAllInfo {
     private final LoyaltyEventType loyaltyEventType;
 
     private final Collection<Rule> rules;
-    public static CampaignAllInfo valueOf(CampaignId id, CampaignMetaInfo metaInfo,
-                                           Interval activityInterval, CampaignState state,
-                                           LoyaltyEventType loyaltyEventType,Collection<Rule>rules) {
-        return new CampaignAllInfo(id, metaInfo, activityInterval, state, loyaltyEventType,rules);
-    }
+
 
     public static CampaignAllInfo valueOf(Campaign campaign) {
         return new CampaignAllInfo(campaign.getId(), campaign.getMetaInfo(),

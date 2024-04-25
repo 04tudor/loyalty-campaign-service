@@ -16,8 +16,8 @@ public class FindCampaignByMetaInfoService implements FindCampaignByMetaInfoUseC
 
     @Override
     public List<CampaignAllInfo> findByMetaInfo(String key, String value) {
-        return campaigns.findByMetaInfo(key, value)
-                .map(CampaignAllInfo::valueOf).stream().toList();
+        return campaigns.findByMetaInfo(key, value).stream()
+                .map(CampaignAllInfo::valueOf).toList();
     }    }
 
 

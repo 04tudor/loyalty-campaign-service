@@ -13,7 +13,7 @@ public interface Campaigns {
 
     Optional<Campaign> findById(CampaignId campaignId);
 
-    Optional<Campaign> findByMetaInfo(String key,String value);
+    List<Campaign> findByMetaInfo(String key,String value);
 
     boolean add(Campaign campaign);
 }
