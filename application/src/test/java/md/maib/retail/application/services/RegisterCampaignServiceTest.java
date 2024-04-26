@@ -25,11 +25,11 @@ class RegisterCampaignServiceTest {
     @Mock
     Campaigns campaigns;
 
-    RegistrationCampaignUseCase registrationCampaignUseCase;
+    RegistrationCampaignUseCase target;
 
     @BeforeEach
     void setup() {
-        registrationCampaignUseCase = RegistrationCampaignUseCase.defaultService(campaigns);
+        target = RegistrationCampaignUseCase.defaultService(campaigns);
     }
 
     @Test
@@ -48,7 +48,7 @@ class RegisterCampaignServiceTest {
                 Collections.emptyList()
         );
 
-        Optional<CampaignId> result = registrationCampaignUseCase.registerCampaign(command).toJavaOptional();
+        Optional<CampaignId> result = target.registerCampaign(command).toJavaOptional();
         CampaignId checkCampaignId= CampaignId.valueOf(result.get().campaignId());
         assertThat(result).isPresent().contains(checkCampaignId);
     }
@@ -66,7 +66,7 @@ class RegisterCampaignServiceTest {
                 Collections.emptyList()
         );
 
-        Optional<CampaignId> result = registrationCampaignUseCase.registerCampaign(command).toJavaOptional();
+        Optional<CampaignId> result = target.registerCampaign(command).toJavaOptional();
 
         assertThat(result).isEmpty();
     }

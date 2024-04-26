@@ -1,7 +1,6 @@
 package md.maib.retail.application.services;
 
 import md.maib.retail.application.CampaignSomeInfo;
-import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateService;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
@@ -28,11 +27,11 @@ import static org.mockito.Mockito.when;
     Campaigns campaigns;
 
 
-    CampaignsListByDateUseCase campaignsListByDateUseCase;
+    CampaignsListByDateUseCase target;
 
     @BeforeEach
     void setup() {
-        campaignsListByDateUseCase =  CampaignsListByDateUseCase.defaultService(campaigns);
+        target =  CampaignsListByDateUseCase.defaultService(campaigns);
     }
 
     @AfterEach
@@ -55,7 +54,7 @@ import static org.mockito.Mockito.when;
         );
         when(campaigns.listByDate(date)).thenReturn(List.of(campaign));
 
-        List<CampaignSomeInfo> result = campaignsListByDateUseCase.activeCampaignsByDate(date);
+        List<CampaignSomeInfo> result = target.activeCampaignsByDate(date);
 
         assertThat(result).isNotEmpty();
         assertThat(result.get(0).id()).isEqualTo(campaignId);
@@ -66,7 +65,7 @@ import static org.mockito.Mockito.when;
         LocalDate date = LocalDate.of(2024, 4, 25);
         when(campaigns.listByDate(date)).thenReturn(new ArrayList<>());
 
-        List<CampaignSomeInfo> result = campaignsListByDateUseCase.activeCampaignsByDate(date);
+        List<CampaignSomeInfo> result = target.activeCampaignsByDate(date);
 
             assertThat(result).isEmpty();
     }
