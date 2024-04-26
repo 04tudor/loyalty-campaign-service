@@ -38,6 +38,6 @@ public class DeleteCampaignService implements DeleteCampaignUseCase{
                 return right(id);
             }
         }
-            return left(new UseCaseProblemConflict("CampaignWithThisIdDoesntExistsOrActiveCampaign"));
+        return left(new UseCaseProblemConflict("CampaignWithThisIdDoesntExistsOrActiveCampaign"));
     }
 }
