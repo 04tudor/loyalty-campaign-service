@@ -14,9 +14,9 @@ import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
 
 @Getter
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access =AccessLevel.PRIVATE)
 @ToString
-public class DeleteCampaign {
+public final class DeleteCampaign {
     private final CampaignId id;
 
     private static final Validator<DeleteCampaign> validator = ValidatorBuilder
@@ -24,7 +24,7 @@ public class DeleteCampaign {
             ._object(DeleteCampaign::id, "id", c -> c.notNull().message("Id must not be Null"))
             .build();
 
-    public  Either<ConstraintViolations, DeleteCampaign> create(CampaignId id) {
+    public  static Either<ConstraintViolations, DeleteCampaign> create(CampaignId id) {
         var command = new DeleteCampaign(id);
         var violations = validator.validate(command);
         return violations.isValid() ? right(command) : left(violations);

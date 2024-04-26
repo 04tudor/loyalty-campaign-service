@@ -26,13 +26,12 @@ import static org.mockito.Mockito.*;
  class DeleteCampaignServiceTest {
     @Mock
     Campaigns campaigns;
-    @Mock
-    FindCampaignByIdUseCase findCampaignByIdUseCase;
+
     DeleteCampaignUseCase target;
 
     @BeforeEach
     void setup() {
-        target = DeleteCampaignUseCase.defaultService(campaigns,findCampaignByIdUseCase);
+        target = DeleteCampaignUseCase.defaultService(campaigns);
     }
 
     @AfterEach
@@ -46,7 +45,7 @@ import static org.mockito.Mockito.*;
         when(campaigns.findById(campaignId)).thenReturn(Optional.of(campaign));
         when(campaigns.delete(campaignId)).thenReturn(true);
 
-        Either<UseCaseProblemConflict, CampaignId> result = target.deleteCampaign(new DeleteCampaign(campaignId));
+        Either<UseCaseProblemConflict, CampaignId> result = target.deleteCampaign(DeleteCampaign.create(campaignId).get());
 
         assertThat(result).isNotNull();
         assertThat(result.get()).isEqualTo(campaignId);
@@ -59,7 +58,7 @@ import static org.mockito.Mockito.*;
         CampaignId campaignId = CampaignId.valueOf(CampaignId.newIdentity().campaignId());
         when(campaigns.findById(campaignId)).thenReturn(Optional.empty());
 
-        Either<UseCaseProblemConflict, CampaignId> result = target.deleteCampaign(new DeleteCampaign(campaignId));
+        Either<UseCaseProblemConflict, CampaignId> result = target.deleteCampaign(DeleteCampaign.create(campaignId).get());
 
         assertThat(result.getLeft()).isNotNull();
         assertThat(result.getLeft().getMessage()).isEqualTo("CampaignWithThisIdDoesntExistsOrActiveCampaign");
@@ -73,7 +72,7 @@ import static org.mockito.Mockito.*;
         Campaign campaign = new Campaign(campaignId, null, null, CampaignState.ACTIVE, null, null);
         when(campaigns.findById(campaignId)).thenReturn(Optional.of(campaign));
 
-        Either <UseCaseProblemConflict, CampaignId> result = target.deleteCampaign(new DeleteCampaign(campaignId));
+        Either <UseCaseProblemConflict, CampaignId> result = target.deleteCampaign(DeleteCampaign.create(campaignId).get());
 
         assertThat(result.getLeft()).isNotNull();
         assertThat(result.getLeft().getMessage()).isEqualTo("CampaignWithThisIdDoesntExistsOrActiveCampaign");
