@@ -33,10 +33,10 @@ public class DeleteCampaignService implements DeleteCampaignUseCase{
     public Either<UseCaseProblemConflict, CampaignId> deleteCampaign(DeleteCampaign command) {
 
         CampaignId id=command.id();
-        if (check(id)) {
-            if (campaigns.delete(command.id())) {
+        if (check(id)&&campaigns.delete(command.id())) {
+
                 return right(id);
-            }
+
         }
         return left(new UseCaseProblemConflict("CampaignWithThisIdDoesntExistsOrActiveCampaign"));
     }
