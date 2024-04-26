@@ -25,11 +25,11 @@ class FindCampaignByMetaInfoServiceTest {
     @Mock
     Campaigns campaigns;
 
-    FindCampaignByMetaInfoUseCase findCampaignByMetaInfoUseCase;
+    FindCampaignByMetaInfoUseCase target;
 
     @BeforeEach
     void setup() {
-        findCampaignByMetaInfoUseCase =  FindCampaignByMetaInfoUseCase.defaultService(campaigns);
+        target =  FindCampaignByMetaInfoUseCase.defaultService(campaigns);
     }
 
     @AfterEach
@@ -52,7 +52,7 @@ class FindCampaignByMetaInfoServiceTest {
         );
         when(campaigns.findByMetaInfo(key, value)).thenReturn(List.of(campaign));
 
-        List<CampaignAllInfo> result = findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
+        List<CampaignAllInfo> result = target.findByMetaInfo(key, value);
 
         assertThat(result).isNotNull();
         assertThat(result.get(0).id()).isEqualTo(campaignId);
@@ -64,7 +64,7 @@ class FindCampaignByMetaInfoServiceTest {
         String value = "value";
         when(campaigns.findByMetaInfo(key, value)).thenReturn(new ArrayList<>());
 
-        List<CampaignAllInfo> result = findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
+        List<CampaignAllInfo> result = target.findByMetaInfo(key, value);
 
         assertThat(result).isEmpty();
     }
