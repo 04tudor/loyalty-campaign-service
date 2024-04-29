@@ -31,7 +31,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/campaigns")
 @RequiredArgsConstructor
-final class CampaignController {
+public final class CampaignController {
 
     private final FindCampaignByIdUseCase findCampaignByIdUseCase;
     private final FindCampaignByMetaInfoUseCase findCampaignByMetaInfoUseCase;
@@ -78,7 +78,7 @@ final class CampaignController {
     }
 
     @GetMapping(path = "/metainfo", produces = APPLICATION_JSON_VALUE)
-    List<CampaignAllInfo> findCampaignByMetaInfo(@RequestParam String key, @RequestParam String value) {
+    public List<CampaignAllInfo> findCampaignByMetaInfo(@RequestParam String key, @RequestParam String value) {
         return findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
     }
 
@@ -94,7 +94,17 @@ final class CampaignController {
 
     @DeleteMapping(path = "/{campaignId}")
     @ResponseStatus(NO_CONTENT)
-    void delete(@PathVariable("campaignId") DeleteCampaign campaignId) {
-        deleteCampaignUseCase.deleteCampaign(campaignId);
+    ResponseEntity<Object> delete(@PathVariable("campaignId") CampaignId campaignId) {
+        var validate = DeleteCampaign.create(campaignId);
+        return validate.fold(
+                violations -> {
+                    throw responseExceptionFromViolations(violations);
+                },
+                validCommand -> {
+                    deleteCampaignUseCase.deleteCampaign(validCommand);
+                    return ResponseEntity.noContent().build();
+                }
+        );
     }
+
 }
