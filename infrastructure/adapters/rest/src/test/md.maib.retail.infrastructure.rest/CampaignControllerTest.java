@@ -14,6 +14,7 @@ import md.maib.retail.application.register_newcampaign.UseCaseProblemConflict;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.ports.Campaigns;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,29 +31,29 @@ import static org.mockito.Mockito.*;
 
  class CampaignControllerTest {
 
-    @Test
-    void testRegisterCampaign_Success() {
-        RegistrationCampaignUseCase registrationCampaignUseCase = mock(RegistrationCampaignUseCase.class);
-        CampaignController campaignController = new CampaignController(
-                null, null, registrationCampaignUseCase, null, null);
-        List<LoyaltyEventField> loyaltyEventField = List.of(new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING));
-        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(UUID.randomUUID(), "Event", loyaltyEventField);
+     @Test
+     void testRegisterCampaign_Success() {
+         RegistrationCampaignUseCase registrationCampaignUseCase = mock(RegistrationCampaignUseCase.class);
+         CampaignController campaignController = new CampaignController(
+                 null, null, registrationCampaignUseCase, null, null);
+         List<LoyaltyEventField> loyaltyEventField = List.of(new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING));
+         LoyaltyEventType loyaltyEventType = new LoyaltyEventType(UUID.randomUUID(), "Event", loyaltyEventField);
 
-        RegisterCampaignRequest request = RegisterCampaignRequest.valueOf(new RegisterCampaign(
-                new CampaignMetaInfo(Collections.emptyMap()),
-                LocalDate.now(),
-                LocalDate.now().plusDays(7),
-                CampaignState.ACTIVE,
-                loyaltyEventType,
-                Collections.emptyList()));
+         RegisterCampaignRequest request = RegisterCampaignRequest.valueOf(new RegisterCampaign(
+                 new CampaignMetaInfo(Collections.emptyMap()),
+                 LocalDate.now(),
+                 LocalDate.now().plusDays(7),
+                 CampaignState.ACTIVE,
+                 loyaltyEventType,
+                 Collections.emptyList()));
+         CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());
+         when(registrationCampaignUseCase.registerCampaign(any(RegisterCampaign.class))).thenReturn(right(campaignId));
 
-        CampaignId campaignId = new CampaignId(UUID.randomUUID());
-        when(registrationCampaignUseCase.registerCampaign(any())).thenReturn(right(campaignId));
+         ResponseEntity<Object> response = campaignController.registerCampaign(request);
 
-        ResponseEntity<Object> response = campaignController.registerCampaign(request);
+         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+     }
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
 
     @Test
     void testRegisterCampaign_Failure() {
@@ -77,7 +78,7 @@ import static org.mockito.Mockito.*;
 
         List<CampaignAllInfo> expected = List.of(
                 new CampaignAllInfo(
-                        new CampaignId(UUID.randomUUID()),
+                        new CampaignId(CampaignId.newIdentity().campaignId()),
                         campaignMetaInfo,
                         null,
                         CampaignState.ACTIVE,
@@ -107,7 +108,7 @@ import static org.mockito.Mockito.*;
     @Test
     void testFindById_Success() {
         Campaigns campaigns = mock(Campaigns.class);
-        CampaignId campaignId = new CampaignId(UUID.randomUUID());
+        CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());
         Campaign campaign = new Campaign(campaignId, null, null, null, null, null);
 
         when(campaigns.findById(campaignId)).thenReturn(Optional.of(campaign));
@@ -127,7 +128,7 @@ import static org.mockito.Mockito.*;
 
         FindCampaignByIdUseCase findCampaignByIdUseCase = new FindCampaignByIdService(campaigns);
 
-        Optional<CampaignAllInfo> result = findCampaignByIdUseCase.findById(new CampaignId(UUID.randomUUID()));
+        Optional<CampaignAllInfo> result = findCampaignByIdUseCase.findById(new CampaignId(CampaignId.newIdentity().campaignId()));
 
         assertEquals(Optional.empty(), result);
     }
@@ -152,7 +153,7 @@ import static org.mockito.Mockito.*;
 
         CampaignId campaignId = CampaignId.newIdentity();
 
-        doThrow(new Exception("Campaign not found")).when(deleteCampaignUseCase).deleteCampaign(any());
+      when(deleteCampaignUseCase.deleteCampaign(any())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND,"No campaign found"));
 
         assertThrows(ResponseStatusException.class, () -> campaignController.delete(campaignId));
     }
@@ -166,7 +167,7 @@ import static org.mockito.Mockito.*;
         LocalDate date = LocalDate.now();
         List<CampaignSomeInfo> expected = List.of(
                 new CampaignSomeInfo(
-                        new CampaignId(UUID.randomUUID()),
+                        new CampaignId(CampaignId.newIdentity().campaignId()),
                         null,
                         null,
                         CampaignState.ACTIVE,
@@ -187,8 +188,8 @@ import static org.mockito.Mockito.*;
 
         LocalDate date = LocalDate.now();
         when(campaignsListByDateUseCase.activeCampaignsByDate(date))
-                .thenThrow(new RuntimeException("Failed to fetch campaigns by date"));
+                .thenThrow(new ResponseStatusException(HttpStatus.EXPECTATION_FAILED,"Failed to fetch campaigns by date"));
 
-        assertThrows(RuntimeException.class, () -> campaignController.listByDate(date));
+        assertThrows(ResponseStatusException.class, () -> campaignController.listByDate(date));
     }
 }
