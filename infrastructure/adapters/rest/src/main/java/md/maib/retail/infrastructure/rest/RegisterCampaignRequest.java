@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 @Getter
 @RequiredArgsConstructor
+
 @ToString
 public class RegisterCampaignRequest {
     private final CampaignMetaInfo metaInfo;
