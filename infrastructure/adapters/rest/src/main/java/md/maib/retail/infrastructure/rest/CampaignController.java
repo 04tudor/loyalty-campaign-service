@@ -83,7 +83,7 @@ public final class CampaignController {
     }
 
     @GetMapping(path = "/date", produces = APPLICATION_JSON_VALUE)
-    List<CampaignSomeInfo> listByDate(@RequestParam LocalDate date) {
+    public List<CampaignSomeInfo> listByDate(@RequestParam LocalDate date) {
         return campaignsListByDateUseCase.activeCampaignsByDate(date);
     }
 
@@ -94,7 +94,7 @@ public final class CampaignController {
 
     @DeleteMapping(path = "/{campaignId}")
     @ResponseStatus(NO_CONTENT)
-    ResponseEntity<Object> delete(@PathVariable("campaignId") CampaignId campaignId) {
+    public ResponseEntity<Object> delete(@PathVariable("campaignId") CampaignId campaignId) {
         var validate = DeleteCampaign.create(campaignId);
         return validate.fold(
                 violations -> {

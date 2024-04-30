@@ -1,4 +1,4 @@
-package md.maib.retail.application.services;
+package md.maib.retail.application.services.test;
 
 import io.vavr.control.Either;
 import md.maib.retail.application.delete_campaign.DeleteCampaign;

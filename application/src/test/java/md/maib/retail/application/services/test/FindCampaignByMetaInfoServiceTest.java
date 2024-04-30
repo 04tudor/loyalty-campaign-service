@@ -1,4 +1,4 @@
-package md.maib.retail.application.services;
+package md.maib.retail.application.services.test;
 
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;

@@ -1,4 +1,4 @@
-package md.maib.retail.application.services;
+package md.maib.retail.application.services.test;
 
 import md.maib.retail.application.CampaignSomeInfo;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
