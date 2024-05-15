@@ -1,4 +1,4 @@
-package md.maib.retail.application.services;
+package md.maib.retail.application.services.test;
 
 import md.maib.retail.application.register_newcampaign.RegisterCampaign;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;

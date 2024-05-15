@@ -83,6 +83,7 @@ public final class CampaignController {
         return findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
     }
 
+
     @GetMapping(path = "/{date}", produces = APPLICATION_JSON_VALUE)
     public List<CampaignSomeInfo> listByDate(@PathVariable LocalDate date) {
         return campaignsListByDateUseCase.activeCampaignsByDate(date);
