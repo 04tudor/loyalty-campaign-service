@@ -85,6 +85,9 @@ public final class CampaignController {
 
     @GetMapping(path = "/{date}", produces = APPLICATION_JSON_VALUE)
     public List<CampaignSomeInfo> listByDate(@PathVariable LocalDate date) {
+        return campaignsListByDateUseCase.activeCampaignsByDate(date);
+
+    }
 
 
     @GetMapping(path = "/{campaignId}", produces = APPLICATION_JSON_VALUE)
