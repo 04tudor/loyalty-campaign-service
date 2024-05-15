@@ -25,5 +25,6 @@ public record RegisterCampaignRequest (
                 registerCampaign.state(),
                 registerCampaign.loyaltyEventType(),
                 registerCampaign.rules());
+
     }
 }

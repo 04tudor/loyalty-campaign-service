@@ -58,6 +58,7 @@ public final class CampaignController {
                 request.state(),
                 request.loyaltyEventType(),
                 request.rules()
+
         );
 
         return validated.fold(
@@ -84,8 +85,7 @@ public final class CampaignController {
 
     @GetMapping(path = "/{date}", produces = APPLICATION_JSON_VALUE)
     public List<CampaignSomeInfo> listByDate(@PathVariable LocalDate date) {
-        return campaignsListByDateUseCase.activeCampaignsByDate(date);
-    }
+
 
     @GetMapping(path = "/{campaignId}", produces = APPLICATION_JSON_VALUE)
     Optional<CampaignAllInfo> findById(@PathVariable("campaignId") CampaignId campaignId) {
@@ -95,6 +95,7 @@ public final class CampaignController {
     @DeleteMapping(path = "/{campaignId}")
     @ResponseStatus(NO_CONTENT)
     public ResponseEntity<Object> delete(@PathVariable("campaignId") CampaignId campaignId) {
+
         var validate = DeleteCampaign.create(campaignId);
         return validate.fold(
                 violations -> {
