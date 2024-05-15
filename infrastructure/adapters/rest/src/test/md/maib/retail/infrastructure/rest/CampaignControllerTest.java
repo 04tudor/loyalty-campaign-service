@@ -11,6 +11,8 @@ import md.maib.retail.application.register_newcampaign.RegisterCampaign;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import md.maib.retail.application.register_newcampaign.UseCaseProblemConflict;
 
+import md.maib.retail.infrastructure.rest.CampaignController;
+import md.maib.retail.infrastructure.rest.RegisterCampaignRequest;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.ports.Campaigns;
 import org.junit.jupiter.api.Test;
