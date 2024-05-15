@@ -52,12 +52,13 @@ public final class CampaignController {
     @Transactional
     public ResponseEntity<Object> registerCampaign(@RequestBody RegisterCampaignRequest request) {
         var validated = RegisterCampaign.create(
-                request.getMetaInfo(),
-                request.getStartInclusive(),
-                request.getEndExclusive(),
-                request.getState(),
-                request.getLoyaltyEventType(),
-                request.getRules()
+                request.metaInfo(),
+                request.startInclusive(),
+                request.endExclusive(),
+                request.state(),
+                request.loyaltyEventType(),
+                request.rules()
+
         );
 
         return validated.fold(
@@ -77,15 +78,14 @@ public final class CampaignController {
         );
     }
 
-    @GetMapping(path = "/metainfo", produces = APPLICATION_JSON_VALUE)
-    public List<CampaignAllInfo> findCampaignByMetaInfo(@RequestParam String key, @RequestParam String value) {
+    @GetMapping(path = "/{key}/{value}", produces = APPLICATION_JSON_VALUE)
+    public List<CampaignAllInfo> findCampaignByMetaInfo(@PathVariable String key, @PathVariable String value) {
         return findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
     }
 
-    @GetMapping(path = "/date", produces = APPLICATION_JSON_VALUE)
-    List<CampaignSomeInfo> listByDate(@RequestParam LocalDate date) {
-        return campaignsListByDateUseCase.activeCampaignsByDate(date);
-    }
+    @GetMapping(path = "/{date}", produces = APPLICATION_JSON_VALUE)
+    public List<CampaignSomeInfo> listByDate(@PathVariable LocalDate date) {
+
 
     @GetMapping(path = "/{campaignId}", produces = APPLICATION_JSON_VALUE)
     Optional<CampaignAllInfo> findById(@PathVariable("campaignId") CampaignId campaignId) {
@@ -94,7 +94,8 @@ public final class CampaignController {
 
     @DeleteMapping(path = "/{campaignId}")
     @ResponseStatus(NO_CONTENT)
-    ResponseEntity<Object> delete(@PathVariable("campaignId") CampaignId campaignId) {
+    public ResponseEntity<Object> delete(@PathVariable("campaignId") CampaignId campaignId) {
+
         var validate = DeleteCampaign.create(campaignId);
         return validate.fold(
                 violations -> {
