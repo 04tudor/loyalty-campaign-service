@@ -10,10 +10,13 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -22,28 +25,20 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
 
     @Override
     public List<Campaign> listByDate(LocalDate date) {
-        List<Campaign> activeCampaigns = new ArrayList<>();
-        Collection<CampaignRecord> allCampaigns = repository.findAll();
+        Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Collection<CampaignRecord> campaignRecords = repository.findActiveByDate(instant, CampaignState.ACTIVE);
 
-        for (CampaignRecord campaignRecord : allCampaigns) {
-            if (campaignRecord.getActivityInterval().contains(Instant.from(date)) && campaignRecord.getState() == CampaignState.ACTIVE) {
-                activeCampaigns.add(campaignRecord.toCampaign());
-            }
-        }
-        return activeCampaigns;
+        return campaignRecords.stream()
+                .map(CampaignRecord::toCampaign)
+                .collect(Collectors.toList());
     }
+
     @Override
     public List<Campaign> findByMetaInfo(String key, String value) {
-        List<CampaignRecord> allCampaigns = repository.findAll();
-        List<Campaign> matchingCampaigns = new ArrayList<>();
-
-        for (CampaignRecord campaign : allCampaigns) {
-            if (campaign.getMetaInfo().properties().containsKey(key) && campaign.getMetaInfo().properties().get(key).equals(value)) {
-                matchingCampaigns.add(campaign.toCampaign());
-            }
-        }
-
-        return matchingCampaigns;
+        List<CampaignRecord> campaignRecords = repository.findByMetaInfo(key, value);
+        return campaignRecords.stream()
+                .map(CampaignRecord::toCampaign)
+                .collect(Collectors.toList());
     }
 
     @Override
