@@ -4,7 +4,6 @@ import am.ik.yavi.builder.ValidatorBuilder;
 import am.ik.yavi.core.ConstraintViolations;
 import am.ik.yavi.core.Validator;
 import io.vavr.control.Either;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -14,7 +13,7 @@ import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
 
 @Getter
-@RequiredArgsConstructor(access =AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 @ToString
 public final class DeleteCampaign {
     private final CampaignId id;

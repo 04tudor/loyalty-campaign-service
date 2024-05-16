@@ -25,12 +25,7 @@
         <artifactId>spring-tx</artifactId>
     </dependency>
 
-    <dependency>
-        <groupId>au.com.dius.pact.provider</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.2.10</version>
-        <scope>test</scope>
-    </dependency>
+
     <dependency>
         <groupId>au.com.dius.pact.provider</groupId>
         <artifactId>junit5spring</artifactId>
@@ -64,26 +59,6 @@
         <scope>test</scope>
     </dependency>
 </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>au.com.dius</groupId>
-                <artifactId>pact-jvm-provider-maven</artifactId>
-                <version>4.0.10</version>
-                <configuration>
-                    <serviceProviders>
-                        <serviceProvider>
-                            <name>provider1</name>
-                            <protocol>http</protocol>
-                            <host>localhost</host>
-                            <port>8080</port>
-                            <path>/</path>
-                            <pactFileDirectory>path/to/pacts</pactFileDirectory>
-                        </serviceProvider>
-                    </serviceProviders>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
 
 </project>
