@@ -17,7 +17,7 @@ import java.util.Collection;
 @Table(name = "campaigns")
 @NoArgsConstructor
 @Getter
-final class CampaignRecord implements Persistable<CampaignId> {
+public final class CampaignRecord implements Persistable<CampaignId> {
     @Id
     private  CampaignId id;
 
@@ -44,7 +44,7 @@ final class CampaignRecord implements Persistable<CampaignId> {
 
     }
 
-    static CampaignRecord valueOf(Campaign campaign) {
+    public static CampaignRecord valueOf(Campaign campaign) {
         return new CampaignRecord(
                 campaign.getId(),
                 campaign.getMetaInfo(),
