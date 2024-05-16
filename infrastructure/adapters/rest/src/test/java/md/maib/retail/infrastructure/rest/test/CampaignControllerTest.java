@@ -41,13 +41,13 @@ import static org.mockito.Mockito.*;
          List<LoyaltyEventField> loyaltyEventField = List.of(new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING));
          LoyaltyEventType loyaltyEventType = new LoyaltyEventType(UUID.randomUUID(), "Event", loyaltyEventField);
 
-         RegisterCampaignRequest request = RegisterCampaignRequest.valueOf(new RegisterCampaign(
+         RegisterCampaignRequest request = new RegisterCampaignRequest(
                  new CampaignMetaInfo(Collections.emptyMap()),
                  LocalDate.now(),
                  LocalDate.now().plusDays(7),
                  CampaignState.ACTIVE,
                  loyaltyEventType,
-                 Collections.emptyList()));
+                 Collections.emptyList());
          CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());
          when(registrationCampaignUseCase.registerCampaign(any(RegisterCampaign.class))).thenReturn(right(campaignId));
 
