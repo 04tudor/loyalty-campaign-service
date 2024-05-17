@@ -22,7 +22,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -78,22 +77,23 @@ public final class CampaignController {
         );
     }
 
-    @GetMapping(path = "/{key}/{value}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/meta/{key}/{value}", produces = APPLICATION_JSON_VALUE)
     public List<CampaignAllInfo> findCampaignByMetaInfo(@PathVariable String key, @PathVariable String value) {
         return findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
     }
 
 
-    @GetMapping(path = "/{date}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/date/{date}", produces = APPLICATION_JSON_VALUE)
     public List<CampaignSomeInfo> listByDate(@PathVariable LocalDate date) {
         return campaignsListByDateUseCase.activeCampaignsByDate(date);
-
     }
 
 
     @GetMapping(path = "/{campaignId}", produces = APPLICATION_JSON_VALUE)
-    Optional<CampaignAllInfo> findById(@PathVariable("campaignId") CampaignId campaignId) {
-        return findCampaignByIdUseCase.findById(campaignId);
+    public ResponseEntity<CampaignAllInfo> findById(@PathVariable("campaignId") CampaignId campaignId) {
+        return findCampaignByIdUseCase.findById(campaignId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping(path = "/{campaignId}")

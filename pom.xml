@@ -14,14 +14,13 @@
 	<artifactId>loyalty-campaign-service</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
-	<name>loyalty-rules-engine</name>
+	<name>loyalty-campaign-service</name>
 
 	<modules>
 		<module>domain-model</module>
 		<module>application</module>
 		<module>infrastructure/bootstrap</module>
         <module>infrastructure/adapters/rest</module>
-		<module>infrastructure/adapters/persistence</module>
 	</modules>
 
 	<properties>
