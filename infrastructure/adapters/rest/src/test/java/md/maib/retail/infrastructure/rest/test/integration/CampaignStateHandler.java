@@ -1,8 +1,10 @@
 package md.maib.retail.infrastructure.rest.test.integration;
 
 import au.com.dius.pact.provider.junitsupport.State;
+import io.vavr.control.Either;
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
+import md.maib.retail.application.delete_campaign.DeleteCampaign;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
@@ -81,29 +83,14 @@ public class CampaignStateHandler implements StateHandler{
     }
 
 
-//    @State("delete a campaign by id")
-//    public void aCampaignToBeDeleted() {
-//        var id = fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
-//        CampaignId campaignId=CampaignId.valueOf(id);
-//        DeleteCampaign deleteCampaign=new DeleteCampaign(campaignId);
-//
-//
-//                when(deleteCampaignUseCase).deleteCampaign(deleteCampaign);
-//    }
+    @State("delete a campaign by id")
+    public void aCampaignToBeDeleted() {
+        var id =fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
+        CampaignId campaignId = CampaignId.valueOf(id);
+        DeleteCampaign deleteCampaign = new DeleteCampaign(campaignId);
 
-//    {
-//        "description": "campaign with ID d2015c09-a251-4463-9a0d-710f92559c2a exists",
-//            "providerStates": [
-//        {
-//            "name": "delete a campaign by id"
-//        }
-//      ],
-//        "request": {
-//        "method": "DELETE",
-//                "path": "/campaigns/d2015c09-a251-4463-9a0d-710f92559c2a"
-//    },
-//        "response": {
-//        "status": 204
-//    }
-//    }
+        when(deleteCampaignUseCase.deleteCampaign(deleteCampaign)).thenReturn(Either.right(campaignId));
+    }
+
+
 }
