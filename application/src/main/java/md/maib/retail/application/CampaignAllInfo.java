@@ -13,19 +13,23 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 public class CampaignAllInfo {
-    @JsonProperty("campaignId")
+    @JsonProperty("id")
     private final String id;
 
+    @JsonProperty("metaInfo")
     private final CampaignMetaInfo metaInfo;
 
-    private final Interval activityInterval;
+    @JsonProperty("interval")
+    private final Interval interval;
 
+    @JsonProperty("state")
     private final CampaignState state;
 
+    @JsonProperty("loyaltyEventType")
     private final LoyaltyEventType loyaltyEventType;
 
+    @JsonProperty("rules")
     private final Collection<Rule> rules;
-
 
     public static CampaignAllInfo valueOf(Campaign campaign) {
         return new CampaignAllInfo(campaign.getId().campaignId().toString(), campaign.getMetaInfo(),

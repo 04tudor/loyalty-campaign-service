@@ -22,6 +22,7 @@ import java.util.List;
 @Provider("loyalty-campaign-service")
 @PactFolder("pacts")
 @IgnoreNoPactsToVerify
+@VerificationReports(value = {"console", "json"}, reportDir = "target/pact/reports")
  class ApplicationVerificationTest {
 
     @BeforeEach
