@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -90,8 +91,9 @@ public final class CampaignController {
 
 
     @GetMapping(path = "/{campaignId}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<CampaignAllInfo> findById(@PathVariable("campaignId") CampaignId campaignId) {
-        return findCampaignByIdUseCase.findById(campaignId)
+    public ResponseEntity<CampaignAllInfo> findById(@PathVariable("campaignId") String campaignId) {
+        CampaignId campaignId1=CampaignId.valueOf(UUID.fromString(campaignId));
+        return findCampaignByIdUseCase.findById(campaignId1)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

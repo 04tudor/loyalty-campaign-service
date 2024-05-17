@@ -3,6 +3,7 @@ package md.maib.retail.infrastructure.rest.test.integration;
 import au.com.dius.pact.provider.junitsupport.State;
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
+import md.maib.retail.application.delete_campaign.DeleteCampaign;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
@@ -22,6 +23,7 @@ import java.util.*;
 
 import static java.time.Instant.parse;
 import static java.util.UUID.fromString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @Component
@@ -73,19 +75,34 @@ public class CampaignStateHandler implements StateHandler{
                         )
                 )
         );
-        when(findCampaignByIdUseCase.findById(campaignId))
-                .thenReturn(Optional.of(new CampaignAllInfo(campaignId, metaInfo, interval, state, loyaltyEventType, rules)));
+    when(findCampaignByIdUseCase.findById(campaignId))
+                .thenReturn(Optional.of(new CampaignAllInfo(CampaignId.stringvalueOf(CampaignId.valueOf(id)), metaInfo, interval, state, loyaltyEventType, rules)));
     }
 
 
-//    @State("a campaign")
-//    public Map<String, Object> aCampaignToBeDeleted() {
+//    @State("delete a campaign by id")
+//    public void aCampaignToBeDeleted() {
 //        var id = fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
 //        CampaignId campaignId=CampaignId.valueOf(id);
 //        DeleteCampaign deleteCampaign=new DeleteCampaign(campaignId);
 //
-//        doNothing().when(deleteCampaignUseCase).deleteCampaign(deleteCampaign);
 //
-//        return Map.of("campaignId", campaignId);
+//                when(deleteCampaignUseCase).deleteCampaign(deleteCampaign);
+//    }
+
+//    {
+//        "description": "campaign with ID d2015c09-a251-4463-9a0d-710f92559c2a exists",
+//            "providerStates": [
+//        {
+//            "name": "delete a campaign by id"
+//        }
+//      ],
+//        "request": {
+//        "method": "DELETE",
+//                "path": "/campaigns/d2015c09-a251-4463-9a0d-710f92559c2a"
+//    },
+//        "response": {
+//        "status": 204
+//    }
 //    }
 }
