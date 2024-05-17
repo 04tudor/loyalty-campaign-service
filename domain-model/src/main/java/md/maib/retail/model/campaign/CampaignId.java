@@ -17,4 +17,7 @@ public record CampaignId (UUID campaignId){
     public static CampaignId valueOf(UUID value) {
         return new CampaignId(value);
     }
+    public static String stringvalueOf(CampaignId campaignId1) {
+        return String.valueOf(campaignId1);
+    }
 }
