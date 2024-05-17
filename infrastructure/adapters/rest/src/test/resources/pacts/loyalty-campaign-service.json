@@ -1,0 +1,93 @@
+{
+  "consumer": {
+    "name": "loyalty-campaign-gateway"
+  },
+  "interactions": [
+    {
+      "description": "a request with params for applications",
+      "providerStates": [
+        {
+          "name": "get campaign by id"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/campaigns/d2015c09-a251-4463-9a0d-710f92559c2a"
+      },
+      "response": {
+        "body": {
+          "id": "d2015c09-a251-4463-9a0d-710f92559c2a",
+          "metaInfo": {
+            "key": "key",
+            "value": "value"
+          },
+          "interval": {
+            "start": "2018-11-30T18:35:24Z",
+            "end": "2023-12-31T18:35:24Z"
+          },
+          "state": "ACTIVE",
+          "loyaltyEventType": [
+            {
+              "id": "41862fa9-2054-435d-8068-c9b31725de9f",
+              "name": "TestEvent",
+              "fields": [
+                {
+                  "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
+                  "name": "TestField",
+                  "fieldType": "STRING"
+                }
+              ]
+            }
+          ],
+          "rules": [
+            {
+              "id": "ce888298-f1e6-41dc-ab7e-2344bf70617c",
+              "conditions": [
+                {
+                  "fieldType": "DECIMAL",
+                  "operator": "EQUALS",
+                  "value": "5"
+                }
+              ],
+              "effects": [
+                {
+                  "effectType": {
+                    "id": "4ec0b56f-ff4c-4e7e-b257-68ce9f133a45",
+                    "name": "TestEffect",
+                    "eventType": {
+                      "id": "41862fa9-2054-435d-8068-c9b31725de9f",
+                      "name": "TestEvent",
+                      "fields": [
+                        {
+                          "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
+                          "name": "TestField",
+                          "fieldType": "STRING"
+                        }
+                      ]
+                    }
+                  },
+                  "value": "10"
+                }
+              ]
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-jvm": {
+      "version": "4.6.1"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "loyalty-campaign-service"
+  }
+}
