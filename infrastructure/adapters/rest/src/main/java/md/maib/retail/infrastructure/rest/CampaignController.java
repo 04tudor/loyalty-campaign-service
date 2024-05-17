@@ -22,9 +22,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static java.util.UUID.fromString;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -92,7 +92,7 @@ public final class CampaignController {
 
     @GetMapping(path = "/{campaignId}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<CampaignAllInfo> findById(@PathVariable("campaignId") String campaignId) {
-        CampaignId campaignId1=CampaignId.valueOf(UUID.fromString(campaignId));
+        CampaignId campaignId1 = CampaignId.valueOf(fromString(campaignId));
         return findCampaignByIdUseCase.findById(campaignId1)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

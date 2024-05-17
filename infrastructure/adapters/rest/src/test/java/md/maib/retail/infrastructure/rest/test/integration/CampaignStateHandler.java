@@ -3,7 +3,6 @@ package md.maib.retail.infrastructure.rest.test.integration;
 import au.com.dius.pact.provider.junitsupport.State;
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
-import md.maib.retail.application.delete_campaign.DeleteCampaign;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
@@ -23,7 +22,6 @@ import java.util.*;
 
 import static java.time.Instant.parse;
 import static java.util.UUID.fromString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @Component
@@ -51,9 +49,11 @@ public class CampaignStateHandler implements StateHandler{
     void findCampaignById() {
         var id = fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
         CampaignId campaignId = CampaignId.valueOf(id);
+
         Map<String, Object> properties = new HashMap<>();
         properties.put("key", "value");
         CampaignMetaInfo metaInfo = new CampaignMetaInfo(properties);
+
         Interval interval = Interval.of(parse("2018-11-30T18:35:24Z"), parse("2023-12-31T18:35:24Z"));
         CampaignState state = CampaignState.ACTIVE;
 
@@ -65,18 +65,19 @@ public class CampaignStateHandler implements StateHandler{
         Collection<Rule> rules = List.of(
                 new Rule(
                         ruleId,
-                        List.of(
-                                new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")
-                        ),
-                        List.of(
-                                new Effect(
-                                        new LoyaltyEffectType(fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", loyaltyEventType),
-                                        "10")
+                        List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
+                        List.of(new Effect(
+                                new LoyaltyEffectType(fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", loyaltyEventType),
+                                "10")
                         )
                 )
         );
-    when(findCampaignByIdUseCase.findById(campaignId))
-                .thenReturn(Optional.of(new CampaignAllInfo(CampaignId.stringvalueOf(CampaignId.valueOf(id)), metaInfo, interval, state, loyaltyEventType, rules)));
+
+        CampaignAllInfo campaignAllInfo = new CampaignAllInfo(id.toString(), metaInfo, interval, state, loyaltyEventType, List.copyOf(rules));
+
+        when(findCampaignByIdUseCase.findById(campaignId))
+                .thenReturn(Optional.of(campaignAllInfo));
+
     }
 
 

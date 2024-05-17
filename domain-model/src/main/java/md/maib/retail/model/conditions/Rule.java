@@ -16,11 +16,9 @@ public final class Rule {
     @EqualsAndHashCode.Include
     private final RuleId id;
     private Collection<Condition>conditions;
-    private List<Effect>efects;
+    @Getter
+    private List<Effect> effects;
 
-    public List<Effect> getEffects() {
-        return efects;
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -28,12 +26,12 @@ public final class Rule {
         Rule rule = (Rule) o;
         return id.equals(rule.id) &&
                 conditions.equals(rule.conditions) &&
-                efects.equals(rule.efects);
+                effects.equals(rule.effects);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, conditions, efects);
+        return Objects.hash(id, conditions, effects);
     }
 
 }

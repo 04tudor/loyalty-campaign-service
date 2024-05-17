@@ -1,5 +1,7 @@
 package md.maib.retail.model.conditions;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
@@ -17,5 +19,10 @@ public record RuleId (UUID campaignId){
 
     public static RuleId valueOf(UUID value) {
         return new RuleId(value);
+    }
+
+    @JsonValue
+    public String getCampaignId() {
+        return campaignId.toString();
     }
 }
