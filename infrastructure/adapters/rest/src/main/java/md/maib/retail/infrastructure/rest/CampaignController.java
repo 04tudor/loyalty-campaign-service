@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.UUID.fromString;
@@ -100,9 +101,8 @@ public final class CampaignController {
 
     @DeleteMapping(path = "/{campaignId}")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<Object> delete(@PathVariable("campaignId") CampaignId campaignId) {
-
-        var validate = DeleteCampaign.create(campaignId);
+    public ResponseEntity<Object> delete(@PathVariable("campaignId") String campaignId) {
+        var validate = DeleteCampaign.create(CampaignId.valueOf(UUID.fromString(campaignId)));
         return validate.fold(
                 violations -> {
                     throw responseExceptionFromViolations(violations);
