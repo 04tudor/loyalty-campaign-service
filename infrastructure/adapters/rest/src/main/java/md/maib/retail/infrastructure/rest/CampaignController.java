@@ -59,7 +59,6 @@ public final class CampaignController {
                 request.state(),
                 request.loyaltyEventType(),
                 request.rules()
-
         );
 
         return validated.fold(

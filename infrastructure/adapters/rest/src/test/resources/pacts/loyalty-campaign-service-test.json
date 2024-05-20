@@ -91,9 +91,203 @@
       "response": {
         "status": 204
       }
+    },
+    {
+      "description": "find campaign by MetaInfo",
+      "providerStates": [
+        {
+          "name": "find campaign by metaInfo"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/campaigns/meta/key/value"
+      },
+      "response": {
+        "status": 200,
+        "body": [
+          {
+            "id": "d2015c09-a251-4463-9a0d-710f92559c2a",
+            "metaInfo": {
+              "properties": {
+                "key": "value"
+              }
+            },
+            "interval": {
+              "start": "2018-11-30T18:35:24Z",
+              "end": "2023-12-31T18:35:24Z"
+            },
+            "state": "ACTIVE",
+            "loyaltyEventType": {
+              "id": "41862fa9-2054-435d-8068-c9b31725de9f",
+              "name": "TestEvent",
+              "fields": [
+                {
+                  "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
+                  "name": "TestField",
+                  "fieldType": "STRING"
+                }
+              ]
+            },
+            "rules": [
+              {
+                "id": "ce888298-f1e6-41dc-ab7e-2344bf70617c",
+                "conditions": [
+                  {
+                    "field": "DECIMAL",
+                    "operator": "EQUALS",
+                    "value": "5"
+                  }
+                ],
+                "effects": [
+                  {
+                    "effectType": {
+                      "id": "4ec0b56f-ff4c-4e7e-b257-68ce9f133a45",
+                      "name": "TestEffect",
+                      "type": {
+                        "id": "41862fa9-2054-435d-8068-c9b31725de9f",
+                        "name": "TestEvent",
+                        "fields": [
+                          {
+                            "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
+                            "name": "TestField",
+                            "fieldType": "STRING"
+                          }
+                        ]
+                      }
+                    },
+                    "value": "10"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "description": "find campaign by date",
+      "providerStates": [
+        {
+          "name": "find campaign by date"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/campaigns/date/2022-07-15"
+      },
+      "response": {
+        "status": 200,
+        "body": [
+          {
+            "id": "d2015c09-a251-4463-9a0d-710f92559c2a",
+            "metaInfo": {
+              "properties": {
+                "key": "value"
+              }
+            },
+            "interval": {
+              "start": "2018-11-30T18:35:24Z",
+              "end": "2023-12-31T18:35:24Z"
+            },
+            "state": "ACTIVE",
+            "loyaltyEventType": {
+              "id": "41862fa9-2054-435d-8068-c9b31725de9f",
+              "name": "TestEvent",
+              "fields": [
+                {
+                  "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
+                  "name": "TestField",
+                  "fieldType": "STRING"
+                }
+              ]
+            }
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    {
+      "description": "Register a new campaign",
+      "providerStates": [
+        {
+          "name": "register campaign"
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/campaigns",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "metaInfo": {
+            "properties": {
+              "key": "value"
+            }
+          },
+          "startInclusive": "2018-11-30",
+          "endExclusive": "2023-12-31",
+          "state": "ACTIVE",
+          "loyaltyEventType": {
+            "id": "41862fa9-2054-435d-8068-c9b31725de9f",
+            "name": "TestEvent",
+            "fields": [
+              {
+                "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
+                "name": "TestField",
+                "fieldType": "STRING"
+              }
+            ]
+          },
+          "rules": [
+            {
+              "id": "ce888298-f1e6-41dc-ab7e-2344bf70617c",
+              "conditions": [
+                {
+                  "field": "DECIMAL",
+                  "operator": "EQUALS",
+                  "value": "5"
+                }
+              ],
+              "effects": [
+                {
+                  "effectType": {
+                    "id": "4ec0b56f-ff4c-4e7e-b257-68ce9f133a45",
+                    "name": "TestEffect",
+                    "type": {
+                      "id": "41862fa9-2054-435d-8068-c9b31725de9f",
+                      "name": "TestEvent",
+                      "fields": [
+                        {
+                          "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
+                          "name": "TestField",
+                          "fieldType": "STRING"
+                        }
+                      ]
+                    }
+                  },
+                  "value": "10"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "Location":"campaigns/d2015c09-a251-4463-9a0d-710f92559c2a"
+        }
+      }
     }
-  ],
 
+  ],
 
   "metadata": {
     "pact-jvm": {

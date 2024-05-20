@@ -1,28 +1,39 @@
 package md.maib.retail.model.conditions;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.UUID;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.UUID.randomUUID;
 
-public record RuleId (UUID campaignId){
+public class RuleId {
+    private final UUID id;
 
-    public RuleId {
-        requireNonNull(campaignId, "Rule Id must not be null.");
+    public RuleId(UUID id) {
+        this.id = id;
     }
 
+    public RuleId(String id) {
+        this.id = UUID.fromString(id);
+    }
     public static RuleId newIdentity() {
         return new RuleId(randomUUID());
     }
+    public static RuleId valueOf(String id) {
+        return new RuleId(UUID.fromString(id));
+    }
 
-    public static RuleId valueOf(UUID value) {
-        return new RuleId(value);
+    public UUID getId() {
+        return id;
     }
 
     @JsonValue
-    public String getCampaignId() {
-        return campaignId.toString();
+    public String toString() {
+        return id.toString();
+    }
+    @JsonCreator
+    public static RuleId fromString(String id) {
+        return new RuleId(UUID.fromString(id));
     }
 }

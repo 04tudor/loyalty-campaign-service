@@ -1,5 +1,7 @@
 package md.maib.retail.model.conditions;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,12 +15,20 @@ import java.util.Objects;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 public final class Rule {
+    @Getter
     @EqualsAndHashCode.Include
     private final RuleId id;
     private Collection<Condition>conditions;
     @Getter
     private List<Effect> effects;
-
+    @JsonCreator
+    public Rule(@JsonProperty("id") RuleId id,
+                @JsonProperty("conditions") List<Condition> conditions,
+                @JsonProperty("effects") List<Effect> effects) {
+        this.id = id;
+        this.conditions = conditions;
+        this.effects = effects;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

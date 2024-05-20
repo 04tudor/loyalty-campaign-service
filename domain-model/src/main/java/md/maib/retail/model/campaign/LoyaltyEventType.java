@@ -18,5 +18,8 @@ public class LoyaltyEventType {
     private List<LoyaltyEventField>fields;
 
 
+    public LoyaltyEventType(String id){
+        this.id= UUID.fromString(id);
+    }
 }
 
