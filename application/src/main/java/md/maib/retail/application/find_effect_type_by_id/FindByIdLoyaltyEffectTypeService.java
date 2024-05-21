@@ -14,6 +14,17 @@ public class FindByIdLoyaltyEffectTypeService implements FindByIdLoyaltyEffectTy
 
     @Override
     public Optional<LoyaltyEffectType> findById(String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return loyaltyEffectTypes.findById(id);
+    }
+
+    @Override
+    public Optional<LoyaltyEffectType> retrieveLoyaltyEffectType(EffectTypeRecord effectTypeRecord) {
+        if (effectTypeRecord == null || effectTypeRecord.id() == null) {
+            return Optional.empty();
+        }
+        return loyaltyEffectTypes.findById(effectTypeRecord.id());
     }
 }
