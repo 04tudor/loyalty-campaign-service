@@ -43,8 +43,8 @@ public final class RegisterCampaign {
     private static final Validator<RegisterCampaign> validator = ValidatorBuilder
             .<RegisterCampaign>of()
             ._object(RegisterCampaign::metaInfo, "metaInfo", c -> c.notNull().message(NOTNULL))
-            .constraint(RegisterCampaign::startInclusive, "startInclusive", c -> c.notNull().message(NOTNULL))
-            .constraint(RegisterCampaign::endExclusive, "endExclusive", c -> c.notNull().message(NOTNULL))
+            ._object(RegisterCampaign::startInclusive, "startInclusive", c -> c.notNull().message(NOTNULL))
+            ._object(RegisterCampaign::endExclusive, "endExclusive", c -> c.notNull().message(NOTNULL))
             .constraintOnTarget(RegisterCampaign::validateRange,
                     "startInclusive",
                     "startInclusive.isBeforeEndExclusive",
@@ -53,7 +53,6 @@ public final class RegisterCampaign {
             ._object(RegisterCampaign::loyaltyEventType, "loyaltyEventType", c -> c.notNull().message(NOTNULL))
             ._collection(RegisterCampaign::rules, "rules", c -> c.notNull().message(NOTNULL))
             .build();
-
 
     public static Either<ConstraintViolations, RegisterCampaign> create(CampaignMetaInfo metaInfo,LocalDate startInclusive,LocalDate endExclusive,CampaignState state,LoyaltyEventType loyaltyEventType,List<Rule>rules) {
         var command = new RegisterCampaign(metaInfo,startInclusive,endExclusive,state,loyaltyEventType,rules);
