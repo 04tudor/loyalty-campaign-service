@@ -2,6 +2,8 @@ package md.maib.retail.model.ports;
 
 import md.maib.retail.model.campaign.LoyaltyEventType;
 
+import java.util.Optional;
+
 public interface LoyaltyEventTypes {
-    LoyaltyEventType findById(String id);
+   Optional< LoyaltyEventType> findById(String id);
 }
