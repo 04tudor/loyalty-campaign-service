@@ -14,6 +14,17 @@ public class FindByIdLoyaltyEventTypeService implements FindByIdLoyaltyEventType
 
     @Override
     public Optional<LoyaltyEventType> findById(String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return loyaltyEventTypes.findById(id);
+    }
+
+    @Override
+    public Optional<LoyaltyEventType> retrieveLoyaltyEventType(EventTypeRecord eventTypeRecord) {
+        if (eventTypeRecord == null || eventTypeRecord.id() == null) {
+            return Optional.empty();
+        }
+        return loyaltyEventTypes.findById(eventTypeRecord.id());
     }
 }

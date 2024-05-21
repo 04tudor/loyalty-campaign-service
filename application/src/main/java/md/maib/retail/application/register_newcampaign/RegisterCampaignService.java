@@ -2,14 +2,16 @@ package md.maib.retail.application.register_newcampaign;
 
 import io.vavr.control.Either;
 import md.maib.retail.application.CampaignEntity;
-import md.maib.retail.application.find_effect_type_by_id.FindByIdLoyaltyEffectTypeUseCase;
-import md.maib.retail.application.find_event_type_by_id.FindByIdLoyaltyEventTypeUseCase;
-import md.maib.retail.model.campaign.*;
+import md.maib.retail.model.campaign.Campaign;
+import md.maib.retail.model.campaign.CampaignId;
+import md.maib.retail.model.campaign.CampaignMetaInfo;
 import md.maib.retail.model.conditions.Condition;
 import md.maib.retail.model.conditions.Rule;
 import md.maib.retail.model.conditions.RuleId;
 import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.ports.Campaigns;
+import md.maib.retail.model.ports.LoyaltyEffectTypes;
+import md.maib.retail.model.ports.LoyaltyEventTypes;
 import org.threeten.extra.Interval;
 
 import java.time.ZoneOffset;
@@ -20,13 +22,15 @@ import static io.vavr.control.Either.right;
 
 public class RegisterCampaignService implements RegistrationCampaignUseCase {
     private final Campaigns campaigns;
-    private final FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase;
-    private final FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
+    private final LoyaltyEventTypes loyaltyEventTypes;
+    private final LoyaltyEffectTypes loyaltyEffectTypes;
 
-    public RegisterCampaignService(Campaigns campaigns, FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase, FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase) {
+
+
+    public RegisterCampaignService(Campaigns campaigns, LoyaltyEventTypes loyaltyEventTypes, LoyaltyEffectTypes loyaltyEffectTypes) {
         this.campaigns = Objects.requireNonNull(campaigns, "Campaigns must not be null");
-        this.findByIdLoyaltyEventTypeUseCase = Objects.requireNonNull(findByIdLoyaltyEventTypeUseCase, "FindByIdLoyaltyEventTypeUseCase must not be null");
-        this.findByIdLoyaltyEffectTypeUseCase = Objects.requireNonNull(findByIdLoyaltyEffectTypeUseCase, "FindByIdLoyaltyEffectTypeUseCase must not be null");
+        this.loyaltyEventTypes = Objects.requireNonNull(loyaltyEventTypes, "loyaltyEventTypes must not be null");
+        this.loyaltyEffectTypes = Objects.requireNonNull(loyaltyEffectTypes, "loyaltyEffectTypes must not be null");
     }
 
     @Override
@@ -38,8 +42,8 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
         var interval = Interval.of(startInclusive, endExclusive);
         var state = command.state();
 
-        var loyaltyEventType = command.retrieveLoyaltyEventType(findByIdLoyaltyEventTypeUseCase);
-        var loyaltyEffectType = command.retrieveLoyaltyEffectType(findByIdLoyaltyEffectTypeUseCase);
+        var loyaltyEventType = loyaltyEventTypes.findById(command.loyaltyEventType().id());
+        var loyaltyEffectType = loyaltyEffectTypes.findById(command.loyaltyEffectType().id());
 
         if (loyaltyEventType.isEmpty() || loyaltyEffectType.isEmpty()) {
             return left(new UseCaseProblemConflict("Failed to retrieve LoyaltyEventType or LoyaltyEffectType"));
