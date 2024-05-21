@@ -211,9 +211,9 @@
           "Content-Type": "application/json"
         }
       }
-    },
-    {
-      "description": "Register a new campaign",
+    }
+  ,{
+      "description": "Register a new Campaign",
       "providerStates": [
         {
           "name": "register campaign"
@@ -233,21 +233,12 @@
           },
           "startInclusive": "2024-05-01",
           "endExclusive": "2024-06-01",
-          "state": "ACTIVE",
-          "loyaltyEventType": {
-            "id": "41862fa9-2054-435d-8068-c9b31725de9f",
-            "name": "TestEvent",
-            "fields": [
-              {
-                "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
-                "name": "TestField",
-                "fieldType": "BOOLEAN"
-              }
-            ]
+          "state": "DRAFT",
+          "eventTypeRecord": {
+            "id": "57b2516a-fd15-4057-a04a-c725a0a80e1e"
           },
           "rules": [
             {
-              "id": "ce888298-f1e6-41dc-ab7e-2344bf70617c",
               "conditions": [
                 {
                   "field": "DECIMAL",
@@ -258,25 +249,16 @@
               "effects": [
                 {
                   "effectType": {
-                    "id": "4ec0b56f-ff4c-4e7e-b257-68ce9f133a45",
-                    "name": "TestEffect",
-                    "type": {
-                      "id": "41862fa9-2054-435d-8068-c9b31725de9f",
-                      "name": "TestEvent",
-                      "fields": [
-                        {
-                          "id": "6fb2fcfd-b836-4102-8c29-f0c38c97965e",
-                          "name": "TestField",
-                          "fieldType": "BOOLEAN"
-                        }
-                      ]
-                    }
+                    "id": "1414d3f4-7978-4f4b-a532-3ece801e253c"
                   },
                   "value": "10"
                 }
               ]
             }
-          ]
+          ],
+          "effectTypeRecord": {
+            "id": "1414d3f4-7978-4f4b-a532-3ece801e253c"
+          }
         }
       },
       "response": {
@@ -289,6 +271,7 @@
         }
       }
     }
+
 
   ],
 

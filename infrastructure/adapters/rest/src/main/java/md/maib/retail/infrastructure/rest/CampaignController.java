@@ -11,9 +11,13 @@ import md.maib.retail.application.delete_campaign.DeleteCampaign;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
+import md.maib.retail.application.find_effect_type_by_id.FindByIdLoyaltyEffectTypeUseCase;
+import md.maib.retail.application.find_event_type_by_id.FindByIdLoyaltyEventTypeUseCase;
 import md.maib.retail.application.register_newcampaign.RegisterCampaign;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import md.maib.retail.model.campaign.CampaignId;
+import md.maib.retail.model.campaign.LoyaltyEventType;
+import md.maib.retail.model.effects.LoyaltyEffectType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,6 +44,9 @@ public final class CampaignController {
     private final FindCampaignByMetaInfoUseCase findCampaignByMetaInfoUseCase;
     private final RegistrationCampaignUseCase registrationCampaignUseCase;
     private final DeleteCampaignUseCase deleteCampaignUseCase;
+    private final FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase;
+    private final FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
+
     private final CampaignsListByDateUseCase campaignsListByDateUseCase;
 
     private ResponseStatusException responseExceptionFromViolations(ConstraintViolations violations) {
@@ -49,15 +57,19 @@ public final class CampaignController {
                 .collect(Collectors.joining(", "));
         return new ResponseStatusException(HttpStatus.BAD_REQUEST, "Validation failed: " + errorMessage);
     }
+
     @PostMapping(value = "/register", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerCampaign(@RequestBody RegisterCampaignRequest request) {
+
+
         Either<ConstraintViolations, RegisterCampaign> validationResult = RegisterCampaign.create(
                 request.metaInfo(),
                 request.startInclusive(),
                 request.endExclusive(),
                 request.state(),
-                request.loyaltyEventTypeId(),
-                request.rules()
+                request.eventTypeRecord(),
+                request.rules(),
+                request.effectTypeRecord()
         );
 
         if (validationResult.isLeft()) {
@@ -68,6 +80,13 @@ public final class CampaignController {
             return ResponseEntity.badRequest().body(errorMessages);
         } else {
             RegisterCampaign command = validationResult.get();
+            Optional<LoyaltyEventType> loyaltyEventType = findByIdLoyaltyEventTypeUseCase.findById(request.eventTypeRecord().id());
+            Optional<LoyaltyEffectType> loyaltyEffectType = findByIdLoyaltyEffectTypeUseCase.findById(request.effectTypeRecord().id());
+
+            if (loyaltyEventType.isEmpty() || loyaltyEffectType.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
             var result = registrationCampaignUseCase.registerCampaign(command);
 
             if (result.isRight()) {
@@ -75,9 +94,9 @@ public final class CampaignController {
                         .ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(Map.of("campaignId", result.get().campaignId()));
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(result.getLeft().getMessage());
             }
-            return ResponseEntity.status(409).body(result.getLeft().getMessage());
-
         }
 
     }
