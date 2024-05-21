@@ -4,6 +4,8 @@ import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseC
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
+import md.maib.retail.application.find_effect_type_by_id.FindByIdLoyaltyEffectTypeUseCase;
+import md.maib.retail.application.find_event_type_by_id.FindByIdLoyaltyEventTypeUseCase;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,4 +29,10 @@ public class TestRestModule {
 
     @MockBean
     CampaignsListByDateUseCase campaignsListByDateUseCase;
+
+    @MockBean
+    FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase;
+
+    @MockBean
+    FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
 }

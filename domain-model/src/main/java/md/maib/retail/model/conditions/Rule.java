@@ -21,6 +21,8 @@ public final class Rule {
     private Collection<Condition>conditions;
     @Getter
     private List<Effect> effects;
+
+
     @JsonCreator
     public Rule(@JsonProperty("id") RuleId id,
                 @JsonProperty("conditions") List<Condition> conditions,

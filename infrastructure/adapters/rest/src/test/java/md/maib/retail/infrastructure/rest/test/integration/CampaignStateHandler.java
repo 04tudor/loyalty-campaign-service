@@ -4,14 +4,15 @@ import au.com.dius.pact.provider.junitsupport.State;
 import io.vavr.control.Either;
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.CampaignSomeInfo;
-import md.maib.retail.application.LoyaltyEventsFindById.LoyaltyEffectType.EffectRecord;
-import md.maib.retail.application.LoyaltyEventsFindById.LoyaltyEventField.EventFieldRecord;
-import md.maib.retail.application.find_event_type_by_id.EventTypeRecord;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
 import md.maib.retail.application.delete_campaign.DeleteCampaign;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
+import md.maib.retail.application.find_effect_type_by_id.EffectTypeRecord;
+import md.maib.retail.application.find_effect_type_by_id.FindByIdLoyaltyEffectTypeUseCase;
+import md.maib.retail.application.find_event_type_by_id.EventTypeRecord;
+import md.maib.retail.application.find_event_type_by_id.FindByIdLoyaltyEventTypeUseCase;
 import md.maib.retail.application.register_newcampaign.RegisterCampaign;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import md.maib.retail.model.campaign.*;
@@ -50,6 +51,10 @@ public class CampaignStateHandler implements StateHandler{
 
     @Autowired
     CampaignsListByDateUseCase campaignsListByDateUseCase;
+    @Autowired
+    FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase;
+    @Autowired
+    FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
     @State("register campaign")
     public void aCampaignToBeRegister() {
         Map<String, Object> properties = new HashMap<>();
@@ -58,28 +63,34 @@ public class CampaignStateHandler implements StateHandler{
 
         LocalDate startInclusive = LocalDate.parse("2024-05-01");
         LocalDate endExclusive = LocalDate.parse("2024-06-01");
-        CampaignState state = CampaignState.ACTIVE;
+        CampaignState state = CampaignState.DRAFT;
 
-        FieldType fieldType = FieldType.BOOLEAN;
-        LoyaltyEventField loyaltyEventField = new LoyaltyEventField(
-                UUID.fromString("6fb2fcfd-b836-4102-8c29-f0c38c97965e"),
-                "TestField",
-                fieldType);
-        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(
-                UUID.fromString("41862fa9-2054-435d-8068-c9b31725de9f"),
-                "TestEvent",
-                List.of(loyaltyEventField));
-        EventTypeRecord eventTypeRecord = new EventTypeRecord("41862fa9-2054-435d-8068-c9b31725de9f", "TestTypeRecord", List.of(new EventFieldRecord("c9b31725de9f")));
+        EventTypeRecord eventTypeRecord = new EventTypeRecord("57b2516a-fd15-4057-a04a-c725a0a80e1e");
+        EffectTypeRecord effectTypeRecord = new EffectTypeRecord("1414d3f4-7978-4f4b-a532-3ece801e253c");
 
-        EffectRecord effectRecord = new EffectRecord(UUID.fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", "10");
+
+        LoyaltyEventType loyaltyEventType=new LoyaltyEventType(
+                fromString(eventTypeRecord.id()),
+                "TestEventType",
+                    List.of(new LoyaltyEventField(
+                        fromString("2cf5b5af-1986-4e0e-abe4-21be30580dd3"),"TestField",FieldType.STRING )));
+
+        LoyaltyEffectType loyaltyEffectType=new LoyaltyEffectType(
+                fromString(effectTypeRecord.id()),
+                "TestEffectType",
+                loyaltyEventType
+                );
+        when(findByIdLoyaltyEventTypeUseCase.findById(eventTypeRecord.id())).thenReturn(Optional.of(loyaltyEventType));
+        when(findByIdLoyaltyEffectTypeUseCase.findById(effectTypeRecord.id())).thenReturn(Optional.of(loyaltyEffectType));
 
         List<Rule> rules = List.of(
                 new Rule(
-                        RuleId.valueOf("ce888298-f1e6-41dc-ab7e-2344bf70617c"),
+                        RuleId.newIdentity(),
                         List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
-                        List.of(effectRecord)
+                        List.of(new Effect( loyaltyEffectType,"10"))
                 )
         );
+
 
         CampaignId campaignId = CampaignId.valueOf(UUID.fromString("d2015c09-a251-4463-9a0d-710f92559c2a"));
         var registerCampaign = RegisterCampaign.create(
@@ -87,8 +98,9 @@ public class CampaignStateHandler implements StateHandler{
                 startInclusive,
                 endExclusive,
                 state,
-                String.valueOf(eventTypeRecord),
-                rules
+               eventTypeRecord,
+                rules,
+                effectTypeRecord
         ).get();
 
         when(registrationCampaignUseCase.registerCampaign(any()))
