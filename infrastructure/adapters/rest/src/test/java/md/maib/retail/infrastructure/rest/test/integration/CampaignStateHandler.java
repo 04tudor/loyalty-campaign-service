@@ -28,6 +28,7 @@ import java.util.*;
 
 import static java.time.Instant.parse;
 import static java.util.UUID.fromString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @Component
@@ -54,16 +55,23 @@ public class CampaignStateHandler implements StateHandler{
         properties.put("key", "value");
         CampaignMetaInfo metaInfo = new CampaignMetaInfo(properties);
 
-        LocalDate startInclusive = LocalDate.parse("2018-11-30");
-        LocalDate endExclusive = LocalDate.parse("2023-12-31");
+        LocalDate startInclusive = LocalDate.parse("2024-05-01");
+        LocalDate endExclusive = LocalDate.parse("2024-06-01");
         CampaignState state = CampaignState.ACTIVE;
 
-        LoyaltyEventField loyaltyEventField = new LoyaltyEventField(UUID.fromString("6fb2fcfd-b836-4102-8c29-f0c38c97965e"), "TestField", FieldType.STRING);
-        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(UUID.fromString("41862fa9-2054-435d-8068-c9b31725de9f"), "TestEvent", List.of(loyaltyEventField));
+        FieldType fieldType=FieldType.BOOLEAN;
+        LoyaltyEventField loyaltyEventField = new LoyaltyEventField(
+                UUID.fromString("6fb2fcfd-b836-4102-8c29-f0c38c97965e"),
+                "TestField",
+                fieldType);
+        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(
+                UUID.fromString("41862fa9-2054-435d-8068-c9b31725de9f"),
+                "TestEvent",
+                List.of(loyaltyEventField));
 
         List<Rule> rules = List.of(
                 new Rule(
-                       RuleId.valueOf("ce888298-f1e6-41dc-ab7e-2344bf70617c"),
+                        RuleId.valueOf("ce888298-f1e6-41dc-ab7e-2344bf70617c"),
                         List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
                         List.of(new Effect(
                                 new LoyaltyEffectType(UUID.fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", loyaltyEventType),
@@ -71,17 +79,21 @@ public class CampaignStateHandler implements StateHandler{
                         )
                 )
         );
-        CampaignId campaignId= CampaignId.valueOf(fromString("d2015c09-a251-4463-9a0d-710f92559c2a"));
-        Either<ConstraintViolations, RegisterCampaign> registerCampaign = RegisterCampaign.create(
+
+        CampaignId campaignId = CampaignId.valueOf(UUID.fromString("d2015c09-a251-4463-9a0d-710f92559c2a"));
+        var registerCampaign = RegisterCampaign.create(
                 metaInfo,
                 startInclusive,
                 endExclusive,
                 state,
                 loyaltyEventType,
                 rules
-        );
-        when(registrationCampaignUseCase.registerCampaign(registerCampaign.get()))
-                .thenReturn(Either.right(campaignId));    }
+        ).get();
+
+        when(registrationCampaignUseCase.registerCampaign(any()))
+                .thenReturn(Either.right(campaignId));
+    }
+
 
     @State("find campaign by date")
     void findCampaignByDate() {

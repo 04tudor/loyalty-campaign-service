@@ -1,8 +1,12 @@
 package md.maib.retail.application.register_newcampaign;
 
 import io.vavr.control.Either;
+import md.maib.retail.application.CampaignEntity;
 import md.maib.retail.model.campaign.*;
-import md.maib.retail.model.conditions.*;
+import md.maib.retail.model.conditions.Condition;
+import md.maib.retail.model.conditions.Rule;
+import md.maib.retail.model.conditions.RuleId;
+import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.ports.Campaigns;
 import org.threeten.extra.Interval;
 
@@ -29,25 +33,40 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
         var endExclusive = command.endExclusive().atStartOfDay(ZoneOffset.UTC).toInstant();
         var interval = Interval.of(startInclusive, endExclusive);
         var state = command.state();
-        var loyaltyEventType = command.loyaltyEventType();
+
+        var fields = command.loyaltyEventType().getFields().stream()
+                .map(loyaltyField -> new LoyaltyEventField(
+                        loyaltyField.getId(),
+                        loyaltyField.getName(),
+                        loyaltyField.getFieldType()
+                ))
+                .toList();
+
+        var loyaltyEventType = new LoyaltyEventType(
+                command.loyaltyEventType().getId(),
+                command.loyaltyEventType().getName(),
+                fields
+        );
         var rules = command.rules().stream()
                 .map(rule -> {
                     var conditions = rule.getConditions().stream()
-                            .map(condition -> {
-                                var field = FieldType.valueOf(condition.getValue());
-                                var operator = Operator.valueOf(String.valueOf(condition.getOperator()));
-                                return new Condition(
-                                        field,
-                                        operator,
-                                        condition.getValue()
-                                );
-                            })
+                            .map(condition -> new Condition(
+                                    condition.getField(),
+                                    condition.getOperator(),
+                                    condition.getValue()
+                            ))
                             .toList();
-                    return new Rule(RuleId.newIdentity(), conditions, null);
+                    var effects = rule.getEffects().stream()
+                            .map(effect -> new Effect(
+                                    effect.effectType(),
+                                    effect.value()
+                            ))
+                            .toList();
+                    return new Rule(RuleId.newIdentity(), conditions, effects);
                 })
                 .toList();
 
-        var campaign = new Campaign(id, metaInfo, interval,state,loyaltyEventType, rules);
+        Campaign campaign=CampaignEntity.valueOf(new CampaignEntity(id, metaInfo, interval,state,loyaltyEventType, rules));
 
         if (campaigns.add(campaign)) {
            
