@@ -2,6 +2,8 @@ package md.maib.retail.application.register_newcampaign;
 
 import io.vavr.control.Either;
 import md.maib.retail.application.CampaignEntity;
+import md.maib.retail.application.find_effect_type_by_id.FindByIdLoyaltyEffectTypeUseCase;
+import md.maib.retail.application.find_event_type_by_id.FindByIdLoyaltyEventTypeUseCase;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.conditions.Condition;
 import md.maib.retail.model.conditions.Rule;
@@ -17,13 +19,15 @@ import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
 
 public class RegisterCampaignService implements RegistrationCampaignUseCase {
-   private final Campaigns campaigns;
+    private final Campaigns campaigns;
+    private final FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase;
+    private final FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
 
-    public RegisterCampaignService(Campaigns campaigns) {
-        this.campaigns = Objects.requireNonNull(campaigns,"Campaigns must not be null");
-
+    public RegisterCampaignService(Campaigns campaigns, FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase, FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase) {
+        this.campaigns = Objects.requireNonNull(campaigns, "Campaigns must not be null");
+        this.findByIdLoyaltyEventTypeUseCase = Objects.requireNonNull(findByIdLoyaltyEventTypeUseCase, "FindByIdLoyaltyEventTypeUseCase must not be null");
+        this.findByIdLoyaltyEffectTypeUseCase = Objects.requireNonNull(findByIdLoyaltyEffectTypeUseCase, "FindByIdLoyaltyEffectTypeUseCase must not be null");
     }
-
 
     @Override
     public Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaign command) {
@@ -34,19 +38,13 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
         var interval = Interval.of(startInclusive, endExclusive);
         var state = command.state();
 
-        var fields = command.loyaltyEventType().getFields().stream()
-                .map(loyaltyField -> new LoyaltyEventField(
-                        loyaltyField.getId(),
-                        loyaltyField.getName(),
-                        loyaltyField.getFieldType()
-                ))
-                .toList();
+        var loyaltyEventType = command.retrieveLoyaltyEventType(findByIdLoyaltyEventTypeUseCase);
+        var loyaltyEffectType = command.retrieveLoyaltyEffectType(findByIdLoyaltyEffectTypeUseCase);
 
-        var loyaltyEventType = new LoyaltyEventType(
-                command.loyaltyEventType().getId(),
-                command.loyaltyEventType().getName(),
-                fields
-        );
+        if (loyaltyEventType.isEmpty() || loyaltyEffectType.isEmpty()) {
+            return left(new UseCaseProblemConflict("Failed to retrieve LoyaltyEventType or LoyaltyEffectType"));
+        }
+
         var rules = command.rules().stream()
                 .map(rule -> {
                     var conditions = rule.getConditions().stream()
@@ -58,7 +56,7 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
                             .toList();
                     var effects = rule.getEffects().stream()
                             .map(effect -> new Effect(
-                                    effect.effectType(),
+                                    loyaltyEffectType.get(),
                                     effect.value()
                             ))
                             .toList();
@@ -66,13 +64,11 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
                 })
                 .toList();
 
-        Campaign campaign=CampaignEntity.valueOf(new CampaignEntity(id, metaInfo, interval,state,loyaltyEventType, rules));
+        Campaign campaign = CampaignEntity.valueOf(new CampaignEntity(id, metaInfo, interval, state, loyaltyEventType.get(), rules));
 
         if (campaigns.add(campaign)) {
-           
             return right(id);
         }
         return left(new UseCaseProblemConflict("CampaignWithSameIdAlreadyExists"));
     }
-
 }

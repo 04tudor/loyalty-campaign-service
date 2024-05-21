@@ -49,7 +49,6 @@ public final class CampaignController {
                 .collect(Collectors.joining(", "));
         return new ResponseStatusException(HttpStatus.BAD_REQUEST, "Validation failed: " + errorMessage);
     }
-
     @PostMapping(value = "/register", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerCampaign(@RequestBody RegisterCampaignRequest request) {
         Either<ConstraintViolations, RegisterCampaign> validationResult = RegisterCampaign.create(
@@ -57,7 +56,7 @@ public final class CampaignController {
                 request.startInclusive(),
                 request.endExclusive(),
                 request.state(),
-                request.loyaltyEventType(),
+                request.loyaltyEventTypeId(),
                 request.rules()
         );
 

@@ -2,7 +2,9 @@ package md.maib.retail.model.ports;
 
 import md.maib.retail.model.effects.LoyaltyEffectType;
 
+import java.util.Optional;
+
 public interface LoyaltyEffectTypes {
-    LoyaltyEffectType findById(String id);
+   Optional< LoyaltyEffectType> findById(String id);
 
 }
