@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -53,7 +54,8 @@ import static org.mockito.Mockito.when;
         Optional<CampaignAllInfo> result = target.findById(campaignId);
 
         assertThat(result).isPresent();
-        assertThat(result.get().id()).isEqualTo(campaignId);
+        assertThat(CampaignId.valueOf(UUID.fromString(result.get().id()))).isEqualTo(CampaignId.valueOf(campaignId.campaignId()));
+
     }
 
     @Test

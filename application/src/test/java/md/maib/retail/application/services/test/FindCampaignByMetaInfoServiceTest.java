@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -55,7 +56,7 @@ class FindCampaignByMetaInfoServiceTest {
         List<CampaignAllInfo> result = target.findByMetaInfo(key, value);
 
         assertThat(result).isNotNull();
-        assertThat(result.get(0).id()).isEqualTo(campaignId);
+        assertThat(CampaignId.valueOf(UUID.fromString(result.get(0).id()))).isEqualTo(CampaignId.valueOf(campaignId.campaignId()));
     }
 
     @Test
