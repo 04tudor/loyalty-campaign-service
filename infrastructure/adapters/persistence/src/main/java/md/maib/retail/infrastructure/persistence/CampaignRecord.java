@@ -1,10 +1,9 @@
 package md.maib.retail.infrastructure.persistence;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import md.maib.retail.model.campaign.*;
@@ -16,12 +15,15 @@ import java.util.Collection;
 import java.util.UUID;
 
 @Entity
-@Table(name = "project")
+@Table(name = "campaign_metadata", schema = "campaigns")
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
-final class CampaignEntity implements Persistable<UUID> {
+final class CampaignRecord implements Persistable<UUID> {
 
     @Id
+    @EqualsAndHashCode.Include
     private UUID id;
 
     private CampaignMetaInfo metaInfo;
@@ -37,7 +39,7 @@ final class CampaignEntity implements Persistable<UUID> {
     @Transient
     private boolean isNew;
 
-    public CampaignEntity(UUID campaignId, CampaignMetaInfo metaInfo, Interval activityInterval, CampaignState state, LoyaltyEventType loyaltyEventType, Collection<Rule> rules) {
+    public CampaignRecord(UUID campaignId, CampaignMetaInfo metaInfo, Interval activityInterval, CampaignState state, LoyaltyEventType loyaltyEventType, Collection<Rule> rules) {
         this.id = campaignId;
         this.metaInfo = metaInfo;
         this.activityInterval = activityInterval;
@@ -47,8 +49,8 @@ final class CampaignEntity implements Persistable<UUID> {
         isNew = true;
     }
 
-    static CampaignEntity valueOf(Campaign campaign) {
-        return new CampaignEntity(
+    static CampaignRecord valueOf(Campaign campaign) {
+        return new CampaignRecord(
                 campaign.getId().toUUID(),
                 campaign.getMetaInfo(),
                 campaign.getActivityInterval(),

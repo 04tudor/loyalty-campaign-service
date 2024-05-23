@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface SpringDataJpaCampaignRepository extends JpaRepository<CampaignEntity, UUID> {
+public interface SpringDataJpaCampaignRepository extends JpaRepository<CampaignRecord, UUID> {
 
     @Query("")
-    List<CampaignEntity> findByMetaInfo(@Param("key") String key, @Param("value") String value);
+    List<CampaignRecord> findByMetaInfo(@Param("key") String key, @Param("value") String value);
 
     @Query("")
-    List<CampaignEntity> findByDate(@Param("date") LocalDate date);
+    List<CampaignRecord> findByDate(@Param("date") LocalDate date);
 }
