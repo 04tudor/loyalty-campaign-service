@@ -22,25 +22,25 @@ public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
 
     @Override
     public List<Campaign> listByDate(LocalDate date) {
-        List<CampaignEntity> entities = campaignRepository.findByDate(date);
-        return entities.stream().map(CampaignEntity::toCampaign).collect(Collectors.toList());
+        List<CampaignRecord> entities = campaignRepository.findByDate(date);
+        return entities.stream().map(CampaignRecord::toCampaign).collect(Collectors.toList());
     }
 
     @Override
     public Optional<Campaign> findById(CampaignId campaignId) {
         return campaignRepository.findById(campaignId.toUUID())
-                .map(CampaignEntity::toCampaign);
+                .map(CampaignRecord::toCampaign);
     }
 
     @Override
     public List<Campaign> findByMetaInfo(String key, String value) {
-        List<CampaignEntity> entities = campaignRepository.findByMetaInfo(key, value);
-        return entities.stream().map(CampaignEntity::toCampaign).collect(Collectors.toList());
+        List<CampaignRecord> entities = campaignRepository.findByMetaInfo(key, value);
+        return entities.stream().map(CampaignRecord::toCampaign).collect(Collectors.toList());
     }
 
     @Override
     public boolean add(Campaign campaign) {
-        var entity = CampaignEntity.valueOf(campaign);
+        var entity = CampaignRecord.valueOf(campaign);
 
         try {
             campaignRepository.saveAndFlush(entity);
@@ -54,7 +54,7 @@ public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
     public boolean delete(CampaignId campaignId) {
         Optional<Campaign> campaignOptional = findById(campaignId);
         if (campaignOptional.isPresent()) {
-            campaignRepository.delete(CampaignEntity.valueOf(campaignOptional.get()));
+            campaignRepository.delete(CampaignRecord.valueOf(campaignOptional.get()));
             return true;
         }
         return false;

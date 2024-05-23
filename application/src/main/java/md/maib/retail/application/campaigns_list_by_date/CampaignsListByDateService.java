@@ -22,5 +22,4 @@ public class CampaignsListByDateService implements CampaignsListByDateUseCase{
                 .toList();
     }
 
-//
 }
