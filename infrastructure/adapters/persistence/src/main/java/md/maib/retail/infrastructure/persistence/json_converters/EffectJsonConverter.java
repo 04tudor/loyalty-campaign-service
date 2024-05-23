@@ -1,0 +1,35 @@
+package md.maib.retail.infrastructure.persistence.json_converters;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+import md.maib.retail.model.effects.Effect;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+
+@Converter(autoApply = true)
+public class EffectJsonConverter implements AttributeConverter<Collection<Effect>, String> {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Override
+    public String convertToDatabaseColumn(Collection<Effect> effects) {
+        try {
+            return objectMapper.writeValueAsString(effects);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("Error converting effects to JSON", e);
+        }
+    }
+
+    @Override
+    public Collection<Effect> convertToEntityAttribute(String json) {
+        try {
+            return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Effect.class));
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Error converting JSON to effects", e);
+        }
+    }
+}
