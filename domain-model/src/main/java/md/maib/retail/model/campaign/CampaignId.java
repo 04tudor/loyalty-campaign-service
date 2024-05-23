@@ -9,7 +9,9 @@ public record CampaignId (UUID campaignId){
     public CampaignId {
         requireNonNull(campaignId, "Campaign Id must not be null.");
     }
-
+    public UUID toUUID() {
+        return campaignId;
+    }
     public static CampaignId newIdentity() {
         return new CampaignId(randomUUID());
     }
