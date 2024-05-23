@@ -16,7 +16,7 @@ import java.time.ZoneOffset;
 import java.util.*;
 
 @Entity
-@Table(name = "campaign_metadata", schema = "campaigns")
+@Table(name = "campaign", schema = "campaigns")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

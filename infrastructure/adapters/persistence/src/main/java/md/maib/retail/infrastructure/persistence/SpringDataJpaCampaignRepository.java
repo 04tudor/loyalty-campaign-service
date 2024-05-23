@@ -15,6 +15,10 @@ public interface SpringDataJpaCampaignRepository extends JpaRepository<CampaignR
     @Query("")
     List<CampaignRecord> findByMetaInfo(@Param("key") String key, @Param("value") String value);
 
-    @Query("")
+    @Query("SELECT DISTINCT c FROM CampaignRecord c "
+            + "JOIN FETCH c.rules r "
+            + "WHERE c.startInclusive <= :date AND (c.endExclusive IS NULL OR c.endExclusive > :date) "
+            + "AND c.isActive = true "
+            + "ORDER BY c.id ASC, r.id ASC")
     List<CampaignRecord> findByDate(@Param("date") LocalDate date);
 }

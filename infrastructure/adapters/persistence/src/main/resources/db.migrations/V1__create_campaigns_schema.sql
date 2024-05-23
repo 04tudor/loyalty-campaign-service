@@ -17,3 +17,4 @@ CREATE TABLE campaigns.rule (
     CONSTRAINT pk_rule_id PRIMARY KEY (id),
     CONSTRAINT fk_rule_campaign_id FOREIGN KEY (campaign_id) REFERENCES campaigns.campaign(campaign_id)
 );
+ALTER TABLE campaigns.rule ADD CONSTRAINT FK_RULE_ON_CAMPAIGN FOREIGN KEY (campaign_id) REFERENCES campaigns.campaign (campaign_id);
