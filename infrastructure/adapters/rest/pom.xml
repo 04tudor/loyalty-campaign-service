@@ -18,7 +18,7 @@
     <dependency>
         <groupId>md.maib.retail</groupId>
         <artifactId>loyalty-campaign-application</artifactId>
-        <version>1.0.0</version>
+        <version>${project.version}</version>
     </dependency>
 
     <dependency>
