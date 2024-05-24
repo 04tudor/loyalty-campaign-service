@@ -12,13 +12,20 @@ import java.util.UUID;
 @Repository
 public interface SpringDataJpaCampaignRepository extends JpaRepository<CampaignRecord, UUID> {
 
-    @Query("")
+    @Query("""
+            SELECT DISTINCT c FROM CampaignRecord c
+            JOIN FETCH c.rules r
+            WHERE c.metaInfo->>:key = :value
+            ORDER BY c.id ASC, r.id ASC
+            """)
     List<CampaignRecord> findByMetaInfo(@Param("key") String key, @Param("value") String value);
 
-    @Query("SELECT DISTINCT c FROM CampaignRecord c "
-            + "JOIN FETCH c.rules r "
-            + "WHERE c.startInclusive <= :date AND (c.endExclusive IS NULL OR c.endExclusive > :date) "
-            + "AND c.isActive = true "
-            + "ORDER BY c.id ASC, r.id ASC")
+    @Query("""
+            SELECT DISTINCT c FROM CampaignRecord c
+            JOIN FETCH c.rules r
+            WHERE c.startInclusive <= :date AND (c.endExclusive IS NULL OR c.endExclusive > :date)
+            AND c.isActive = true
+            ORDER BY c.id ASC, r.id ASC
+            """)
     List<CampaignRecord> findByDate(@Param("date") LocalDate date);
 }
