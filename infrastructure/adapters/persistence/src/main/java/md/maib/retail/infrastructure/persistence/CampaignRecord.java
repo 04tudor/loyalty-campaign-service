@@ -60,6 +60,7 @@ public class CampaignRecord implements Persistable<UUID>{
                 this.endExclusive = endExclusive;
                 this.isActive = isActive;
                 this.loyaltyEventType = loyaltyEventTypeid;
+                isNew=true;
         }
 
         @Override
