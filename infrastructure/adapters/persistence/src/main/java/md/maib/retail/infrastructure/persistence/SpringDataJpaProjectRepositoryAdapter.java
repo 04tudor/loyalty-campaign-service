@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -23,7 +22,7 @@ public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
     @Override
     public List<Campaign> listByDate(LocalDate date) {
         List<CampaignRecord> entities = campaignRepository.findByDate(date);
-        return entities.stream().map(CampaignRecord::toCampaign).collect(Collectors.toList());
+        return entities.stream().map(CampaignRecord::toCampaign).toList();
     }
 
     @Override
@@ -35,7 +34,7 @@ public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
     @Override
     public List<Campaign> findByMetaInfo(String key, String value) {
         List<CampaignRecord> entities = campaignRepository.findByMetaInfo(key, value);
-        return entities.stream().map(CampaignRecord::toCampaign).collect(Collectors.toList());
+        return entities.stream().map(CampaignRecord::toCampaign).toList();
     }
 
     @Override
