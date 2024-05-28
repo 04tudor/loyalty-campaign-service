@@ -48,6 +48,13 @@ public class RuleRecord implements Persistable<UUID> {
     @Transient
     private boolean isNew;
 
+    public RuleRecord(UUID id, CampaignRecord campaignId, Collection<Condition> conditions, List<EffectRecord> effects) {
+        this.id = id;
+        this.campaignId = campaignId;
+        this.conditions = conditions;
+        this.effects = effects;
+    }
+
     @Override
     public boolean isNew() {
         return isNew;

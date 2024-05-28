@@ -1,10 +1,11 @@
 package md.maib.retail.infrastructure.persistence;
 
+import lombok.AllArgsConstructor;
 import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.effects.LoyaltyEffectType;
 
 import java.util.UUID;
-
+@AllArgsConstructor
 public class EffectRecord {
     private UUID loyaltyEventTypeId;
 

@@ -3,16 +3,13 @@ package md.maib.retail.infrastructure.persistence.test;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import jakarta.persistence.EntityManager;
-import lombok.Data;
 import md.maib.retail.infrastructure.persistence.CampaignRecord;
 import md.maib.retail.infrastructure.persistence.SpringDataJpaProjectRepositoryAdapter;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
-import md.maib.retail.model.campaign.CampaignMetaInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -30,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     @Autowired
     EntityManager entityManager;
 
-    @ExpectedDataSet("datasets/campaigns.yaml")
+    @ExpectedDataSet("datasets/campaign.yaml")
     @Test
     void insertion() {
         Map<String, Object> metaInfo = new HashMap<>();
@@ -43,7 +40,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 Instant.parse("2024-06-30T23:59:59Z"),
                 true,
                 UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
+
         );
+
+//        Collection<Condition> conditions = new ArrayList<>();
+//        conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
+//
+//        List<EffectRecord> effectRecords = List.of(new EffectRecord(UUID.fromString("4e1a8086-90de-4796-95e8-121f24412656"), "5"));
+//
+//        RuleRecord ruleRecord = new RuleRecord(
+//                UUID.fromString("44947ade-923d-4ca6-9006-30442779df3f"),
+//                campaignRecord,
+//                conditions,
+//                effectRecords
+//        );
 
         repository.add(campaignRecord.toCampaign());
 
