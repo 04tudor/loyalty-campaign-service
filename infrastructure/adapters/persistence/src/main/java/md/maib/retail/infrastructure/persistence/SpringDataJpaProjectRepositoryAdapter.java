@@ -6,7 +6,9 @@ import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.ports.Campaigns;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +23,15 @@ public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
 
     @Override
     public List<Campaign> listByDate(LocalDate date) {
-        List<CampaignRecord> entities = campaignRepository.findByDate(date);
+        Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+
+        List<CampaignRecord> entities = campaignRepository.findByDate(instant);
         return entities.stream().map(CampaignRecord::toCampaign).toList();
     }
 
     @Override
     public Optional<Campaign> findById(CampaignId campaignId) {
+
         return campaignRepository.findById(campaignId.toUUID())
                 .map(CampaignRecord::toCampaign);
     }

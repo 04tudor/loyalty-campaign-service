@@ -10,7 +10,7 @@ public class CustomPostgresqlTypeFactory extends PostgresqlDataTypeFactory {
     @Override
     public DataType createDataType(int sqlType, String sqlTypeName) throws DataTypeException {
         if (sqlType == Types.OTHER && "jsonb".equals(sqlTypeName)) {
-            return DataType.VARCHAR;
+            return new JsonbDataType();
         }
         return super.createDataType(sqlType, sqlTypeName);
     }

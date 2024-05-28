@@ -28,9 +28,7 @@ public class MetaInfoJsonConverter implements AttributeConverter<Map<String, Obj
     @SneakyThrows
     public Map<String, Object> convertToEntityAttribute(String dbData) {
         try {
-            return objectMapper.readValue(dbData, new TypeReference<>() {
-                    }
-            );
+            return objectMapper.readValue(dbData, new TypeReference<>() {});
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Error converting JSON to MetaInfo", e);
         }

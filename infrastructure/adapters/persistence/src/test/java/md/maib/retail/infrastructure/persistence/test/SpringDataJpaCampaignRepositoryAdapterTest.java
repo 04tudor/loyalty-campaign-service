@@ -5,15 +5,10 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import jakarta.persistence.EntityManager;
 import lombok.Data;
 import md.maib.retail.infrastructure.persistence.CampaignRecord;
-import md.maib.retail.infrastructure.persistence.RuleRecord;
 import md.maib.retail.infrastructure.persistence.SpringDataJpaProjectRepositoryAdapter;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
-import md.maib.retail.model.campaign.FieldType;
-import md.maib.retail.model.conditions.Condition;
-import md.maib.retail.model.conditions.Operator;
-import md.maib.retail.model.effects.Effect;
-import md.maib.retail.model.effects.LoyaltyEffectType;
+import md.maib.retail.model.campaign.CampaignMetaInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +18,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @PersistenceTest
@@ -39,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     @Test
     void insertion() {
         Map<String, Object> metaInfo = new HashMap<>();
-        metaInfo.put("key","value");
+        metaInfo.put("key", "value");
 
         CampaignRecord campaignRecord = new CampaignRecord(
                 UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
@@ -54,7 +49,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
     }
 
-    @Sql("/datasets/campaigns.sql")
+    @DataSet("/datasets/campaigns.yaml")
     @Test
     void findById() {
         CampaignId campaignId = CampaignId.valueOf(UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"));
@@ -67,7 +62,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     }
 
     @Test
-    @Sql("/datasets/campaigns.sql")
+    @DataSet("/datasets/campaigns.yaml")
     void deleteCampaignRecord() {
         CampaignId campaignId = CampaignId.valueOf(UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"));
 
@@ -75,6 +70,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
         assertTrue(deleted, "Campaign record was not deleted");
+
+    }
+
+    @Test
+    @DataSet("/datasets/campaigns.yaml")
+     void testFindByMetaInfo() {
+        String key = "key";
+        String value = "value";
+
+        List<Campaign> campaigns = repository.findByMetaInfo(key, value);
+
+        assertThat(campaigns).isNotEmpty();
+        assertThat(campaigns.size()).isEqualTo(1);
+
+    }
+    @Test
+    @DataSet("/datasets/campaigns.yaml")
+     void testFindByLocalDate() {
+
+
+        List<Campaign> campaigns = repository.listByDate(LocalDate.of(2024,6,8));
+
+        assertThat(campaigns).isNotEmpty();
+        assertThat(campaigns.size()).isEqualTo(1);
 
     }
 }

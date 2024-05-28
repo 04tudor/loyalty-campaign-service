@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import md.maib.retail.infrastructure.persistence.json_converters.MetaInfoJsonConverter;
 import md.maib.retail.model.campaign.*;
+import md.maib.retail.model.conditions.Rule;
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
 import org.threeten.extra.Interval;
@@ -91,5 +92,22 @@ public class CampaignRecord implements Persistable<UUID>{
                         Collections.emptyList()
                 );
         }
+//        public Campaign convertToCampaign(CampaignRecord campaignRecord) {
+//                Interval activityInterval = Interval.of(campaignRecord.getStartInclusive(), campaignRecord.getEndExclusive());
+//                CampaignState state = campaignRecord.isActive() ? CampaignState.ACTIVE : CampaignState.DRAFT;
+//
+//                List<Rule> rules = campaignRecord.getRules().stream()
+//                        .map(RuleRecord::convertToRule)
+//                        .toList();
+//
+//                return new Campaign(
+//                        CampaignId.valueOf(campaignRecord.getId()),
+//                        CampaignMetaInfo.valueOf(campaignRecord.getMetaInfo()),
+//                        activityInterval,
+//                        state,
+//                        new LoyaltyEventType(campaignRecord.getLoyaltyEventType().toString()),
+//                        rules
+//                );
+//        }
     }
 
