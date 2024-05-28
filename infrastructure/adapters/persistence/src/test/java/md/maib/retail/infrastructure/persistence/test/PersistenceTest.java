@@ -27,8 +27,9 @@ import static com.github.database.rider.core.api.configuration.Orthography.LOWER
 @Transactional
 @DBUnit(
         cacheConnection = false,
-        dataTypeFactoryClass = PostgresqlDataTypeFactory.class,
-        caseInsensitiveStrategy = LOWERCASE
+        dataTypeFactoryClass = CustomPostgresqlTypeFactory.class,
+        caseInsensitiveStrategy = LOWERCASE,
+        qualifiedTableNames = true
 )
 @DBRider
 @Tag("integration")

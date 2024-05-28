@@ -1,8 +1,0 @@
-campaigns:
-    campaign_id: ee5dead7-1e18-4a89-aeb9-8c6bd8f3e262
-    metainfo:
-      key: value
-    interval_start: 2020-02-04
-    interval_end: 2020-03-05
-    is_active: true
-    loyalty_event_type_id: 23fcf3d1-9d50-426e-ae01-a23076eff31f

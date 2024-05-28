@@ -11,8 +11,7 @@ import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
 import org.threeten.extra.Interval;
 
-import java.time.LocalDate;
-import java.time.ZoneOffset;
+import java.time.Instant;
 import java.util.*;
 
 @Entity
@@ -34,17 +33,16 @@ public class CampaignRecord implements Persistable<UUID>{
         private Map<String, Object> metaInfo;
 
         @Column(name = "interval_start", nullable = false)
-        private LocalDate startInclusive;
+        private Instant startInclusive;
 
         @Column(name = "interval_end", nullable = false)
-        private LocalDate endExclusive;
+        private Instant endExclusive;
 
         @Column(name = "is_active", nullable = false)
         private boolean isActive;
 
-        @ManyToOne
-        @JoinColumn(name = "loyalty_event_type_id", nullable = false)
-        private LoyaltyEventType loyaltyEventType;
+        @Column(name = "loyalty_event_type_id", nullable = false)
+        private UUID loyaltyEventType;
 
         @OneToMany
         @JoinColumn(name = "campaign_id")
@@ -53,7 +51,7 @@ public class CampaignRecord implements Persistable<UUID>{
         @Transient
         private boolean isNew;
 
-        public CampaignRecord(UUID id, Map<String, Object> metaInfo, LocalDate startInusive, LocalDate endExclusive, boolean isActive, LoyaltyEventType loyaltyEventTypeid) {
+        public CampaignRecord(UUID id, Map<String, Object> metaInfo, Instant startInusive, Instant endExclusive, boolean isActive, UUID loyaltyEventTypeid) {
                 this.id = id;
                 this.metaInfo = metaInfo;
                 this.startInclusive = startInusive;
@@ -73,25 +71,23 @@ public class CampaignRecord implements Persistable<UUID>{
                 return new CampaignRecord(
                         campaign.getId().toUUID(),
                         campaign.getMetaInfo().properties(),
-                        campaign.getActivityInterval().getStart().atZone(ZoneOffset.UTC).toLocalDate(),
-                        campaign.getActivityInterval().getEnd().atZone(ZoneOffset.UTC).toLocalDate(),
+                        campaign.getActivityInterval().getStart(),
+                        campaign.getActivityInterval().getEnd(),
                         isActive,
-                        campaign.getLoyaltyEventType()
+                        campaign.getLoyaltyEventType().getId()
                 );
         }
 
         public Campaign toCampaign() {
-                Interval activityInterval = Interval.of(
-                        startInclusive.atStartOfDay().toInstant(ZoneOffset.UTC),
-                        endExclusive.atStartOfDay().toInstant(ZoneOffset.UTC)
-                );
+                Interval activityInterval = Interval.of(startInclusive, endExclusive);
+
                 var state = isActive ? CampaignState.ACTIVE : CampaignState.DRAFT;
                 return new Campaign(
                         CampaignId.valueOf(id),
                         CampaignMetaInfo.valueOf(metaInfo),
                         activityInterval,
                         state,
-                        loyaltyEventType,
+                        new LoyaltyEventType(loyaltyEventType.toString()),
                         Collections.emptyList()
                 );
         }

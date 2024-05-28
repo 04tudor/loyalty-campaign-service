@@ -10,9 +10,9 @@
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
-    <groupId>md.maib.retail.infrastructure.persistence</groupId>
     <artifactId>loyalty-campaign-infrastructure-persistence</artifactId>
     <name>Infrastructure Persistence</name>
+
     <dependencies>
         <dependency>
             <groupId>md.maib.retail</groupId>
@@ -69,10 +69,8 @@
 
         <dependency>
             <groupId>com.playtika.testcontainers</groupId>
-            <artifactId>testcontainers-spring-boot-bom</artifactId>
-            <version>${testcontainers-spring-boot.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
+            <artifactId>embedded-postgresql</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

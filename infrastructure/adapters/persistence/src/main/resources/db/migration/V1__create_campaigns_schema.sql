@@ -1,12 +1,12 @@
+
 CREATE TABLE campaigns.campaign (
     campaign_id UUID NOT NULL,
     metainfo JSONB NOT NULL,
-    interval_start DATE NOT NULL,
-    interval_end DATE NOT NULL,
+    interval_start TIMESTAMPTZ  NOT NULL,
+    interval_end TIMESTAMPTZ  NOT NULL,
     is_active BOOLEAN NOT NULL,
     loyalty_event_type_id UUID NOT NULL,
-    CONSTRAINT pk_campaign_id PRIMARY KEY (campaign_id),
-    CONSTRAINT fk_loyalty_event_type FOREIGN KEY (loyalty_event_type_id) REFERENCES loyalty_event_type(id)
+    CONSTRAINT pk_campaign_id PRIMARY KEY (campaign_id)
 );
 
 CREATE TABLE campaigns.rule (

@@ -1,4 +1,4 @@
-package md.maib.retail.infrastructure.persistence.test;
+package md.maib.retail.infrastructure.persistence;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
