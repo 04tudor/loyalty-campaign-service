@@ -17,6 +17,17 @@
     <dependencies>
         <dependency>
             <groupId>md.maib.retail</groupId>
+            <artifactId>loyalty-campaign-infrastructure-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>md.maib.retail</groupId>
+            <artifactId>loyalty-campaign-infrastructure-persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>md.maib.retail</groupId>
             <artifactId>loyalty-campaign-application</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -56,4 +67,42 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-</project>
+
+    <build>
+    <plugins>
+
+
+        <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>${jib-maven-plugin.version}</version>
+            <configuration>
+                <from>
+                    <image>eclipse-temurin:21.0.3_9-jre</image>
+                </from>
+                <to>
+                    <image>retail-loyalty-campaign-service</image>
+                    <tags>
+                        <tag>000000</tag>
+                    </tags>
+                </to>
+                <container>
+                    <format>OCI</format>
+                    <creationTime>${maven.build.timestamp}</creationTime>
+                    <user>nobody</user>
+                </container>
+                <skip>false</skip>
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>dockerBuild</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    </build>
+
+        </project>

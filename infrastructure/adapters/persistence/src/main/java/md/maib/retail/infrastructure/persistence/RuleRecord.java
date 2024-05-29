@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import md.maib.retail.infrastructure.persistence.json_converters.ConditionJsonConverter;
 import md.maib.retail.infrastructure.persistence.json_converters.EffectJsonConverter;
 import md.maib.retail.model.conditions.Condition;
+import md.maib.retail.model.conditions.Rule;
+import md.maib.retail.model.conditions.RuleId;
+
 import md.maib.retail.model.effects.Effect;
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
@@ -15,6 +18,8 @@ import org.springframework.data.domain.Persistable;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 @Entity
 @Table(name = "rule", schema = "campaigns")
@@ -28,9 +33,9 @@ public class RuleRecord implements Persistable<UUID> {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "campaign_id", nullable = false)
-    private CampaignRecord campaignId;
+    @Column(name = "campaign_id", nullable = false)
+    private UUID campaignId;
+
 
     @Column(name = "conditions", nullable = false, columnDefinition = "jsonb")
     @Convert(converter = ConditionJsonConverter.class)
@@ -40,14 +45,31 @@ public class RuleRecord implements Persistable<UUID> {
     @Column(name = "effects", nullable = false, columnDefinition = "jsonb")
     @Convert(converter = EffectJsonConverter.class)
     @ColumnTransformer(write = "?::jsonb")
-    private List<Effect> effects;
+    private List<EffectRecord> effects;
+
 
     @Transient
     private boolean isNew;
 
+    public RuleRecord(UUID id, UUID campaignId, Collection<Condition> conditions, List<EffectRecord> effects) {
+        this.id = id;
+        this.campaignId = campaignId;
+        this.conditions = conditions;
+        this.effects = effects;
+    }
+
+
     @Override
     public boolean isNew() {
         return isNew;
+    }
+
+    public static Rule convertToRule(RuleRecord ruleRecord, LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter) {
+        List<Effect> effects = ruleRecord.getEffects().stream()
+                .map(effectRecord -> EffectRecord.toEffect(effectRecord, loyaltyEffectTypesAdapter))
+                .collect(Collectors.toList());
+
+        return new Rule(RuleId.valueOf(String.valueOf(ruleRecord.getId())), ruleRecord.getConditions(), effects);
     }
 
 }

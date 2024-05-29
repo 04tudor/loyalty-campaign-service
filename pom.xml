@@ -31,6 +31,8 @@
 		<moneta.version>1.4.2</moneta.version>
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
 		<threeten-extra.version>1.7.2</threeten-extra.version>
+		<jib-maven-plugin.version>3.4.0</jib-maven-plugin.version>
+		<testcontainers-spring-boot.version>3.1.1</testcontainers-spring-boot.version>
 	</properties>
 
 	<dependencies>
@@ -52,6 +54,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -87,6 +90,14 @@
 				<artifactId>maven-invoker</artifactId>
 				<version>${maven-invoker.version}</version>
 				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.playtika.testcontainers</groupId>
+				<artifactId>testcontainers-spring-boot-bom</artifactId>
+				<version>${testcontainers-spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
