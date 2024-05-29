@@ -11,9 +11,8 @@ public class EffectRecord {
 
     private String value;
 
-    public static Effect toEffect(EffectRecord effectRecord){
-        LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter=new LoyaltyEffectTypesAdapter();
-        LoyaltyEffectType loyaltyEffectType=loyaltyEffectTypesAdapter.findById(String.valueOf(effectRecord.loyaltyEventTypeId)).get();
-        return new Effect(loyaltyEffectType,effectRecord.value);
+    public static Effect toEffect(EffectRecord effectRecord, LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter) {
+        LoyaltyEffectType loyaltyEffectType = loyaltyEffectTypesAdapter.findById(String.valueOf(effectRecord.loyaltyEventTypeId)).get();
+        return new Effect(loyaltyEffectType, effectRecord.value);
     }
 }

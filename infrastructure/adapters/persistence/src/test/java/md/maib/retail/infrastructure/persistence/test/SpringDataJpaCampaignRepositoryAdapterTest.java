@@ -4,9 +4,14 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import jakarta.persistence.EntityManager;
 import md.maib.retail.infrastructure.persistence.CampaignRecord;
-import md.maib.retail.infrastructure.persistence.SpringDataJpaProjectRepositoryAdapter;
+import md.maib.retail.infrastructure.persistence.EffectRecord;
+import md.maib.retail.infrastructure.persistence.RuleRecord;
+import md.maib.retail.infrastructure.persistence.SpringDataJpaCampaignRepositoryAdapter;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
+import md.maib.retail.model.campaign.FieldType;
+import md.maib.retail.model.conditions.Condition;
+import md.maib.retail.model.conditions.Operator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  class SpringDataJpaCampaignRepositoryAdapterTest {
 
     @Autowired
-    SpringDataJpaProjectRepositoryAdapter repository;
+    SpringDataJpaCampaignRepositoryAdapter repository;
 
     @Autowired
     EntityManager entityManager;
@@ -33,6 +38,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         Map<String, Object> metaInfo = new HashMap<>();
         metaInfo.put("key", "value");
 
+        Collection<Condition> conditions = new ArrayList<>();
+        conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
+
+        List<EffectRecord> effectRecords = List.of(new EffectRecord(UUID.fromString("4e1a8086-90de-4796-95e8-121f24412656"), "5"));
+
+        RuleRecord ruleRecord = new RuleRecord(
+                UUID.fromString("44947ade-923d-4ca6-9006-30442779df3f"),
+                UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
+                conditions,
+                effectRecords
+        );
+
         CampaignRecord campaignRecord = new CampaignRecord(
                 UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
                 metaInfo,
@@ -40,20 +57,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 Instant.parse("2024-06-30T23:59:59Z"),
                 true,
                 UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
-
         );
 
-//        Collection<Condition> conditions = new ArrayList<>();
-//        conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
-//
-//        List<EffectRecord> effectRecords = List.of(new EffectRecord(UUID.fromString("4e1a8086-90de-4796-95e8-121f24412656"), "5"));
-//
-//        RuleRecord ruleRecord = new RuleRecord(
-//                UUID.fromString("44947ade-923d-4ca6-9006-30442779df3f"),
-//                campaignRecord,
-//                conditions,
-//                effectRecords
-//        );
+
 
         repository.add(campaignRecord.toCampaign());
 

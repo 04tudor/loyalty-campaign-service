@@ -31,9 +31,8 @@ public class RuleRecord implements Persistable<UUID> {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "campaign_id", nullable = false)
-    private CampaignRecord campaignId;
+    @Column(name = "campaign_id", nullable = false)
+    private UUID campaignId;
 
     @Column(name = "conditions", nullable = false, columnDefinition = "jsonb")
     @Convert(converter = ConditionJsonConverter.class)
@@ -48,7 +47,7 @@ public class RuleRecord implements Persistable<UUID> {
     @Transient
     private boolean isNew;
 
-    public RuleRecord(UUID id, CampaignRecord campaignId, Collection<Condition> conditions, List<EffectRecord> effects) {
+    public RuleRecord(UUID id, UUID campaignId, Collection<Condition> conditions, List<EffectRecord> effects) {
         this.id = id;
         this.campaignId = campaignId;
         this.conditions = conditions;
@@ -60,9 +59,9 @@ public class RuleRecord implements Persistable<UUID> {
         return isNew;
     }
 
-    public static Rule convertToRule(RuleRecord ruleRecord){
+    public static Rule convertToRule(RuleRecord ruleRecord, LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter) {
         List<Effect> effects = ruleRecord.getEffects().stream()
-                .map(EffectRecord::toEffect)
+                .map(effectRecord -> EffectRecord.toEffect(effectRecord, loyaltyEffectTypesAdapter))
                 .collect(Collectors.toList());
 
         return new Rule(RuleId.valueOf(String.valueOf(ruleRecord.getId())), ruleRecord.getConditions(), effects);

@@ -3,6 +3,8 @@ package md.maib.retail.infrastructure.persistence;
 import lombok.extern.slf4j.Slf4j;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
+import md.maib.retail.model.conditions.Rule;
+import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.ports.Campaigns;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,14 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
+public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
 
     private final SpringDataJpaCampaignRepository campaignRepository;
-    public SpringDataJpaProjectRepositoryAdapter(SpringDataJpaCampaignRepository repository) {
-        this.campaignRepository = repository;
+    private final LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter;
+
+    public SpringDataJpaCampaignRepositoryAdapter(SpringDataJpaCampaignRepository campaignRepository, LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter) {
+        this.campaignRepository = campaignRepository;
+        this.loyaltyEffectTypesAdapter = loyaltyEffectTypesAdapter;
     }
 
     @Override
@@ -31,7 +36,6 @@ public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
 
     @Override
     public Optional<Campaign> findById(CampaignId campaignId) {
-
         return campaignRepository.findById(campaignId.toUUID())
                 .map(CampaignRecord::toCampaign);
     }
@@ -50,7 +54,7 @@ public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
             campaignRepository.saveAndFlush(entity);
         } catch (Exception e ) {
             e.printStackTrace();
-                return false;
+            return false;
         }
         return true;
     }
@@ -63,4 +67,13 @@ public class SpringDataJpaProjectRepositoryAdapter implements Campaigns {
         }
         return false;
     }
+
+    public Effect toEffect(EffectRecord effectRecord) {
+        return EffectRecord.toEffect(effectRecord, loyaltyEffectTypesAdapter);
+    }
+
+    public Rule convertToRule(RuleRecord ruleRecord) {
+        return RuleRecord.convertToRule(ruleRecord, loyaltyEffectTypesAdapter);
+    }
+
 }

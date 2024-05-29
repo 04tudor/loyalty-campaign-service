@@ -62,6 +62,16 @@ public class CampaignRecord implements Persistable<UUID>{
                 isNew=true;
         }
 
+        public CampaignRecord(UUID id, Map<String, Object> metaInfo, Instant startInclusive, Instant endExclusive, boolean isActive, UUID loyaltyEventType, Set<RuleRecord> rules) {
+                this.id = id;
+                this.metaInfo = metaInfo;
+                this.startInclusive = startInclusive;
+                this.endExclusive = endExclusive;
+                this.isActive = isActive;
+                this.loyaltyEventType = loyaltyEventType;
+                this.rules = rules;
+        }
+
         @Override
         public boolean isNew() {
             return isNew;
