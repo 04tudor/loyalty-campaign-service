@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 import md.maib.retail.infrastructure.persistence.json_converters.MetaInfoJsonConverter;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.conditions.Rule;
+
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
 import org.threeten.extra.Interval;
 
 import java.time.Instant;
+
 import java.util.*;
 
 @Entity
@@ -39,11 +41,13 @@ public class CampaignRecord implements Persistable<UUID>{
         @Column(name = "interval_end", nullable = false)
         private Instant endExclusive;
 
+
         @Column(name = "is_active", nullable = false)
         private boolean isActive;
 
         @Column(name = "loyalty_event_type_id", nullable = false)
         private UUID loyaltyEventType;
+
 
         @OneToMany
         @JoinColumn(name = "campaign_id")
@@ -53,6 +57,7 @@ public class CampaignRecord implements Persistable<UUID>{
         private boolean isNew;
 
         public CampaignRecord(UUID id, Map<String, Object> metaInfo, Instant startInusive, Instant endExclusive, boolean isActive, UUID loyaltyEventTypeid) {
+
                 this.id = id;
                 this.metaInfo = metaInfo;
                 this.startInclusive = startInusive;
@@ -72,6 +77,7 @@ public class CampaignRecord implements Persistable<UUID>{
                 this.rules = rules;
         }
 
+
         @Override
         public boolean isNew() {
             return isNew;
@@ -86,11 +92,13 @@ public class CampaignRecord implements Persistable<UUID>{
                         campaign.getActivityInterval().getEnd(),
                         isActive,
                         campaign.getLoyaltyEventType().getId()
+
                 );
         }
 
         public Campaign toCampaign() {
                 Interval activityInterval = Interval.of(startInclusive, endExclusive);
+
 
                 var state = isActive ? CampaignState.ACTIVE : CampaignState.DRAFT;
                 return new Campaign(
@@ -119,5 +127,6 @@ public class CampaignRecord implements Persistable<UUID>{
 //                        rules
 //                );
 //        }
+
     }
 

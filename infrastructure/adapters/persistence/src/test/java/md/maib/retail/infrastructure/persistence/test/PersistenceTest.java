@@ -35,3 +35,4 @@ import static com.github.database.rider.core.api.configuration.Orthography.LOWER
 @Tag("integration")
 public @interface PersistenceTest {
 }
+

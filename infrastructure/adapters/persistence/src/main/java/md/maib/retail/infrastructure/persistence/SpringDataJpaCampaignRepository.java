@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +20,7 @@ public interface SpringDataJpaCampaignRepository extends JpaRepository<CampaignR
 //    JOIN FETCH c.rules r
 //    ORDER BY c.id ASC, r.id ASC
 
+
     List<CampaignRecord> findByMetaInfo(@Param("key") String key, @Param("value") String value);
 
     @Query("""
@@ -27,4 +29,5 @@ public interface SpringDataJpaCampaignRepository extends JpaRepository<CampaignR
             AND c.isActive = true
             """)
     List<CampaignRecord> findByDate(@Param("date") Instant date);
+
 }

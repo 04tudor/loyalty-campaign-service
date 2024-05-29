@@ -10,6 +10,7 @@ import md.maib.retail.infrastructure.persistence.json_converters.EffectJsonConve
 import md.maib.retail.model.conditions.Condition;
 import md.maib.retail.model.conditions.Rule;
 import md.maib.retail.model.conditions.RuleId;
+
 import md.maib.retail.model.effects.Effect;
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
@@ -18,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 
 @Entity
 @Table(name = "rule", schema = "campaigns")
@@ -34,6 +36,7 @@ public class RuleRecord implements Persistable<UUID> {
     @Column(name = "campaign_id", nullable = false)
     private UUID campaignId;
 
+
     @Column(name = "conditions", nullable = false, columnDefinition = "jsonb")
     @Convert(converter = ConditionJsonConverter.class)
     @ColumnTransformer(write = "?::jsonb")
@@ -44,6 +47,7 @@ public class RuleRecord implements Persistable<UUID> {
     @ColumnTransformer(write = "?::jsonb")
     private List<EffectRecord> effects;
 
+
     @Transient
     private boolean isNew;
 
@@ -53,6 +57,7 @@ public class RuleRecord implements Persistable<UUID> {
         this.conditions = conditions;
         this.effects = effects;
     }
+
 
     @Override
     public boolean isNew() {
@@ -66,6 +71,7 @@ public class RuleRecord implements Persistable<UUID> {
 
         return new Rule(RuleId.valueOf(String.valueOf(ruleRecord.getId())), ruleRecord.getConditions(), effects);
     }
+
 }
 
 
