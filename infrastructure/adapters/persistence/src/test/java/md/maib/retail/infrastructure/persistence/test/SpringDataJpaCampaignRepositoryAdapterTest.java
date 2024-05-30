@@ -3,10 +3,7 @@ package md.maib.retail.infrastructure.persistence.test;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import jakarta.persistence.EntityManager;
-import md.maib.retail.infrastructure.persistence.CampaignRecord;
-import md.maib.retail.infrastructure.persistence.EffectRecord;
-import md.maib.retail.infrastructure.persistence.RuleRecord;
-import md.maib.retail.infrastructure.persistence.SpringDataJpaCampaignRepositoryAdapter;
+import md.maib.retail.infrastructure.persistence.*;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.FieldType;
@@ -29,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
     @Autowired
     SpringDataJpaCampaignRepositoryAdapter repository;
+    @Autowired
+    LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter;
 
     @Autowired
     EntityManager entityManager;
@@ -42,14 +41,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         Collection<Condition> conditions = new ArrayList<>();
         conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
 
-        List<EffectRecord> effectRecords = List.of(new EffectRecord(UUID.fromString("4e1a8086-90de-4796-95e8-121f24412656"), "5"));
+        List<EffectRecord> effectRecords = List.of(new EffectRecord(UUID.fromString("4e1a8086-90de-4796-95e8-121f24412656"), "5",loyaltyEffectTypesAdapter));
 
-        RuleRecord ruleRecord = new RuleRecord(
-                UUID.fromString("44947ade-923d-4ca6-9006-30442779df3f"),
-                UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
-                conditions,
-                effectRecords
-        );
+//        RuleRecord ruleRecord = new RuleRecord(
+//                UUID.fromString("44947ade-923d-4ca6-9006-30442779df3f"),
+//                UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
+//                conditions,
+//                effectRecords
+//        );
 
         CampaignRecord campaignRecord = new CampaignRecord(
                 UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),

@@ -3,8 +3,6 @@ package md.maib.retail.infrastructure.persistence;
 import lombok.extern.slf4j.Slf4j;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
-import md.maib.retail.model.conditions.Rule;
-import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.ports.Campaigns;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +16,9 @@ import java.util.Optional;
 public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
 
     private final SpringDataJpaCampaignRepository campaignRepository;
-    private final LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter;
 
-    public SpringDataJpaCampaignRepositoryAdapter(SpringDataJpaCampaignRepository campaignRepository, LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter) {
+    public SpringDataJpaCampaignRepositoryAdapter(SpringDataJpaCampaignRepository campaignRepository) {
         this.campaignRepository = campaignRepository;
-        this.loyaltyEffectTypesAdapter = loyaltyEffectTypesAdapter;
     }
 
     @Override
@@ -66,12 +62,6 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
         return false;
     }
 
-    public Effect toEffect(EffectRecord effectRecord) {
-        return EffectRecord.toEffect(effectRecord, loyaltyEffectTypesAdapter);
-    }
 
-    public Rule convertToRule(RuleRecord ruleRecord) {
-        return RuleRecord.convertToRule(ruleRecord, loyaltyEffectTypesAdapter);
-    }
 
 }
