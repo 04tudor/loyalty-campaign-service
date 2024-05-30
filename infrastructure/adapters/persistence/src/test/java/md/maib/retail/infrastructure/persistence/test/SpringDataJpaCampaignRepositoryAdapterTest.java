@@ -26,8 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
     @Autowired
     SpringDataJpaCampaignRepositoryAdapter repository;
-    @Autowired
-    LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter;
 
     @Autowired
     EntityManager entityManager;
@@ -35,13 +33,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     @ExpectedDataSet("datasets/campaign.yaml")
     @Test
     void insertion() {
-        Map<String, Object> metaInfo = new HashMap<>();
-        metaInfo.put("key", "value");
 
-        Collection<Condition> conditions = new ArrayList<>();
-        conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
+//
+//        Collection<Condition> conditions = new ArrayList<>();
+//        conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
 
-        List<EffectRecord> effectRecords = List.of(new EffectRecord(UUID.fromString("4e1a8086-90de-4796-95e8-121f24412656"), "5",loyaltyEffectTypesAdapter));
+//        List<EffectRecord> effectRecords = List.of(new EffectRecord(UUID.fromString("4e1a8086-90de-4796-95e8-121f24412656"), "5",loyaltyEffectTypesAdapter));
 
 //        RuleRecord ruleRecord = new RuleRecord(
 //                UUID.fromString("44947ade-923d-4ca6-9006-30442779df3f"),
@@ -49,7 +46,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 //                conditions,
 //                effectRecords
 //        );
-
+        Map<String, Object> metaInfo = new HashMap<>();
+        metaInfo.put("key", "value");
         CampaignRecord campaignRecord = new CampaignRecord(
                 UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
                 metaInfo,

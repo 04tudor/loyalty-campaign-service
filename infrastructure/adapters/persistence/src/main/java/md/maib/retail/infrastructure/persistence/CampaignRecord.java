@@ -49,7 +49,6 @@ public class CampaignRecord implements Persistable<UUID>{
         private UUID loyaltyEventType;
 
 
-        @OneToMany(mappedBy = "campaignId", cascade = CascadeType.ALL, orphanRemoval = true)
         @JoinColumn(name = "campaign_id")
         private Set<RuleRecord> rules = new HashSet<>();
 
