@@ -49,7 +49,7 @@ public class CampaignRecord implements Persistable<UUID>{
         private UUID loyaltyEventType;
 
 
-        @OneToMany
+        @OneToMany(mappedBy = "campaignId", cascade = CascadeType.ALL, orphanRemoval = true)
         @JoinColumn(name = "campaign_id")
         private Set<RuleRecord> rules = new HashSet<>();
 
@@ -67,15 +67,6 @@ public class CampaignRecord implements Persistable<UUID>{
                 isNew=true;
         }
 
-        public CampaignRecord(UUID id, Map<String, Object> metaInfo, Instant startInclusive, Instant endExclusive, boolean isActive, UUID loyaltyEventType, Set<RuleRecord> rules) {
-                this.id = id;
-                this.metaInfo = metaInfo;
-                this.startInclusive = startInclusive;
-                this.endExclusive = endExclusive;
-                this.isActive = isActive;
-                this.loyaltyEventType = loyaltyEventType;
-                this.rules = rules;
-        }
 
 
         @Override
@@ -110,23 +101,20 @@ public class CampaignRecord implements Persistable<UUID>{
                         Collections.emptyList()
                 );
         }
-//        public Campaign convertToCampaign(CampaignRecord campaignRecord) {
-//                Interval activityInterval = Interval.of(campaignRecord.getStartInclusive(), campaignRecord.getEndExclusive());
-//                CampaignState state = campaignRecord.isActive() ? CampaignState.ACTIVE : CampaignState.DRAFT;
-//
-//                List<Rule> rules = campaignRecord.getRules().stream()
-//                        .map(RuleRecord::convertToRule)
-//                        .toList();
-//
-//                return new Campaign(
-//                        CampaignId.valueOf(campaignRecord.getId()),
-//                        CampaignMetaInfo.valueOf(campaignRecord.getMetaInfo()),
-//                        activityInterval,
-//                        state,
-//                        new LoyaltyEventType(campaignRecord.getLoyaltyEventType().toString()),
-//                        rules
-//                );
-//        }
+
+        public Campaign toCampaign(boolean withDetails) {
+                Interval activityInterval = Interval.of(startInclusive, endExclusive);
+                var state = isActive ? CampaignState.ACTIVE : CampaignState.DRAFT;
+                var rr = withDetails ? rules.stream().map(RuleRecord::convertToRule).toList() : Collections.<Rule>emptyList();
+                return new Campaign(
+                        CampaignId.valueOf(id),
+                        CampaignMetaInfo.valueOf(metaInfo),
+                        activityInterval,
+                        state,
+                        new LoyaltyEventType(loyaltyEventType.toString()),
+                        rr
+                );
+        }
 
     }
 

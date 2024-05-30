@@ -33,8 +33,9 @@ public class RuleRecord implements Persistable<UUID> {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "campaign_id", nullable = false)
-    private UUID campaignId;
+    @ManyToOne
+    @JoinColumn(name = "campaign_id", nullable = false)
+    private CampaignRecord campaignId;
 
 
     @Column(name = "conditions", nullable = false, columnDefinition = "jsonb")
@@ -51,27 +52,34 @@ public class RuleRecord implements Persistable<UUID> {
     @Transient
     private boolean isNew;
 
-    public RuleRecord(UUID id, UUID campaignId, Collection<Condition> conditions, List<EffectRecord> effects) {
-        this.id = id;
-        this.campaignId = campaignId;
-        this.conditions = conditions;
-        this.effects = effects;
-    }
-
-
     @Override
     public boolean isNew() {
         return isNew;
     }
 
-    public static Rule convertToRule(RuleRecord ruleRecord, LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter) {
-        List<Effect> effects = ruleRecord.getEffects().stream()
-                .map(effectRecord -> EffectRecord.toEffect(effectRecord, loyaltyEffectTypesAdapter))
+    public RuleRecord(Rule rule ,CampaignRecord campaignId) {
+        this.id = rule.getId().getId();
+        this.campaignId= campaignId;
+        this.conditions=rule.getConditions();
+        this.effects = rule.getEffects().stream()
+                .map(EffectRecord::fromEffect)
                 .collect(Collectors.toList());
-
-        return new Rule(RuleId.valueOf(String.valueOf(ruleRecord.getId())), ruleRecord.getConditions(), effects);
+        isNew=true;
     }
 
+    public static Rule convertToRule(RuleRecord ruleRecord) {
+        List<Effect> effects = EffectRecord.toEffects(ruleRecord.getEffects());
+        return new Rule(new RuleId(ruleRecord.getId()), ruleRecord.getConditions(), effects);
+    }
+
+    public static RuleRecord valueOf(Rule rule, CampaignRecord campaign) {
+        var ruleRecord = new RuleRecord(rule, campaign);
+        ruleRecord.effects = rule.getEffects().stream()
+                .map(EffectRecord::fromEffect)
+                .collect(Collectors.toList());
+        ruleRecord.conditions = rule.getConditions();
+        return ruleRecord;
+    }
 }
 
 
