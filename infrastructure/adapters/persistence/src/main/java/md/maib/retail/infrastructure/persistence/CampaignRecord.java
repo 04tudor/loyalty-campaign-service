@@ -49,6 +49,7 @@ public class CampaignRecord implements Persistable<UUID>{
         private UUID loyaltyEventType;
 
 
+        @OneToMany
         @JoinColumn(name = "campaign_id")
         private Set<RuleRecord> rules = new HashSet<>();
 
@@ -87,18 +88,7 @@ public class CampaignRecord implements Persistable<UUID>{
         }
 
         public Campaign toCampaign() {
-                Interval activityInterval = Interval.of(startInclusive, endExclusive);
-
-
-                var state = isActive ? CampaignState.ACTIVE : CampaignState.DRAFT;
-                return new Campaign(
-                        CampaignId.valueOf(id),
-                        CampaignMetaInfo.valueOf(metaInfo),
-                        activityInterval,
-                        state,
-                        new LoyaltyEventType(loyaltyEventType.toString()),
-                        Collections.emptyList()
-                );
+                return toCampaign(true);
         }
 
         public Campaign toCampaign(boolean withDetails) {

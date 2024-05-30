@@ -10,7 +10,6 @@ import md.maib.retail.infrastructure.persistence.json_converters.EffectJsonConve
 import md.maib.retail.model.conditions.Condition;
 import md.maib.retail.model.conditions.Rule;
 import md.maib.retail.model.conditions.RuleId;
-
 import md.maib.retail.model.effects.Effect;
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.Persistable;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -33,7 +31,7 @@ public class RuleRecord implements Persistable<UUID> {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(targetEntity=CampaignRecord.class, fetch=FetchType.LAZY)
     @JoinColumn(name = "campaign_id", nullable = false)
     private CampaignRecord campaignId;
 
@@ -80,5 +78,3 @@ public class RuleRecord implements Persistable<UUID> {
         return ruleRecord;
     }
 }
-
-
