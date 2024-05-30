@@ -37,7 +37,6 @@ public class RuleRecord implements Persistable<UUID> {
     @JoinColumn(name = "campaign_id", nullable = false)
     private CampaignRecord campaignId;
 
-
     @Column(name = "conditions", nullable = false, columnDefinition = "jsonb")
     @Convert(converter = ConditionJsonConverter.class)
     @ColumnTransformer(write = "?::jsonb")
@@ -63,7 +62,7 @@ public class RuleRecord implements Persistable<UUID> {
         this.conditions=rule.getConditions();
         this.effects = rule.getEffects().stream()
                 .map(EffectRecord::fromEffect)
-                .collect(Collectors.toList());
+                .toList();
         isNew=true;
     }
 
@@ -76,7 +75,7 @@ public class RuleRecord implements Persistable<UUID> {
         var ruleRecord = new RuleRecord(rule, campaign);
         ruleRecord.effects = rule.getEffects().stream()
                 .map(EffectRecord::fromEffect)
-                .collect(Collectors.toList());
+                .toList();
         ruleRecord.conditions = rule.getConditions();
         return ruleRecord;
     }
