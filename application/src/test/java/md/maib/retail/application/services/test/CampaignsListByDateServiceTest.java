@@ -13,7 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,7 @@ import static org.mockito.Mockito.when;
 
     @Test
     void activeCampaignsByDate_ListOfCampaign() {
-        LocalDate date = LocalDate.of(2024, 4, 25);
+        Instant date = LocalDate.of(2024, 4, 25).atStartOfDay(ZoneId.systemDefault()).toInstant();
 
         CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());
         Campaign campaign = new Campaign(
@@ -62,7 +64,7 @@ import static org.mockito.Mockito.when;
 
     @Test
     void activeCampaignsByDate_NoCampaigns_ReturnsEmptyList() {
-        LocalDate date = LocalDate.of(2024, 4, 25);
+        Instant date = LocalDate.of(2024, 4, 25).atStartOfDay(ZoneId.systemDefault()).toInstant();
         when(campaigns.listByDate(date)).thenReturn(new ArrayList<>());
 
         List<CampaignSomeInfo> result = target.activeCampaignsByDate(date);

@@ -24,7 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -108,7 +108,7 @@ public final class CampaignController {
 
 
     @GetMapping(path = "/date/{date}", produces = APPLICATION_JSON_VALUE)
-    public List<CampaignSomeInfo> listByDate(@PathVariable LocalDate date) {
+    public List<CampaignSomeInfo> listByDate(@PathVariable Instant date) {
         return campaignsListByDateUseCase.activeCampaignsByDate(date);
     }
 

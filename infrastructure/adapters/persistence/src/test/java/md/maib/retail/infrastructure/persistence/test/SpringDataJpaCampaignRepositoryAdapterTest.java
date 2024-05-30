@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -105,8 +106,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     @DataSet("/datasets/campaigns.yaml")
      void testFindByLocalDate() {
 
+        Instant instant = LocalDate.of(2024, 6, 8).atStartOfDay(ZoneId.systemDefault()).toInstant();
 
-        List<Campaign> campaigns = repository.listByDate(LocalDate.of(2024,6,8));
+        List<Campaign> campaigns = repository.listByDate(instant);
 
         assertThat(campaigns).isNotEmpty();
         assertThat(campaigns.size()).isEqualTo(1);

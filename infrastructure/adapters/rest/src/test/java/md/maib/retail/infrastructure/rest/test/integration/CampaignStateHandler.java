@@ -26,7 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.threeten.extra.Interval;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 import static java.time.Instant.parse;
@@ -114,21 +116,21 @@ public class CampaignStateHandler implements StateHandler{
         properties.put("key", "value");
         CampaignMetaInfo metaInfo = new CampaignMetaInfo(properties);
 
-        var id = UUID.fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
-        Interval interval = Interval.of(parse("2018-11-30T18:35:24Z"), parse("2023-12-31T18:35:24Z"));
+        UUID id = UUID.fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
+        Interval interval = Interval.of(Instant.parse("2018-11-30T18:35:24Z"), Instant.parse("2023-12-31T18:35:24Z"));
         CampaignState state = CampaignState.ACTIVE;
 
-        LoyaltyEventField loyaltyEventField = new LoyaltyEventField(fromString("6fb2fcfd-b836-4102-8c29-f0c38c97965e"), "TestField", FieldType.STRING);
-        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(fromString("41862fa9-2054-435d-8068-c9b31725de9f"), "TestEvent", List.of(loyaltyEventField));
-
-
+        LoyaltyEventField loyaltyEventField = new LoyaltyEventField(UUID.fromString("6fb2fcfd-b836-4102-8c29-f0c38c97965e"), "TestField", FieldType.STRING);
+        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(UUID.fromString("41862fa9-2054-435d-8068-c9b31725de9f"), "TestEvent", List.of(loyaltyEventField));
 
         CampaignSomeInfo campaignSomeInfo = new CampaignSomeInfo(id.toString(), metaInfo, interval, state, loyaltyEventType);
-        LocalDate dateBetweenInterval = LocalDate.of(2022, 7, 15);
+        Instant dateBetweenInterval = Instant.parse("2022-07-15T00:00:00Z");
 
         when(campaignsListByDateUseCase.activeCampaignsByDate(dateBetweenInterval))
                 .thenReturn(List.of(campaignSomeInfo));
     }
+
+
     @State("find campaign by metaInfo")
     void findCampaignByMetaInfo() {
         Map<String, Object> properties = new HashMap<>();

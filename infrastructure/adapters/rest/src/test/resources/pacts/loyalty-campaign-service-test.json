@@ -177,7 +177,7 @@
       ],
       "request": {
         "method": "GET",
-        "path": "/campaigns/date/2022-07-15"
+        "path": "/campaigns/date/2022-07-15T00:00:00Z"
       },
       "response": {
         "status": 200,
