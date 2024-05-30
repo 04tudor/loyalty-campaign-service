@@ -20,8 +20,8 @@ public class RuleId {
     public static RuleId newIdentity() {
         return new RuleId(randomUUID());
     }
-    public static RuleId valueOf(UUID id) {
-        return new RuleId(id);
+    public static RuleId valueOf(String id) {
+        return new RuleId(UUID.fromString(id));
     }
 
     public UUID getId() {
