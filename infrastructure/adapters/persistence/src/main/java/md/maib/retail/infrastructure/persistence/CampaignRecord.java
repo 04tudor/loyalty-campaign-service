@@ -16,6 +16,7 @@ import org.threeten.extra.Interval;
 import java.time.Instant;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "campaign", schema = "campaigns")
@@ -49,8 +50,7 @@ public class CampaignRecord implements Persistable<UUID>{
         private UUID loyaltyEventType;
 
 
-        @OneToMany
-        @JoinColumn(name = "campaign_id")
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignId")
         private Set<RuleRecord> rules = new HashSet<>();
 
         @Transient
@@ -87,14 +87,10 @@ public class CampaignRecord implements Persistable<UUID>{
                 );
         }
 
-        public Campaign toCampaign() {
-                return toCampaign(false);
-        }
-
         public Campaign toCampaign(boolean withDetails) {
                 Interval activityInterval = Interval.of(startInclusive, endExclusive);
                 var state = isActive ? CampaignState.ACTIVE : CampaignState.DRAFT;
-                var rr = withDetails ? rules.stream().map(RuleRecord::convertToRule).toList() : Collections.<Rule>emptyList();
+                var rr = withDetails ? rules.stream().map(RuleRecord::convertToRule).collect(Collectors.toSet()) : Collections.<Rule>emptyList();
                 return new Campaign(
                         CampaignId.valueOf(id),
                         CampaignMetaInfo.valueOf(metaInfo),

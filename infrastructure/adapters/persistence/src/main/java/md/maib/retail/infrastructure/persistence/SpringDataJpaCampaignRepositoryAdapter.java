@@ -7,7 +7,6 @@ import md.maib.retail.model.ports.Campaigns;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -23,22 +22,24 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
 
     @Override
     public List<Campaign> listByDate(Instant date) {
-
         List<CampaignRecord> entities = campaignRepository.findByDate(date);
-        return entities.stream().map(CampaignRecord::toCampaign).toList();
+        return entities.stream()
+                .map(entity -> entity.toCampaign(true))
+                .toList();
     }
-
     @Override
     public Optional<Campaign> findById(CampaignId campaignId) {
         return campaignRepository.findById(campaignId.toUUID())
-                .map(CampaignRecord::toCampaign);
+                .map(entity -> entity.toCampaign(true));
     }
+
 
     @Override
     public List<Campaign> findByMetaInfo(String key, String value) {
         List<CampaignRecord> entities = campaignRepository.findByMetaInfo(key, value);
-        return entities.stream().map(CampaignRecord::toCampaign).toList();
-    }
+        return entities.stream()
+                .map(entity -> entity.toCampaign(false))
+                .toList();    }
 
     @Override
     public boolean add(Campaign campaign) {

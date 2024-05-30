@@ -3,10 +3,15 @@ package md.maib.retail.infrastructure.persistence.test;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import jakarta.persistence.EntityManager;
-import md.maib.retail.infrastructure.persistence.CampaignRecord;
-import md.maib.retail.infrastructure.persistence.SpringDataJpaCampaignRepositoryAdapter;
+import md.maib.retail.infrastructure.persistence.*;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
+import md.maib.retail.model.campaign.FieldType;
+import md.maib.retail.model.conditions.Condition;
+import md.maib.retail.model.conditions.Operator;
+import md.maib.retail.model.conditions.Rule;
+import md.maib.retail.model.conditions.RuleId;
+import md.maib.retail.model.effects.Effect;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +29,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
     @Autowired
     SpringDataJpaCampaignRepositoryAdapter repository;
-
+    @Autowired
+    LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter;
     @Autowired
     EntityManager entityManager;
 
-    @ExpectedDataSet("datasets/campaign.yaml")
+    @ExpectedDataSet("datasets/campaigns.yaml")
     @Test
     void insertion() {
-
-//
-//        Collection<Condition> conditions = new ArrayList<>();
-//        conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
-
-//        List<EffectRecord> effectRecords = List.of(new EffectRecord(UUID.fromString("4e1a8086-90de-4796-95e8-121f24412656"), "5",loyaltyEffectTypesAdapter));
-
-//        RuleRecord ruleRecord = new RuleRecord(
-//                UUID.fromString("44947ade-923d-4ca6-9006-30442779df3f"),
-//                UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
-//                conditions,
-//                effectRecords
-//        );
         Map<String, Object> metaInfo = new HashMap<>();
         metaInfo.put("key", "value");
+
+        Collection<Condition> conditions = new ArrayList<>();
+        conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
+        List<Effect> effects = new ArrayList<>();
+        EffectRecord effectRecord=new EffectRecord(loyaltyEffectTypesAdapter.findById("4e1a8086-90de-4796-95e8-121f24412656").get().id(), "5",loyaltyEffectTypesAdapter);
+        effects.add(effectRecord.toEffect());
+        Rule rule = new Rule(new RuleId(UUID.randomUUID()), conditions, effects);
+
+
         CampaignRecord campaignRecord = new CampaignRecord(
                 UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
                 metaInfo,
@@ -54,12 +56,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 true,
                 UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
         );
+        RuleRecord ruleRecord = new RuleRecord(rule, campaignRecord);
 
+        campaignRecord.getRules().add(ruleRecord);
 
-
-        repository.add(campaignRecord.toCampaign());
-
+        repository.add(campaignRecord.toCampaign(true));
     }
+
 
     @DataSet("/datasets/campaigns.yaml")
     @Test
