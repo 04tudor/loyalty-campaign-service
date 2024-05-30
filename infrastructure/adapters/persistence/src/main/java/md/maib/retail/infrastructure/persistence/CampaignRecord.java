@@ -88,7 +88,7 @@ public class CampaignRecord implements Persistable<UUID>{
         }
 
         public Campaign toCampaign() {
-                return toCampaign(true);
+                return toCampaign(false);
         }
 
         public Campaign toCampaign(boolean withDetails) {
