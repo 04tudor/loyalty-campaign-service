@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
-public class CampaignRecord implements Persistable<UUID>{
+public class CampaignRecord implements Persistable<UUID> {
 
         @Id
         @EqualsAndHashCode.Include
@@ -54,10 +54,6 @@ public class CampaignRecord implements Persistable<UUID>{
         @Transient
         private boolean isNew;
 
-        public void setNew(boolean isNew) {
-                this.isNew = isNew;
-        }
-
         public CampaignRecord(UUID id, Map<String, Object> metaInfo, Instant startInusive, Instant endExclusive, boolean isActive, UUID loyaltyEventTypeid) {
 
                 this.id = id;
@@ -66,21 +62,8 @@ public class CampaignRecord implements Persistable<UUID>{
                 this.endExclusive = endExclusive;
                 this.isActive = isActive;
                 this.loyaltyEventType = loyaltyEventTypeid;
-                isNew=true;
+                isNew = true;
         }
-
-
-
-        @Override
-        public boolean isNew() {
-            return isNew;
-        }
-
-        public void addRule(RuleRecord r) {
-                rules.add(r);
-                r.setCampaignId(this);
-        }
-
 
         public static CampaignRecord valueOf(Campaign campaign) {
 
@@ -98,6 +81,21 @@ public class CampaignRecord implements Persistable<UUID>{
 
                 return campaignRecord;
         }
+
+        @Override
+        public boolean isNew() {
+                return isNew;
+        }
+
+        public void setNew(boolean isNew) {
+                this.isNew = isNew;
+        }
+
+        public void addRule(RuleRecord r) {
+                rules.add(r);
+                r.setCampaignId(this);
+        }
+
         public Campaign toCampaign(boolean withDetails) {
                 Interval activityInterval = Interval.of(startInclusive, endExclusive);
                 CampaignState state = isActive ? CampaignState.ACTIVE : CampaignState.DRAFT;

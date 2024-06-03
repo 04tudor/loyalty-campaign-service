@@ -1,8 +1,0 @@
-campaigns.campaign:
-  - campaign_id: 1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f
-    metainfo: '{"key": "value"}'
-    interval_start: 2024-06-01T00:00:00Z
-    interval_end: 2024-06-30T23:59:59Z
-    is_active: true
-    loyalty_event_type_id: 123e4567-e89b-12d3-a456-426614174000
-

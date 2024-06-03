@@ -2,7 +2,6 @@ package md.maib.retail.infrastructure.persistence.test;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import jakarta.persistence.EntityManager;
 import md.maib.retail.infrastructure.persistence.*;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
@@ -15,7 +14,6 @@ import md.maib.retail.model.effects.Effect;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -26,17 +24,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @PersistenceTest
- class SpringDataJpaCampaignRepositoryAdapterTest {
+class SpringDataJpaCampaignRepositoryAdapterTest {
 
     @Autowired
     SpringDataJpaCampaignRepositoryAdapter repository;
     @Autowired
     LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter;
-    @Autowired
-    EntityManager entityManager;
+
 
     @ExpectedDataSet("datasets/campaigns.yaml")
-    @Rollback(false)
     @Test
     void insertion() {
         Map<String, Object> metaInfo = new HashMap<>();
@@ -64,7 +60,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         RuleRecord ruleRecord = new RuleRecord(rule, campaignRecord);
         campaignRecord.addRule(ruleRecord);
 
-        repository.add(campaignRecord.toCampaign(true));
+        var inserted = repository.add(campaignRecord.toCampaign(true));
+        assertThat(inserted).isTrue();
     }
 
 
@@ -94,26 +91,27 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
     @Test
     @DataSet("/datasets/campaigns.yaml")
-     void testFindByMetaInfo() {
+    void testFindByMetaInfo() {
         String key = "key";
         String value = "value";
 
         List<Campaign> campaigns = repository.findByMetaInfo(key, value);
 
         assertThat(campaigns).isNotEmpty();
-        assertThat(campaigns.size()).isEqualTo(1);
+        assertThat(campaigns.size()).isOne();
 
     }
+
     @Test
     @DataSet("/datasets/campaigns.yaml")
-     void testFindByLocalDate() {
+    void testFindByLocalDate() {
 
         Instant instant = LocalDate.of(2024, 6, 8).atStartOfDay(ZoneId.systemDefault()).toInstant();
 
         List<Campaign> campaigns = repository.listByDate(instant);
 
         assertThat(campaigns).isNotEmpty();
-        assertThat(campaigns.size()).isEqualTo(1);
+        assertThat(campaigns.size()).isOne();
 
     }
 }

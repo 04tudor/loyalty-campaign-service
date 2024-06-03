@@ -6,9 +6,7 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import md.maib.retail.model.conditions.Condition;
 
-
 import java.io.IOException;
-
 import java.util.Collection;
 import java.util.List;
 
