@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: loyalty-campaign-service
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            dismiss404: true
+          currency-rates:
+            base-url: ${CURRENCY_RATES_SERVICE_BASE_URL}
+            connect-timeout: ${CURRENCY_RATES_CONNECTION_TIMEOUT:}
+            read-timeout: ${CURRENCY_RATES_READ_TIMEOUT:}
+            logger-level: ${CURRENCY_RATES_LOGGER_LEVEL:}
+      httpclient:
+        hc5:
+          enabled: true
+        max-connections: ${HTTP_CLIENT_MAX_CONNECTIONS:50}
+        max-connections-per-route: ${HTTP_CLIENT_MAX_CONNECTIONS_PER_ROUTE:10}
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+    username: ${POSTGRESQL_APPLICATION_USERNAME}
+    password: ${POSTGRESQL_APPLICATION_PASSWORD}
+    hikari:
+      minimumIdle: 1
+      maximumPoolSize: 4
+      idleTimeout: 300000
