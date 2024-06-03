@@ -45,7 +45,6 @@ public class RuleRecord implements Persistable<UUID> {
     @ColumnTransformer(write = "?::jsonb")
     private List<EffectRecord> effects;
 
-
     @Transient
     private boolean isNew;
 
@@ -54,6 +53,13 @@ public class RuleRecord implements Persistable<UUID> {
         return isNew;
     }
 
+    public void setCampaignId(CampaignRecord campaignId) {
+        this.campaignId = campaignId;
+    }
+
+    public void setNew(boolean isNew) {
+        this.isNew = isNew;
+    }
     public RuleRecord(Rule rule ,CampaignRecord campaignId) {
         this.id = rule.getId().getId();
         this.campaignId= campaignId;
@@ -64,17 +70,13 @@ public class RuleRecord implements Persistable<UUID> {
         isNew=true;
     }
 
-    public static Rule convertToRule(RuleRecord ruleRecord, LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter) {
-        List<Effect> effects = EffectRecord.toEffects(ruleRecord.getEffects(), loyaltyEffectTypesAdapter);
+    public static Rule convertToRule(RuleRecord ruleRecord) {
+        List<Effect> effects = EffectRecord.toEffects(ruleRecord.getEffects());
         return new Rule(new RuleId(ruleRecord.getId()), ruleRecord.getConditions(), effects);
     }
 
     public static RuleRecord valueOf(Rule rule, CampaignRecord campaign) {
-        var ruleRecord = new RuleRecord(rule, campaign);
-        ruleRecord.effects = rule.getEffects().stream()
-                .map(EffectRecord::fromEffect)
-                .toList();
-        ruleRecord.conditions = rule.getConditions();
+        RuleRecord ruleRecord = new RuleRecord(rule, campaign);
         return ruleRecord;
     }
 }

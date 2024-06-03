@@ -15,6 +15,7 @@ import md.maib.retail.model.effects.Effect;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -35,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     EntityManager entityManager;
 
     @ExpectedDataSet("datasets/campaigns.yaml")
+    @Rollback(false)
     @Test
     void insertion() {
         Map<String, Object> metaInfo = new HashMap<>();
@@ -42,12 +44,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
         Collection<Condition> conditions = new ArrayList<>();
         conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
+
         List<Effect> effects = new ArrayList<>();
-        EffectRecord effectRecord=new EffectRecord(loyaltyEffectTypesAdapter.findById("4e1a8086-90de-4796-95e8-121f24412656").get().id(), "5",loyaltyEffectTypesAdapter);
-        effects.add(effectRecord.toEffect(loyaltyEffectTypesAdapter));
-        Rule rule = new Rule(new RuleId(UUID.randomUUID()), conditions, effects);
+        EffectRecord effectRecord = new EffectRecord(
+                loyaltyEffectTypesAdapter.findById("4e1a8086-90de-4796-95e8-121f24412656").get().id(), "5"
+        );
+        effects.add(effectRecord.toEffect());
 
-
+        Rule rule = new Rule(new RuleId(UUID.fromString("44947ade-923d-4ca6-9006-30442779df3f")), conditions, effects);
         CampaignRecord campaignRecord = new CampaignRecord(
                 UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"),
                 metaInfo,
@@ -56,9 +60,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 true,
                 UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
         );
-        RuleRecord ruleRecord = new RuleRecord(rule, campaignRecord);
 
-        campaignRecord.getRules().add(ruleRecord);
+        RuleRecord ruleRecord = new RuleRecord(rule, campaignRecord);
+        campaignRecord.addRule(ruleRecord);
 
         repository.add(campaignRecord.toCampaign(true));
     }
