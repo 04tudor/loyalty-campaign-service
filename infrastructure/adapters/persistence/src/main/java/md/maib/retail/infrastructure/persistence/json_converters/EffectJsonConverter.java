@@ -5,7 +5,6 @@
     import jakarta.persistence.AttributeConverter;
     import jakarta.persistence.Converter;
     import md.maib.retail.infrastructure.persistence.EffectRecord;
-    import md.maib.retail.model.effects.Effect;
 
     import java.io.IOException;
     import java.util.Collection;
@@ -28,7 +27,7 @@
         @Override
         public Collection<EffectRecord> convertToEntityAttribute(String json) {
             try {
-                return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Effect.class));
+                return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, EffectRecord.class));
             } catch (IOException e) {
                 throw new IllegalArgumentException("Error converting JSON to effects", e);
             }

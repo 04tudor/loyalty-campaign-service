@@ -9,5 +9,5 @@ campaigns.campaign:
 campaigns.rule:
   - id: 44947ade-923d-4ca6-9006-30442779df3f
     campaign_id: 1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f
-    conditions: '{"field": "DECIMAL", "operator": "GREATER", "value": 10}'
-    effects: '{"loyaltyEventTypeId": "4e1a8086-90de-4796-95e8-121f24412656", "value": 5}'
+    conditions: '[{"field": "DECIMAL", "operator": "GREATER", "value": "10"}]'
+    effects: '[{"loyaltyEventTypeId": "4e1a8086-90de-4796-95e8-121f24412656", "value": "5"}]'

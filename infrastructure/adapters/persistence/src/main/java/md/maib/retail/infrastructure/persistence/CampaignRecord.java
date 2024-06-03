@@ -8,13 +8,11 @@ import lombok.NoArgsConstructor;
 import md.maib.retail.infrastructure.persistence.json_converters.MetaInfoJsonConverter;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.conditions.Rule;
-
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
 import org.threeten.extra.Interval;
 
 import java.time.Instant;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,11 +48,15 @@ public class CampaignRecord implements Persistable<UUID>{
         private UUID loyaltyEventType;
 
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignId")
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignId", cascade = CascadeType.PERSIST)
         private Set<RuleRecord> rules = new HashSet<>();
 
         @Transient
         private boolean isNew;
+
+        public void setNew(boolean isNew) {
+                this.isNew = isNew;
+        }
 
         public CampaignRecord(UUID id, Map<String, Object> metaInfo, Instant startInusive, Instant endExclusive, boolean isActive, UUID loyaltyEventTypeid) {
 
@@ -74,32 +76,45 @@ public class CampaignRecord implements Persistable<UUID>{
             return isNew;
         }
 
-        static CampaignRecord valueOf(Campaign campaign) {
-                var isActive = campaign.getState().equals(CampaignState.ACTIVE);
-                return new CampaignRecord(
+        public void addRule(RuleRecord r) {
+                rules.add(r);
+                r.setCampaignId(this);
+        }
+
+
+        public static CampaignRecord valueOf(Campaign campaign) {
+
+                boolean isActive = campaign.getState() == CampaignState.ACTIVE;
+                CampaignRecord campaignRecord = new CampaignRecord(
                         campaign.getId().toUUID(),
                         campaign.getMetaInfo().properties(),
                         campaign.getActivityInterval().getStart(),
                         campaign.getActivityInterval().getEnd(),
                         isActive,
                         campaign.getLoyaltyEventType().getId()
-
                 );
-        }
 
+                campaign.getRules().forEach(rule -> campaignRecord.addRule(new RuleRecord(rule, campaignRecord)));
+
+                return campaignRecord;
+        }
         public Campaign toCampaign(boolean withDetails) {
                 Interval activityInterval = Interval.of(startInclusive, endExclusive);
-                var state = isActive ? CampaignState.ACTIVE : CampaignState.DRAFT;
-                var rr = withDetails ? rules.stream().map(RuleRecord::convertToRule).collect(Collectors.toSet()) : Collections.<Rule>emptyList();
+                CampaignState state = isActive ? CampaignState.ACTIVE : CampaignState.DRAFT;
+                Set<Rule> campaignRules = withDetails
+                        ? rules.stream().map(RuleRecord::convertToRule).collect(Collectors.toSet())
+                        : Collections.emptySet();
                 return new Campaign(
                         CampaignId.valueOf(id),
                         CampaignMetaInfo.valueOf(metaInfo),
                         activityInterval,
                         state,
                         new LoyaltyEventType(loyaltyEventType.toString()),
-                        rr
+                        campaignRules
                 );
         }
 
-    }
+}
+
+
 

@@ -44,7 +44,8 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
     @Override
     public boolean add(Campaign campaign) {
         var entity = CampaignRecord.valueOf(campaign);
-
+        // entity.getRules().forEach(rule -> rule.setNew(false));
+        // entity.setNew(false);
         try {
             campaignRepository.saveAndFlush(entity);
         } catch (Exception e ) {
