@@ -16,13 +16,6 @@ public class EffectRecord {
     private UUID loyaltyEventTypeId;
     private String value;
 
-    public Effect toEffect() {
-        LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter = LoyaltyEffectTypesAdapterSingleton.getInstance();
-        LoyaltyEffectType loyaltyEffectType = loyaltyEffectTypesAdapter.findById(String.valueOf(loyaltyEventTypeId))
-                .orElseThrow(() -> new IllegalArgumentException("LoyaltyEffectType not found"));
-        return new Effect(loyaltyEffectType, value);
-    }
-
     public static EffectRecord fromEffect(Effect effect) {
         return new EffectRecord(effect.effectType().id(), effect.value());
     }
@@ -31,5 +24,12 @@ public class EffectRecord {
         return effectRecords.stream()
                 .map(EffectRecord::toEffect)
                 .toList();
+    }
+
+    public Effect toEffect() {
+        LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter = LoyaltyEffectTypesAdapterSingleton.getInstance();
+        LoyaltyEffectType loyaltyEffectType = loyaltyEffectTypesAdapter.findById(String.valueOf(loyaltyEventTypeId))
+                .orElseThrow(() -> new IllegalArgumentException("LoyaltyEffectType not found"));
+        return new Effect(loyaltyEffectType, value);
     }
 }

@@ -31,7 +31,7 @@ public class RuleRecord implements Persistable<UUID> {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @ManyToOne(targetEntity=CampaignRecord.class, fetch=FetchType.LAZY)
+    @ManyToOne(targetEntity = CampaignRecord.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "campaign_id", nullable = false)
     private CampaignRecord campaignId;
 
@@ -48,26 +48,14 @@ public class RuleRecord implements Persistable<UUID> {
     @Transient
     private boolean isNew;
 
-    @Override
-    public boolean isNew() {
-        return isNew;
-    }
-
-    public void setCampaignId(CampaignRecord campaignId) {
-        this.campaignId = campaignId;
-    }
-
-    public void setNew(boolean isNew) {
-        this.isNew = isNew;
-    }
-    public RuleRecord(Rule rule ,CampaignRecord campaignId) {
+    public RuleRecord(Rule rule, CampaignRecord campaignId) {
         this.id = rule.getId().getId();
-        this.campaignId= campaignId;
-        this.conditions=rule.getConditions();
+        this.campaignId = campaignId;
+        this.conditions = rule.getConditions();
         this.effects = rule.getEffects().stream()
                 .map(EffectRecord::fromEffect)
                 .toList();
-        isNew=true;
+        isNew = true;
     }
 
     public static Rule convertToRule(RuleRecord ruleRecord) {
@@ -75,8 +63,16 @@ public class RuleRecord implements Persistable<UUID> {
         return new Rule(new RuleId(ruleRecord.getId()), ruleRecord.getConditions(), effects);
     }
 
-    public static RuleRecord valueOf(Rule rule, CampaignRecord campaign) {
-        RuleRecord ruleRecord = new RuleRecord(rule, campaign);
-        return ruleRecord;
+    @Override
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean isNew) {
+        this.isNew = isNew;
+    }
+
+    public void setCampaignId(CampaignRecord campaignId) {
+        this.campaignId = campaignId;
     }
 }

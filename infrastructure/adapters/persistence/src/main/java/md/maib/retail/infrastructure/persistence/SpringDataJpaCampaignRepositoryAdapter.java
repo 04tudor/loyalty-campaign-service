@@ -27,6 +27,7 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
                 .map(entity -> entity.toCampaign(true))
                 .toList();
     }
+
     @Override
     public Optional<Campaign> findById(CampaignId campaignId) {
         return campaignRepository.findById(campaignId.toUUID())
@@ -39,16 +40,15 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
         List<CampaignRecord> entities = campaignRepository.findByMetaInfo(key, value);
         return entities.stream()
                 .map(entity -> entity.toCampaign(false))
-                .toList();    }
+                .toList();
+    }
 
     @Override
     public boolean add(Campaign campaign) {
         var entity = CampaignRecord.valueOf(campaign);
-        // entity.getRules().forEach(rule -> rule.setNew(false));
-        // entity.setNew(false);
         try {
             campaignRepository.saveAndFlush(entity);
-        } catch (Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -63,7 +63,6 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
         }
         return false;
     }
-
 
 
 }
