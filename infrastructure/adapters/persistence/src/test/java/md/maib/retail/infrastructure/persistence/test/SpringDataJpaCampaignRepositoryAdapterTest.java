@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         conditions.add(new Condition(FieldType.DECIMAL, Operator.GREATER, "10"));
         List<Effect> effects = new ArrayList<>();
         EffectRecord effectRecord=new EffectRecord(loyaltyEffectTypesAdapter.findById("4e1a8086-90de-4796-95e8-121f24412656").get().id(), "5",loyaltyEffectTypesAdapter);
-        effects.add(effectRecord.toEffect());
+        effects.add(effectRecord.toEffect(loyaltyEffectTypesAdapter));
         Rule rule = new Rule(new RuleId(UUID.randomUUID()), conditions, effects);
 
 

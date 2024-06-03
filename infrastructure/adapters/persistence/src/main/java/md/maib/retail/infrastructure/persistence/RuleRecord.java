@@ -64,8 +64,8 @@ public class RuleRecord implements Persistable<UUID> {
         isNew=true;
     }
 
-    public static Rule convertToRule(RuleRecord ruleRecord) {
-        List<Effect> effects = EffectRecord.toEffects(ruleRecord.getEffects());
+    public static Rule convertToRule(RuleRecord ruleRecord, LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter) {
+        List<Effect> effects = EffectRecord.toEffects(ruleRecord.getEffects(), loyaltyEffectTypesAdapter);
         return new Rule(new RuleId(ruleRecord.getId()), ruleRecord.getConditions(), effects);
     }
 
