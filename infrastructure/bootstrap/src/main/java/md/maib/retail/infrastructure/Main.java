@@ -1,4 +1,4 @@
-package md.maib.retail.loyalty.campaign;
+package md.maib.retail.infrastructure;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -51,6 +51,19 @@
         </dependency>
 
         <dependency>
+            <groupId>com.playtika.testcontainers</groupId>
+            <artifactId>embedded-postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-invoker</artifactId>
+            <version>3.3.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
@@ -81,7 +94,7 @@
                     <image>eclipse-temurin:21.0.3_9-jre</image>
                 </from>
                 <to>
-                    <image>retail-loyalty-campaign-service</image>
+                    <image>loyalty-campaign-service</image>
                     <tags>
                         <tag>000000</tag>
                     </tags>

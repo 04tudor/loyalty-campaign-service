@@ -31,6 +31,9 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
     @Autowired
     LoyaltyEffectTypesAdapter loyaltyEffectTypesAdapter;
 
+    @Autowired
+    LoyaltyEventTypesAdapter loyaltyEventTypesAdapter;
+
 
     @ExpectedDataSet("datasets/campaigns.yaml")
     @Test

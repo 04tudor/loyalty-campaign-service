@@ -1,4 +1,4 @@
-package md.maib.retail.loyalty.campaign.config;
+package md.maib.retail.infrastructure.config;
 
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 class UseCasesConfiguration {
+
 
     @Bean
     FindCampaignByIdUseCase findCampaignByIdUseCase(Campaigns campaigns) {

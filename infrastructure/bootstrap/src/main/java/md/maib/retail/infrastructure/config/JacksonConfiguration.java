@@ -1,4 +1,4 @@
-package md.maib.retail.loyalty.campaign.config;
+package md.maib.retail.infrastructure.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
