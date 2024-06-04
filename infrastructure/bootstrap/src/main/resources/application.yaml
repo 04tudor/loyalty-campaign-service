@@ -3,22 +3,6 @@ spring:
     name: loyalty-campaign-service
   lifecycle:
     timeout-per-shutdown-phase: 60s
-  cloud:
-    openfeign:
-      client:
-        config:
-          default:
-            dismiss404: true
-          currency-rates:
-            base-url: ${CURRENCY_RATES_SERVICE_BASE_URL}
-            connect-timeout: ${CURRENCY_RATES_CONNECTION_TIMEOUT:}
-            read-timeout: ${CURRENCY_RATES_READ_TIMEOUT:}
-            logger-level: ${CURRENCY_RATES_LOGGER_LEVEL:}
-      httpclient:
-        hc5:
-          enabled: true
-        max-connections: ${HTTP_CLIENT_MAX_CONNECTIONS:50}
-        max-connections-per-route: ${HTTP_CLIENT_MAX_CONNECTIONS_PER_ROUTE:10}
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
     username: ${POSTGRESQL_APPLICATION_USERNAME}
@@ -27,3 +11,42 @@ spring:
       minimumIdle: 1
       maximumPoolSize: 4
       idleTimeout: 300000
+  jpa:
+    properties:
+      hibernate:
+        show_sql: ${SHOW_SQL:false}
+        format_sql: true
+  flyway:
+    schemas: campaigns
+    create-schemas: ${FLYWAY_CREATE_SCHEMAS:false}
+    default-schema: ${FLYWAY_DEFAULT_SCHEMA}
+    user: ${POSTGRESQL_MIGRATION_USERNAME}
+    password: ${POSTGRESQL_MIGRATION_PASSWORD}
+management:
+  endpoint:
+    health:
+      probes:
+        add-additional-paths: true
+        enabled: true
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include:
+          - health
+          - prometheus
+      path-mapping:
+        prometheus: metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+          client:
+            requests: true
+  server:
+    port: 8081
