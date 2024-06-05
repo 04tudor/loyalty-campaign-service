@@ -38,7 +38,7 @@ jobs:
 
       - name: Get short commit hash
         id: vars
-        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: echo "TAG=${{ github.sha }}" >> $GITHUB_ENV
       - name: Build and publish JIB container
         run: mvn -B compile jib:build -Djib.to.auth.username=${{ github.actor }} -Djib.to.auth.password=${{ secrets.GITHUB_TOKEN }} -Djib.to.image=ghcr.io/${{ github.repository }}:${{ env.TAG }} -Djib.allowInsecureRegistries -Djib.httpTimeout=1200000 -Djib.disableUpdateChecks=true
         env:
