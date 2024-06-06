@@ -48,7 +48,7 @@ public class CampaignRecord implements Persistable<UUID> {
         private UUID loyaltyEventType;
 
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignId", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "campaignId", cascade = CascadeType.ALL)
         private Set<RuleRecord> rules = new HashSet<>();
 
         @Transient
