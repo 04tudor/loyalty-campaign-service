@@ -112,6 +112,14 @@ public class CampaignRecord implements Persistable<UUID> {
                 );
         }
 
+        public boolean activate() {
+                if (!isActive) {
+                        this.isActive = true;
+                        return true;
+                }
+                return false;
+        }
+
 }
 
 
