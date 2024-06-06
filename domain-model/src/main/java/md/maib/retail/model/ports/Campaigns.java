@@ -21,4 +21,6 @@ public interface Campaigns {
 
     boolean activate(Campaign campaign);
 
+    boolean save(Campaign campaign);
+
 }

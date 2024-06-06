@@ -6,6 +6,7 @@ import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.CampaignSomeInfo;
+import md.maib.retail.application.activate_campaign.ActivateCampaignUseCase;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
 import md.maib.retail.application.delete_campaign.DeleteCampaign;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
@@ -46,8 +47,8 @@ public final class CampaignController {
     private final DeleteCampaignUseCase deleteCampaignUseCase;
     private final FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase;
     private final FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
-
     private final CampaignsListByDateUseCase campaignsListByDateUseCase;
+    private final ActivateCampaignUseCase activateCampaignUseCase;
 
     private ResponseStatusException responseExceptionFromViolations(ConstraintViolations violations) {
         String errorMessage = violations
@@ -136,4 +137,14 @@ public final class CampaignController {
         );
     }
 
+//    @PostMapping(path = "/activate/{campaignId}")
+//    public ResponseEntity<?> activateCampaign(@PathVariable("campaignId") String campaignId) {
+//        CampaignId id = CampaignId.valueOf(fromString(campaignId));
+//        boolean result = activateCampaignUseCase.activate(id);
+//        if (result) {
+//            return ResponseEntity.ok().build();
+//        } else {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Activation failed.");
+//        }
+//    }
 }
