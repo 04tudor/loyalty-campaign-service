@@ -137,14 +137,14 @@ public final class CampaignController {
         );
     }
 
-//    @PostMapping(path = "/activate/{campaignId}")
-//    public ResponseEntity<?> activateCampaign(@PathVariable("campaignId") String campaignId) {
-//        CampaignId id = CampaignId.valueOf(fromString(campaignId));
-//        boolean result = activateCampaignUseCase.activate(id);
-//        if (result) {
-//            return ResponseEntity.ok().build();
-//        } else {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Activation failed.");
-//        }
-//    }
+    @PostMapping(path = "/activate/{campaignId}")
+    public ResponseEntity<?> activateCampaign(@PathVariable("campaignId") String campaignId) {
+        CampaignId id = CampaignId.valueOf(fromString(campaignId));
+        boolean result = activateCampaignUseCase.activate(id);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Activation failed.");
+        }
+    }
 }

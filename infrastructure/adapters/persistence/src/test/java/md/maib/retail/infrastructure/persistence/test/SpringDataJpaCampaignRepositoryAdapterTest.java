@@ -92,6 +92,7 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
 
     }
 
+
     @Test
     @DataSet("/datasets/campaigns.yaml")
     void testFindByMetaInfo() {
@@ -133,7 +134,22 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
 
         assertTrue(activated, "Campaign activation failed");
 
+    }
 
+    @DataSet("/datasets/campaign-state-false.yaml")
+    @Test
+    void testSaveCampaign() {
+        CampaignId campaignId = CampaignId.valueOf(UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"));
+        Optional<Campaign> optionalCampaign = repository.findById(campaignId);
+
+        assertTrue(optionalCampaign.isPresent(), "Campaign not found");
+
+        Campaign campaign = optionalCampaign.get();
+        Assertions.assertEquals(campaignId, campaign.getId());
+
+        boolean activated = repository.save(campaign);
+
+        assertTrue(activated, "Campaign activation failed");
     }
 }
 
