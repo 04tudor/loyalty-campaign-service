@@ -1,5 +1,6 @@
 package md.maib.retail.infrastructure.config;
 
+import md.maib.retail.application.activate_campaign.ActivateCampaignUseCase;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
@@ -52,4 +53,8 @@ class UseCasesConfiguration {
         return FindByIdLoyaltyEffectTypeUseCase.defaultService(loyaltyEffectTypes);
     }
 
+    @Bean
+    ActivateCampaignUseCase activateCampaignUseCase(Campaigns campaigns) {
+        return ActivateCampaignUseCase.defaultService(campaigns);
+    }
 }
