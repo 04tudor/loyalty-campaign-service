@@ -36,4 +36,15 @@ public class CampaignAllInfo {
                 campaign.getActivityInterval(), campaign.getState(),
                 campaign.getLoyaltyEventType(), campaign.getRules());
     }
+
+    public Campaign toCampaign() {
+        return new Campaign(
+                CampaignId.valueOf(UUID.fromString(id)),
+                metaInfo,
+                interval,
+                state,
+                loyaltyEventType,
+                rules
+        );
+    }
 }
