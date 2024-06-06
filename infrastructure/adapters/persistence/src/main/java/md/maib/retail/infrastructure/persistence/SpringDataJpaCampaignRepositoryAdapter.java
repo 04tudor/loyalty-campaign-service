@@ -5,7 +5,6 @@ import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.ports.Campaigns;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -65,27 +64,14 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
         return false;
     }
 
-    @Override
-    @Transactional
-    public boolean activate(Campaign campaign) {
-        Optional<CampaignRecord> campaignRecordOptional = campaignRepository.findById(campaign.getId().toUUID());
-        if (campaignRecordOptional.isPresent()) {
-            CampaignRecord campaignRecord = campaignRecordOptional.get();
-            if (!campaignRecord.isActive()) {
-                campaignRecord.activate();
-                save(campaignRecord.toCampaign(true));
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public boolean save(Campaign campaign) {
         Optional<CampaignRecord> campaignRecordOptional = campaignRepository.findById(campaign.getId().toUUID());
         if (campaignRecordOptional.isPresent()) {
             CampaignRecord campaignRecord = campaignRecordOptional.get();
-            if (campaignRecord.activate()) {
+            if (!campaignRecord.isActive()) {
+                campaignRecord.activate();
                 campaignRepository.save(campaignRecord);
                 return true;
             }

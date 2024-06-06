@@ -52,7 +52,6 @@ class UseCasesConfiguration {
     FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase(LoyaltyEffectTypes loyaltyEffectTypes) {
         return FindByIdLoyaltyEffectTypeUseCase.defaultService(loyaltyEffectTypes);
     }
-
     @Bean
     ActivateCampaignUseCase activateCampaignUseCase(Campaigns campaigns) {
         return ActivateCampaignUseCase.defaultService(campaigns);
