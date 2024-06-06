@@ -71,6 +71,16 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
         Optional<CampaignRecord> campaignRecordOptional = campaignRepository.findById(campaign.getId().toUUID());
         if (campaignRecordOptional.isPresent()) {
             CampaignRecord campaignRecord = campaignRecordOptional.get();
+            return campaignRecord.activate();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean save(Campaign campaign) {
+        Optional<CampaignRecord> campaignRecordOptional = campaignRepository.findById(campaign.getId().toUUID());
+        if (campaignRecordOptional.isPresent()) {
+            CampaignRecord campaignRecord = campaignRecordOptional.get();
             if (campaignRecord.activate()) {
                 campaignRepository.save(campaignRecord);
                 return true;

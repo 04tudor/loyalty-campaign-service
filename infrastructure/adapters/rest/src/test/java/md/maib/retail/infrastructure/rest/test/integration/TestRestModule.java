@@ -1,5 +1,6 @@
 package md.maib.retail.infrastructure.rest.test.integration;
 
+import md.maib.retail.application.activate_campaign.ActivateCampaignUseCase;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
@@ -35,4 +36,7 @@ public class TestRestModule {
 
     @MockBean
     FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
+
+    @MockBean
+    ActivateCampaignUseCase activateCampaignUseCase;
 }

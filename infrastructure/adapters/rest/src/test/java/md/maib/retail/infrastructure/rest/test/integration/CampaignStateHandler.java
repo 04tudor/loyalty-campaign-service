@@ -4,6 +4,7 @@ import au.com.dius.pact.provider.junitsupport.State;
 import io.vavr.control.Either;
 import md.maib.retail.application.CampaignAllInfo;
 import md.maib.retail.application.CampaignSomeInfo;
+import md.maib.retail.application.activate_campaign.ActivateCampaignUseCase;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
 import md.maib.retail.application.delete_campaign.DeleteCampaign;
 import md.maib.retail.application.delete_campaign.DeleteCampaignUseCase;
@@ -28,7 +29,6 @@ import org.threeten.extra.Interval;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 
 import static java.time.Instant.parse;
@@ -57,6 +57,8 @@ public class CampaignStateHandler implements StateHandler{
     FindByIdLoyaltyEventTypeUseCase findByIdLoyaltyEventTypeUseCase;
     @Autowired
     FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
+    @Autowired
+    ActivateCampaignUseCase activateCampaignUseCase;
     @State("register campaign")
     public void aCampaignToBeRegister() {
         Map<String, Object> properties = new HashMap<>();
@@ -209,4 +211,10 @@ public class CampaignStateHandler implements StateHandler{
     }
 
 
+    @State("activate a campaign by id")
+    public void aCampaignToBeActivated() {
+        var campaignId = CampaignId.valueOf(UUID.fromString("d2015c09-a251-4463-9a0d-710f92559c2a"));
+
+        when(activateCampaignUseCase.activate(any(CampaignId.class))).thenReturn(true);
+    }
 }

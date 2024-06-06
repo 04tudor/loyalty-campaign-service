@@ -270,6 +270,21 @@
           "campaignId": "d2015c09-a251-4463-9a0d-710f92559c2a"
         }
       }
+    },
+    {
+      "description": "Activate campaign with ID d2015c09-a251-4463-9a0d-710f92559c2a",
+      "providerStates": [
+        {
+          "name": "activate a campaign by id"
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/campaigns/activate/d2015c09-a251-4463-9a0d-710f92559c2a"
+      },
+      "response": {
+        "status": 200
+      }
     }
 
 
