@@ -42,13 +42,13 @@ class ActivateCampaignTest {
         CampaignId campaignId = CampaignId.valueOf(CampaignId.newIdentity().campaignId());
         Campaign campaign = new Campaign(campaignId, null, null, CampaignState.DRAFT, null, null);
         when(campaigns.findById(campaignId)).thenReturn(Optional.of(campaign));
-        when(campaigns.activate(any(Campaign.class))).thenReturn(true);
+        when(campaigns.save(any(Campaign.class))).thenReturn(true);
 
         boolean result = target.activate(campaignId);
 
         assertTrue(result);
         verify(campaigns).findById(campaignId);
-        verify(campaigns).activate(any(Campaign.class));
+        verify(campaigns).save(any(Campaign.class));
     }
 
     @Test
