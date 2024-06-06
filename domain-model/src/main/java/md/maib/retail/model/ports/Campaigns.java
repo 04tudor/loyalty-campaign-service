@@ -19,7 +19,6 @@ public interface Campaigns {
 
     boolean delete(CampaignId campaignId);
 
-    boolean activate(Campaign campaign);
 
     boolean save(Campaign campaign);
 
