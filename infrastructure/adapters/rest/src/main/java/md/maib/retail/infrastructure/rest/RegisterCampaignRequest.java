@@ -1,4 +1,4 @@
-package md.maib.retail.rest;
+package md.maib.retail.infrastructure.rest;
 
 import md.maib.retail.application.find_effect_type_by_id.EffectTypeRecord;
 import md.maib.retail.application.find_event_type_by_id.EventTypeRecord;

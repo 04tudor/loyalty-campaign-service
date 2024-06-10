@@ -1,4 +1,4 @@
-package md.maib.retail.persistence;
+package md.maib.retail.infrastructure.persistence;
 
 import lombok.extern.slf4j.Slf4j;
 import md.maib.retail.model.campaign.Campaign;

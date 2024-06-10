@@ -1,4 +1,4 @@
-package md.maib.retail.persistence.json_converters;
+package md.maib.retail.infrastructure.persistence.json_converters;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

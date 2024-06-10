@@ -1,10 +1,10 @@
-package md.maib.retail.persistence.json_converters;
+package md.maib.retail.infrastructure.persistence.json_converters;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import md.maib.retail.persistence.EffectRecord;
+import md.maib.retail.infrastructure.persistence.EffectRecord;
 
 import java.io.IOException;
 import java.util.Collection;

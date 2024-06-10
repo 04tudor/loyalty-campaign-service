@@ -1,13 +1,13 @@
-package md.maib.retail.persistence;
+package md.maib.retail.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import md.maib.retail.infrastructure.persistence.json_converters.MetaInfoJsonConverter;
 import md.maib.retail.model.campaign.*;
 import md.maib.retail.model.conditions.Rule;
-import md.maib.retail.persistence.json_converters.MetaInfoJsonConverter;
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
 import org.threeten.extra.Interval;
