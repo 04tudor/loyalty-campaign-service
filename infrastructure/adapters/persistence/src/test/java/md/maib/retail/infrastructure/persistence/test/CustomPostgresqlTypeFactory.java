@@ -1,4 +1,4 @@
-package md.maib.retail.persistence.test;
+package md.maib.retail.infrastructure.persistence.test;
 
 import org.dbunit.dataset.datatype.DataType;
 import org.dbunit.dataset.datatype.DataTypeException;

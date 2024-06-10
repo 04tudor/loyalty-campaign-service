@@ -1,4 +1,4 @@
-package md.maib.retail.rest.test.integration;
+package md.maib.retail.infrastructure.rest;
 
 import au.com.dius.pact.provider.junitsupport.State;
 import io.vavr.control.Either;

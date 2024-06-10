@@ -1,4 +1,4 @@
-package md.maib.retail.rest.test.integration;
+package md.maib.retail.infrastructure.rest;
 
 import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.context.SpringBootTest;
