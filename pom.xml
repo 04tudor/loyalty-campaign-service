@@ -22,6 +22,7 @@
 		<module>infrastructure/bootstrap</module>
         <module>infrastructure/adapters/rest</module>
 		<module>infrastructure/adapters/persistence</module>
+		<module>component-tests</module>
 	</modules>
 
 	<properties>
