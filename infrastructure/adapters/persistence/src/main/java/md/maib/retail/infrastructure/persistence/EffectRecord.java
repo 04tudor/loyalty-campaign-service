@@ -1,4 +1,4 @@
-package md.maib.retail.persistence;
+package md.maib.retail.infrastructure.persistence;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

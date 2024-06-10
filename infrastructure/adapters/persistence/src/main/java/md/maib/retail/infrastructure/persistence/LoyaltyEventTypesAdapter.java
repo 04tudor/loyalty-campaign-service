@@ -1,4 +1,4 @@
-package md.maib.retail.persistence;
+package md.maib.retail.infrastructure.persistence;
 
 import md.maib.retail.model.campaign.LoyaltyEventType;
 import md.maib.retail.model.ports.LoyaltyEventTypes;

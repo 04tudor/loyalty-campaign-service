@@ -1,16 +1,16 @@
-package md.maib.retail.persistence;
+package md.maib.retail.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import md.maib.retail.infrastructure.persistence.json_converters.ConditionJsonConverter;
+import md.maib.retail.infrastructure.persistence.json_converters.EffectJsonConverter;
 import md.maib.retail.model.conditions.Condition;
 import md.maib.retail.model.conditions.Rule;
 import md.maib.retail.model.conditions.RuleId;
 import md.maib.retail.model.effects.Effect;
-import md.maib.retail.persistence.json_converters.ConditionJsonConverter;
-import md.maib.retail.persistence.json_converters.EffectJsonConverter;
 import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.data.domain.Persistable;
 

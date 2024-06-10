@@ -1,4 +1,4 @@
-package md.maib.retail.rest;
+package md.maib.retail.infrastructure.rest;
 
 import am.ik.yavi.core.ConstraintViolation;
 import am.ik.yavi.core.ConstraintViolations;
