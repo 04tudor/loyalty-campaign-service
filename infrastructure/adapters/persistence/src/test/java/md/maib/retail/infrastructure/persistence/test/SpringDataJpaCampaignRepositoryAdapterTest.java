@@ -1,4 +1,4 @@
-package md.maib.retail.persistence.test;
+package md.maib.retail.infrastructure.persistence.test;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;

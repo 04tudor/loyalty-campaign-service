@@ -1,4 +1,4 @@
-package md.maib.retail.rest.test.integration;
+package md.maib.retail.infrastructure.rest;
 
 import md.maib.retail.application.activate_campaign.ActivateCampaignUseCase;
 import md.maib.retail.application.campaigns_list_by_date.CampaignsListByDateUseCase;
