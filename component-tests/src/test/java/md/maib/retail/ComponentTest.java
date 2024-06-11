@@ -1,6 +1,6 @@
-package md.maib.retail.loyalty.campaign;
+package md.maib.retail;
 
-import md.maib.retail.loyalty.campaign.testcontainers.EmbeddedServiceBootstrapConfiguration;
+import md.maib.retail.testcontainers.EmbeddedServiceBootstrapConfiguration;
 import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;

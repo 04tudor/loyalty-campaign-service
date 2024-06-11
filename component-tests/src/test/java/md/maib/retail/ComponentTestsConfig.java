@@ -1,4 +1,4 @@
-package md.maib.retail.loyalty.campaign;
+package md.maib.retail;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
@@ -9,9 +9,11 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.client.RootUriTemplateHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 @Configuration
+@DependsOn("service")
 class ComponentTestsConfig {
 
     @Value("${embedded.service.host}")

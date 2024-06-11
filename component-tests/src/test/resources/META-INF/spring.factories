@@ -1,0 +1,5 @@
+org.springframework.boot.SpringApplicationRunListener=\
+ md.maib.retail.testcontainers.ImageBuilderTestExecutionListener
+
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  md.maib.retail.testcontainers.NetworkTestConfig
