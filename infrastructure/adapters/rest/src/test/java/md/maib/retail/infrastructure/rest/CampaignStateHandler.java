@@ -82,7 +82,7 @@ public class CampaignStateHandler implements StateHandler{
         LoyaltyEffectType loyaltyEffectType=new LoyaltyEffectType(
                 fromString(effectTypeRecord.id()),
                 "TestEffectType",
-                loyaltyEventType
+                loyaltyEventType.getId()
                 );
         when(findByIdLoyaltyEventTypeUseCase.findById(eventTypeRecord.id())).thenReturn(Optional.of(loyaltyEventType));
         when(findByIdLoyaltyEffectTypeUseCase.findById(effectTypeRecord.id())).thenReturn(Optional.of(loyaltyEffectType));
@@ -153,7 +153,7 @@ public class CampaignStateHandler implements StateHandler{
                         ruleId,
                         List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
                         List.of(new Effect(
-                                new LoyaltyEffectType(fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", loyaltyEventType),
+                                new LoyaltyEffectType(fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", fromString("41862fa9-2054-435d-8068-c9b31725de9f")),
                                 "10")
                         )
                 )
@@ -187,7 +187,7 @@ public class CampaignStateHandler implements StateHandler{
                         ruleId,
                         List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
                         List.of(new Effect(
-                                new LoyaltyEffectType(fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", loyaltyEventType),
+                                new LoyaltyEffectType(fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", fromString("41862fa9-2054-435d-8068-c9b31725de9f")),
                                 "10")
                         )
                 )
@@ -195,9 +195,7 @@ public class CampaignStateHandler implements StateHandler{
 
         CampaignAllInfo campaignAllInfo = new CampaignAllInfo(id.toString(), metaInfo, interval, state, loyaltyEventType, List.copyOf(rules));
 
-        when(findCampaignByIdUseCase.findById(campaignId))
-                .thenReturn(Optional.of(campaignAllInfo));
-
+        when(findCampaignByIdUseCase.findById(campaignId)).thenReturn(Optional.of(campaignAllInfo));
     }
 
 

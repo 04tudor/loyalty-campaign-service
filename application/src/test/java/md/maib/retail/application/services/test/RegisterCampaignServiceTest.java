@@ -22,11 +22,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.UUID.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,7 +59,7 @@ class RegisterCampaignServiceTest {
     void registerNewCampaign_Success() {
         when(campaigns.add(any(Campaign.class))).thenReturn(true);
         when(loyaltyEventTypes.findById(anyString())).thenReturn(Optional.of(new LoyaltyEventType(UUID.randomUUID(), "EventType", List.of(new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING)))));
-        when(loyaltyEffectTypes.findById(anyString())).thenReturn(Optional.of(new LoyaltyEffectType(UUID.randomUUID(), "EffectType", new LoyaltyEventType(UUID.randomUUID(), "EventType", Collections.emptyList()))));
+        when(loyaltyEffectTypes.findById(anyString())).thenReturn(Optional.of(new LoyaltyEffectType(UUID.randomUUID(), "EffectType", fromString("cd9c30db-88d8-4fa0-9299-7b9bf63d1b15"))));
 
         Optional<LoyaltyEventType> loyaltyEventType = loyaltyEventTypes.findById("6fb2fcfd-b836-4102-8c29-f0c38c97965e");
 
@@ -74,7 +76,7 @@ class RegisterCampaignServiceTest {
                                 RuleId.newIdentity(),
                                 List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
                                 List.of(new Effect(
-                                        new LoyaltyEffectType(UUID.fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", loyaltyEventType.get()),
+                                        new LoyaltyEffectType(UUID.fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", fromString("cd9c30db-88d8-4fa0-9299-7b9bf63d1b15")),
                                         "10")
                                 )
                         )
@@ -110,7 +112,7 @@ class RegisterCampaignServiceTest {
                                 RuleId.newIdentity(),
                                 List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
                                 List.of(new Effect(
-                                        new LoyaltyEffectType(UUID.fromString("1414d3f4-7978-4f4b-a532-3ece801e253c"), "TestEffect", new LoyaltyEventType(UUID.fromString("57b2516a-fd15-4057-a04a-c725a0a80e1e"), "EventType", List.of(new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING)))),
+                                        new LoyaltyEffectType(UUID.fromString("1414d3f4-7978-4f4b-a532-3ece801e253c"), "TestEffect", fromString("cd9c30db-88d8-4fa0-9299-7b9bf63d1b15")),
                                         "10")
                                 )
                         )
@@ -133,8 +135,7 @@ class RegisterCampaignServiceTest {
                 ))
         ));
         when(loyaltyEffectTypes.findById(anyString())).thenReturn(Optional.of(
-                new LoyaltyEffectType(UUID.randomUUID(), "EffectType",
-                        new LoyaltyEventType(UUID.randomUUID(), "EventType", Collections.emptyList()))
+                new LoyaltyEffectType(UUID.randomUUID(), "EffectType", fromString("cd9c30db-88d8-4fa0-9299-7b9bf63d1b15"))
         ));
 
         RegisterCampaign command = new RegisterCampaign(
@@ -148,10 +149,7 @@ class RegisterCampaignServiceTest {
                                 RuleId.newIdentity(),
                                 List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
                                 List.of(new Effect(
-                                        new LoyaltyEffectType(UUID.fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect",
-                                                new LoyaltyEventType(UUID.fromString("57b2516a-fd15-4057-a04a-c725a0a80e1e"), "EventType", List.of(
-                                                        new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING)
-                                                ))
+                                        new LoyaltyEffectType(UUID.fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", fromString("cd9c30db-88d8-4fa0-9299-7b9bf63d1b15")
                                         ),
                                         "10")
                                 )
@@ -179,7 +177,7 @@ class RegisterCampaignServiceTest {
                                 RuleId.newIdentity(),
                                 List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
                                 List.of(new Effect(
-                                        new LoyaltyEffectType(UUID.fromString("1414d3f4-7978-4f4b-a532-3ece801e253c"), "TestEffect", new LoyaltyEventType(UUID.fromString("57b2516a-fd15-4057-a04a-c725a0a80e1e"), "EventType", List.of(new LoyaltyEventField(UUID.randomUUID(), "Field", FieldType.STRING)))),
+                                        new LoyaltyEffectType(UUID.fromString("1414d3f4-7978-4f4b-a532-3ece801e253c"), "TestEffect", fromString("cd9c30db-88d8-4fa0-9299-7b9bf63d1b15")),
                                         "10")
                                 )
                         )

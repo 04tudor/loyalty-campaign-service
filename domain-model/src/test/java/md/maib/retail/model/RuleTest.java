@@ -3,7 +3,6 @@ package md.maib.retail.model;
 import md.maib.retail.junit.UnitTest;
 import md.maib.retail.model.campaign.FieldType;
 import md.maib.retail.model.campaign.LoyaltyEventField;
-import md.maib.retail.model.campaign.LoyaltyEventType;
 import md.maib.retail.model.conditions.Condition;
 import md.maib.retail.model.conditions.Operator;
 import md.maib.retail.model.conditions.Rule;
@@ -12,18 +11,14 @@ import md.maib.retail.model.effects.Effect;
 import md.maib.retail.model.effects.LoyaltyEffectType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collections;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @UnitTest
  class RuleTest {
-
-//    @Test
-//    void twoRulesAreEquals() {
-//        EqualsVerifier.forClass(Rule.class).withOnlyTheseFields("id").verify();
-//    }
 
 
     @Test
@@ -35,11 +30,10 @@ import java.util.UUID;
         );
 
         Condition condition = new Condition(loyaltyEventField.getFieldType(), Operator.EQUALS, "value");
-        LoyaltyEventType loyaltyEventType = new LoyaltyEventType();
         LoyaltyEffectType loyaltyEffectType = new LoyaltyEffectType(
                 UUID.randomUUID(),
                 "effectName",
-                loyaltyEventType
+                UUID.fromString("cd9c30db-88d8-4fa0-9299-7b9bf63d1b15")
         );
 
         Effect effect = new Effect(loyaltyEffectType, "effectValue");
