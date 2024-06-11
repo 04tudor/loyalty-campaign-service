@@ -1,4 +1,4 @@
-package md.maib.retail.loyalty.campaign;
+package md.maib.retail;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
