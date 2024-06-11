@@ -24,8 +24,11 @@ jobs:
     - name: Build with Maven
       run: |
         chmod +x mvnw
-        ./mvnw -B package --file pom.xml
-
+        ./mvnw test-compile
+    - name: Unit Testing
+      run: ./mvnw test -Dgroups=unit
+    - name: Integration Testing
+      run: ./mvnw test -Dgroups=integration
   publish:
     runs-on: ubuntu-latest
     needs: build
@@ -50,6 +53,6 @@ jobs:
         run: |
           chmod +x mvnw
           ./mvnw install -DskipTests=true -Djib.allowInsecureRegistries -Djib.httpTimeout=1200000
-          ./mvnw -B compile jib:build -Djib.to.auth.username=${{ github.actor }} -Djib.to.auth.password=${{ secrets.GHCR_TOKEN }} -Djib.to.image=ghcr.io/${{ github.repository }}:${{ env.TAG }} -Djib.allowInsecureRegistries -Djib.httpTimeout=1200000 -Djib.disableUpdateChecks=true
+          ./mvnw jib:build -X -Djib.serialize=true -Djib.to.auth.username=${{ github.actor }} -Djib.to.auth.password=${{ secrets.GHCR_TOKEN }} -Djib.to.image=ghcr.io/${{ github.repository }}:${{ env.TAG }} -Djib.allowInsecureRegistries -Djib.httpTimeout=1200000 -Djib.disableUpdateChecks=true
         env:
           TAG: ${{ env.TAG }}
