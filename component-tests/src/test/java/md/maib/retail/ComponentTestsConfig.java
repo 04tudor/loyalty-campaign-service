@@ -23,8 +23,9 @@ class ComponentTestsConfig {
     int port;
 
     @Bean
-    TestRestTemplate testRestTemplate(RestTemplateBuilder restTemplateBuild) {
-        var restTemplate = new TestRestTemplate(restTemplateBuild);
+    TestRestTemplate testRestTemplate() {
+        var builder = new RestTemplateBuilder();
+        var restTemplate = new TestRestTemplate(builder);
 
         var handler = new RootUriTemplateHandler("http://%s:%s".formatted(host, port));
         restTemplate.setUriTemplateHandler(handler);
