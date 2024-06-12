@@ -22,6 +22,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @PersistenceTest
@@ -88,11 +89,11 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
 
         boolean deleted = repository.delete(campaignId);
 
-
         assertTrue(deleted, "Campaign record was not deleted");
 
+        Optional<Campaign> deletedCampaign = repository.getById(campaignId);
+        assertFalse(deletedCampaign.isPresent(), "Campaign record still exists after deletion");
     }
-
 
     @Test
     @DataSet("/datasets/campaigns.yaml")
