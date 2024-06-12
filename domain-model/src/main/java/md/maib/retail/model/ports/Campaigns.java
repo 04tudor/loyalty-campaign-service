@@ -11,7 +11,7 @@ public interface Campaigns {
 
     List<Campaign> listByDate(Instant date);
 
-    Optional<Campaign> findById(CampaignId campaignId);
+    Optional<Campaign> getById(CampaignId campaignId);
 
     List<Campaign> findByMetaInfo(String key,String value);
 
@@ -21,6 +21,8 @@ public interface Campaigns {
 
 
     boolean save(Campaign campaign);
+
+    List<Campaign> listAll();
 
 
 }

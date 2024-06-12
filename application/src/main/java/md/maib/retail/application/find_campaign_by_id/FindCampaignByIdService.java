@@ -16,7 +16,7 @@ import java.util.Optional;
 
     @Override
     public Optional<CampaignAllInfo> findById(CampaignId campaignId) {
-        return campaigns.findById(CampaignId.valueOf(campaignId.campaignId()))
+        return campaigns.getById(CampaignId.valueOf(campaignId.campaignId()))
                 .map(CampaignAllInfo::valueOf);
     }
 

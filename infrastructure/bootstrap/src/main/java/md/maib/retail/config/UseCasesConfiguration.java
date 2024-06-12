@@ -7,6 +7,7 @@ import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
 import md.maib.retail.application.find_effect_type_by_id.FindByIdLoyaltyEffectTypeUseCase;
 import md.maib.retail.application.find_event_type_by_id.FindByIdLoyaltyEventTypeUseCase;
+import md.maib.retail.application.list_all_campaigns.ListAllCampaignsUseCase;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import md.maib.retail.model.ports.Campaigns;
 import md.maib.retail.model.ports.LoyaltyEffectTypes;
@@ -56,4 +57,10 @@ class UseCasesConfiguration {
     ActivateCampaignUseCase activateCampaignUseCase(Campaigns campaigns) {
         return ActivateCampaignUseCase.defaultService(campaigns);
     }
+
+    @Bean
+    ListAllCampaignsUseCase listAllCampaignsUseCase(Campaigns campaigns) {
+        return ListAllCampaignsUseCase.defaultService(campaigns);
+    }
 }
+

@@ -9,8 +9,8 @@ import md.maib.retail.model.ports.Campaigns;
 public interface DeleteCampaignUseCase {
 
     static DeleteCampaignUseCase defaultService(Campaigns campaigns) {
-        return new DeleteCampaignService(campaigns,FindCampaignByIdUseCase.defaultService(campaigns));
+        return new DeleteCampaignService(campaigns, FindCampaignByIdUseCase.defaultService(campaigns));
     }
-    Either<UseCaseProblemConflict, CampaignId> deleteCampaign(DeleteCampaign command);
 
+    Either<UseCaseProblemConflict, CampaignId> deleteCampaign(DeleteCampaign command);
 }

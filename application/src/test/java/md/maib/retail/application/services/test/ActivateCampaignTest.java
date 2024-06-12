@@ -41,36 +41,36 @@ class ActivateCampaignTest {
     void activateExistingCampaign() {
         CampaignId campaignId = CampaignId.valueOf(CampaignId.newIdentity().campaignId());
         Campaign campaign = new Campaign(campaignId, null, null, CampaignState.DRAFT, null, null);
-        when(campaigns.findById(campaignId)).thenReturn(Optional.of(campaign));
+        when(campaigns.getById(campaignId)).thenReturn(Optional.of(campaign));
         when(campaigns.save(any(Campaign.class))).thenReturn(true);
 
         boolean result = target.activate(campaignId);
 
         assertTrue(result);
-        verify(campaigns).findById(campaignId);
+        verify(campaigns).getById(campaignId);
         verify(campaigns).save(any(Campaign.class));
     }
 
     @Test
     void activateNonExistentCampaign() {
         CampaignId campaignId = CampaignId.valueOf(CampaignId.newIdentity().campaignId());
-        when(campaigns.findById(campaignId)).thenReturn(Optional.empty());
+        when(campaigns.getById(campaignId)).thenReturn(Optional.empty());
 
         boolean result = target.activate(campaignId);
 
         assertFalse(result);
-        verify(campaigns).findById(campaignId);
+        verify(campaigns).getById(campaignId);
     }
 
     @Test
     void activateAlreadyActiveCampaign() {
         CampaignId campaignId = CampaignId.valueOf(CampaignId.newIdentity().campaignId());
         Campaign campaign = new Campaign(campaignId, null, null, CampaignState.ACTIVE, null, null);
-        when(campaigns.findById(campaignId)).thenReturn(Optional.of(campaign));
+        when(campaigns.getById(campaignId)).thenReturn(Optional.of(campaign));
 
         boolean result = target.activate(campaignId);
 
         assertFalse(result);
-        verify(campaigns).findById(campaignId);
+        verify(campaigns).getById(campaignId);
     }
 }

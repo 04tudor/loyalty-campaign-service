@@ -30,5 +30,4 @@ public interface SpringDataJpaCampaignRepository extends JpaRepository<CampaignR
             """)
     List<CampaignRecord> findByDate(@Param("date") Instant date);
 
-
 }
