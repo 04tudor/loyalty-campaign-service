@@ -94,7 +94,7 @@
       ],
       "request": {
         "method": "GET",
-        "path": "/campaigns/meta/key/value"
+        "path": "/campaigns/key/value"
       },
       "response": {
         "status": 200,
@@ -204,7 +204,7 @@
       ],
       "request": {
         "method": "POST",
-        "path": "/campaigns/register",
+        "path": "/campaigns",
         "headers": {
           "Content-Type": "application/json"
         },
@@ -214,8 +214,8 @@
               "key": "value"
             }
           },
-          "startInclusive": "2024-05-01",
-          "endExclusive": "2024-06-01",
+          "startInclusive": "2018-11-30T18:35:24Z",
+          "endExclusive": "2023-12-31T18:35:24Z",
           "state": "DRAFT",
           "eventTypeRecord": {
             "id": "57b2516a-fd15-4057-a04a-c725a0a80e1e"

@@ -59,9 +59,8 @@ public final class CampaignController {
         return new ResponseStatusException(HttpStatus.BAD_REQUEST, "Validation failed: " + errorMessage);
     }
 
-    @PostMapping(value = "/register", consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerCampaign(@RequestBody RegisterCampaignRequest request) {
-
 
         Either<ConstraintViolations, RegisterCampaign> validationResult = RegisterCampaign.create(
                 request.metaInfo(),
@@ -102,7 +101,7 @@ public final class CampaignController {
 
     }
 
-    @GetMapping(path = "/meta/{key}/{value}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{key}/{value}", produces = APPLICATION_JSON_VALUE)
     public List<CampaignAllInfo> findCampaignByMetaInfo(@PathVariable String key, @PathVariable String value) {
         return findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
     }
