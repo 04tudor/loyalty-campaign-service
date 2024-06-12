@@ -55,6 +55,7 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
         return true;
     }
 
+    @Override
     public boolean delete(CampaignId campaignId) {
         Optional<CampaignRecord> campaignRecordOptional = campaignRepository.findById(campaignId.toUUID());
         if (campaignRecordOptional.isPresent()) {

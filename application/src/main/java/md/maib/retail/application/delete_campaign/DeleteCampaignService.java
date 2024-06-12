@@ -18,10 +18,10 @@ public class DeleteCampaignService implements DeleteCampaignUseCase {
 
     public DeleteCampaignService(Campaigns campaigns, FindCampaignByIdUseCase findCampaignByIdUseCase) {
         this.campaigns = Objects.requireNonNull(campaigns, "Campaigns must not be null");
-        this.findCampaignByIdUseCase = findCampaignByIdUseCase;
+        this.findCampaignByIdUseCase = Objects.requireNonNull(findCampaignByIdUseCase, "FindCampaignByIdUseCase must not be null");
     }
 
-    private boolean check(CampaignId id) {
+    private boolean isDraftState(CampaignId id) {
         return findCampaignByIdUseCase.findById(id)
                 .map(campaignAllInfo -> campaignAllInfo.state().equals(CampaignState.DRAFT))
                 .orElse(false);
@@ -30,9 +30,11 @@ public class DeleteCampaignService implements DeleteCampaignUseCase {
     @Override
     public Either<UseCaseProblemConflict, CampaignId> deleteCampaign(DeleteCampaign command) {
         CampaignId id = command.id();
-        if (check(id)) {
-            campaigns.delete(command.id());
-            return right(id);
+        if (isDraftState(id)) {
+            boolean deleted = campaigns.delete(command.id());
+            if (deleted) {
+                return right(id);
+            }
         }
         return left(new UseCaseProblemConflict("CampaignWithThisIdDoesntExistsOrActiveCampaign"));
     }
