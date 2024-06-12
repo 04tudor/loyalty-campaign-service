@@ -1,7 +1,6 @@
 package md.maib.retail.application.delete_campaign;
 
 import io.vavr.control.Either;
-
 import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.register_newcampaign.UseCaseProblemConflict;
 import md.maib.retail.model.campaign.CampaignId;
@@ -13,6 +12,5 @@ public interface DeleteCampaignUseCase {
         return new DeleteCampaignService(campaigns,FindCampaignByIdUseCase.defaultService(campaigns));
     }
     Either<UseCaseProblemConflict, CampaignId> deleteCampaign(DeleteCampaign command);
-
 
 }

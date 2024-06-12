@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
 import org.threeten.extra.Interval;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.*;
 
 import static java.time.Instant.parse;
@@ -65,8 +64,8 @@ public class CampaignStateHandler implements StateHandler{
         properties.put("key", "value");
         CampaignMetaInfo metaInfo = new CampaignMetaInfo(properties);
 
-        LocalDate startInclusive = LocalDate.parse("2024-05-01");
-        LocalDate endExclusive = LocalDate.parse("2024-06-01");
+        Instant startInclusive = Instant.parse("2018-11-30T18:35:24Z");
+        Instant endExclusive = Instant.parse("2023-12-31T18:35:24Z");
         CampaignState state = CampaignState.DRAFT;
 
         EventTypeRecord eventTypeRecord = new EventTypeRecord("57b2516a-fd15-4057-a04a-c725a0a80e1e");

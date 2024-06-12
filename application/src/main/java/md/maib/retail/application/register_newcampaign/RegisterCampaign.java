@@ -13,7 +13,7 @@ import md.maib.retail.model.campaign.CampaignMetaInfo;
 import md.maib.retail.model.campaign.CampaignState;
 import md.maib.retail.model.conditions.Rule;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 
 import static io.vavr.control.Either.left;
@@ -24,8 +24,8 @@ import static io.vavr.control.Either.right;
 @ToString
 public final class RegisterCampaign {
     private final CampaignMetaInfo metaInfo;
-    private final LocalDate startInclusive;
-    private final LocalDate endExclusive;
+    private final Instant startInclusive;
+    private final Instant endExclusive;
     private final CampaignState state;
     private final EventTypeRecord loyaltyEventType;
     private final List<Rule> rules;
@@ -53,7 +53,7 @@ public final class RegisterCampaign {
             ._collection(RegisterCampaign::rules, "rules", c -> c.notNull().message(NOTNULL))
             .build();
 
-    public static Either<ConstraintViolations, RegisterCampaign> create(CampaignMetaInfo metaInfo, LocalDate startInclusive, LocalDate endExclusive, CampaignState state, EventTypeRecord loyaltyEventType, List<Rule> rules, EffectTypeRecord loyaltyEffectType) {
+    public static Either<ConstraintViolations, RegisterCampaign> create(CampaignMetaInfo metaInfo, Instant startInclusive, Instant endExclusive, CampaignState state, EventTypeRecord loyaltyEventType, List<Rule> rules, EffectTypeRecord loyaltyEffectType) {
 
         var command = new RegisterCampaign(metaInfo, startInclusive, endExclusive, state, loyaltyEventType, rules, loyaltyEffectType);
         var violations = validator.validate(command);

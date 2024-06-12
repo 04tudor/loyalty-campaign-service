@@ -22,4 +22,5 @@ public interface Campaigns {
 
     boolean save(Campaign campaign);
 
+
 }

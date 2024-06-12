@@ -14,7 +14,6 @@ import md.maib.retail.model.ports.LoyaltyEffectTypes;
 import md.maib.retail.model.ports.LoyaltyEventTypes;
 import org.threeten.extra.Interval;
 
-import java.time.ZoneOffset;
 import java.util.Objects;
 
 import static io.vavr.control.Either.left;
@@ -37,8 +36,8 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
     public Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaign command) {
         var id = CampaignId.newIdentity();
         var metaInfo = new CampaignMetaInfo(command.metaInfo().properties());
-        var startInclusive = command.startInclusive().atStartOfDay(ZoneOffset.UTC).toInstant();
-        var endExclusive = command.endExclusive().atStartOfDay(ZoneOffset.UTC).toInstant();
+        var startInclusive = command.startInclusive();
+        var endExclusive = command.endExclusive();
         var interval = Interval.of(startInclusive, endExclusive);
         var state = command.state();
 

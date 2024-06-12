@@ -3,7 +3,10 @@ package md.maib.retail.application;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import md.maib.retail.model.campaign.*;
+import md.maib.retail.model.campaign.Campaign;
+import md.maib.retail.model.campaign.CampaignMetaInfo;
+import md.maib.retail.model.campaign.CampaignState;
+import md.maib.retail.model.campaign.LoyaltyEventType;
 import org.threeten.extra.Interval;
 @Getter
 @RequiredArgsConstructor
@@ -25,7 +28,7 @@ public class CampaignSomeInfo {
 
 
     public static CampaignSomeInfo valueOf(Campaign campaign) {
-        return new CampaignSomeInfo(campaign.getId().toString(), campaign.getMetaInfo(),
+        return new CampaignSomeInfo(campaign.getId().campaignId().toString(), campaign.getMetaInfo(),
                 campaign.getActivityInterval(), campaign.getState(),
                 campaign.getLoyaltyEventType());
     }

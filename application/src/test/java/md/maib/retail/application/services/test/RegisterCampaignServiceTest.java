@@ -24,7 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -67,8 +67,8 @@ class RegisterCampaignServiceTest {
 
         RegisterCampaign command = new RegisterCampaign(
                 new CampaignMetaInfo(Map.of("key", "value")),
-                LocalDate.of(2024, 5, 1),
-                LocalDate.of(2024, 6, 1),
+                Instant.parse("2018-11-30T18:35:24Z"),
+                Instant.parse("2023-12-31T18:35:24Z"),
                 CampaignState.ACTIVE,
                 new EventTypeRecord("57b2516a-fd15-4057-a04a-c725a0a80e1e"),
                 List.of(
@@ -103,8 +103,8 @@ class RegisterCampaignServiceTest {
 
         RegisterCampaign command = new RegisterCampaign(
                 new CampaignMetaInfo(Map.of("key", "value")),
-                LocalDate.of(2024, 5, 1),
-                LocalDate.of(2024, 6, 1),
+                Instant.parse("2018-11-30T18:35:24Z"),
+                Instant.parse("2023-12-31T18:35:24Z"),
                 CampaignState.DRAFT,
                 new EventTypeRecord("57b2516a-fd15-4057-a04a-c725a0a80e1e"),
                 List.of(
@@ -140,8 +140,8 @@ class RegisterCampaignServiceTest {
 
         RegisterCampaign command = new RegisterCampaign(
                 new CampaignMetaInfo(Map.of("key", "value")),
-                LocalDate.of(2024, 5, 1),
-                LocalDate.of(2024, 6, 1),
+                Instant.parse("2018-11-30T18:35:24Z"),
+                Instant.parse("2023-12-31T18:35:24Z"),
                 CampaignState.DRAFT,
                 new EventTypeRecord("57b2516a-fd15-4057-a04a-c725a0a80e1e"),
                 List.of(
@@ -168,8 +168,8 @@ class RegisterCampaignServiceTest {
     void registerNewCampaign_Fail_InvalidCommand() {
         RegisterCampaign command = new RegisterCampaign(
                 new CampaignMetaInfo(Map.of("key", "value")),
-                LocalDate.of(2024, 5, 1),
-                LocalDate.of(2024, 6, 1),
+                Instant.parse("2018-11-30T18:35:24Z"),
+                Instant.parse("2023-12-31T18:35:24Z"),
                 CampaignState.ACTIVE,  //invalid state for Campaign State
                 new EventTypeRecord("57b2516a-fd15-4057-a04a-c725a0a80e1e"),
                 List.of(
