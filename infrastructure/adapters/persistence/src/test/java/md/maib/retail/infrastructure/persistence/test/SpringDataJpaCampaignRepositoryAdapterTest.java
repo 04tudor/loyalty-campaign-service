@@ -73,7 +73,7 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
     @Test
     void findById() {
         CampaignId campaignId = CampaignId.valueOf(UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"));
-        Optional<Campaign> optionalCampaign = repository.findById(campaignId);
+        Optional<Campaign> optionalCampaign = repository.getById(campaignId);
 
         assertTrue(optionalCampaign.isPresent(), "Campaign not found");
 
@@ -109,6 +109,15 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
 
     @Test
     @DataSet("/datasets/campaigns.yaml")
+    void testListAll() {
+
+        List<Campaign> campaigns = repository.listAll();
+
+        assertThat(campaigns).isNotEmpty();
+        assertThat(campaigns.size()).isOne();
+    }
+    @Test
+    @DataSet("/datasets/campaigns.yaml")
     void testFindByLocalDate() {
 
         Instant instant = LocalDate.of(2024, 6, 8).atStartOfDay(ZoneId.systemDefault()).toInstant();
@@ -126,7 +135,7 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
     @Test
     void testSaveCampaign() {
         CampaignId campaignId = CampaignId.valueOf(UUID.fromString("1e7e7d50-9f9f-4b7c-bd9b-5f5f3d0f7f7f"));
-        Optional<Campaign> optionalCampaign = repository.findById(campaignId);
+        Optional<Campaign> optionalCampaign = repository.getById(campaignId);
 
         Assertions.assertTrue(optionalCampaign.isPresent(), "Campaign not found");
 
@@ -137,7 +146,7 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
 
         Assertions.assertTrue(saved, "Campaign failed to save");
 
-        optionalCampaign = repository.findById(campaignId);
+        optionalCampaign = repository.getById(campaignId);
         Assertions.assertTrue(optionalCampaign.isPresent(), "Campaign not found after save");
     }
 }

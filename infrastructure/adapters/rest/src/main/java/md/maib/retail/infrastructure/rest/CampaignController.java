@@ -14,6 +14,7 @@ import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
 import md.maib.retail.application.find_campaign_by_metainfo.FindCampaignByMetaInfoUseCase;
 import md.maib.retail.application.find_effect_type_by_id.FindByIdLoyaltyEffectTypeUseCase;
 import md.maib.retail.application.find_event_type_by_id.FindByIdLoyaltyEventTypeUseCase;
+import md.maib.retail.application.list_all_campaigns.ListAllCampaignsUseCase;
 import md.maib.retail.application.register_newcampaign.RegisterCampaign;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import md.maib.retail.model.campaign.CampaignId;
@@ -49,6 +50,7 @@ public final class CampaignController {
     private final FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
     private final CampaignsListByDateUseCase campaignsListByDateUseCase;
     private final ActivateCampaignUseCase activateCampaignUseCase;
+    private final ListAllCampaignsUseCase listAllCampaignsUseCase;
 
     private ResponseStatusException responseExceptionFromViolations(ConstraintViolations violations) {
         String errorMessage = violations
@@ -105,6 +107,12 @@ public final class CampaignController {
     public List<CampaignAllInfo> findCampaignByMetaInfo(@PathVariable String key, @PathVariable String value) {
         return findCampaignByMetaInfoUseCase.findByMetaInfo(key, value);
     }
+
+    @GetMapping(path = "/listAll", produces = APPLICATION_JSON_VALUE)
+    public List<CampaignAllInfo> listAll() {
+        return listAllCampaignsUseCase.listAll();
+    }
+
 
 
     @GetMapping(path = "/date/{date}", produces = APPLICATION_JSON_VALUE)

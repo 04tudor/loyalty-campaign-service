@@ -6,18 +6,18 @@ import md.maib.retail.application.register_newcampaign.UseCaseProblemConflict;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.CampaignState;
 import md.maib.retail.model.ports.Campaigns;
-import java.util.Objects;
 
+import java.util.Objects;
 
 import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
 
-public class DeleteCampaignService implements DeleteCampaignUseCase{
+public class DeleteCampaignService implements DeleteCampaignUseCase {
     private final Campaigns campaigns;
-    FindCampaignByIdUseCase findCampaignByIdUseCase;
+    private final FindCampaignByIdUseCase findCampaignByIdUseCase;
 
     public DeleteCampaignService(Campaigns campaigns, FindCampaignByIdUseCase findCampaignByIdUseCase) {
-        this.campaigns = Objects.requireNonNull(campaigns,"Campaigns must not be null");
+        this.campaigns = Objects.requireNonNull(campaigns, "Campaigns must not be null");
         this.findCampaignByIdUseCase = findCampaignByIdUseCase;
     }
 
@@ -27,16 +27,11 @@ public class DeleteCampaignService implements DeleteCampaignUseCase{
                 .orElse(false);
     }
 
-
-
     @Override
     public Either<UseCaseProblemConflict, CampaignId> deleteCampaign(DeleteCampaign command) {
-
-        CampaignId id=command.id();
-        if (check(id)&&campaigns.delete(command.id())) {
-
-                return right(id);
-
+        CampaignId id = command.id();
+        if (check(id) && campaigns.delete(id)) {
+            return right(id);
         }
         return left(new UseCaseProblemConflict("CampaignWithThisIdDoesntExistsOrActiveCampaign"));
     }

@@ -14,6 +14,7 @@ import md.maib.retail.application.find_effect_type_by_id.EffectTypeRecord;
 import md.maib.retail.application.find_effect_type_by_id.FindByIdLoyaltyEffectTypeUseCase;
 import md.maib.retail.application.find_event_type_by_id.EventTypeRecord;
 import md.maib.retail.application.find_event_type_by_id.FindByIdLoyaltyEventTypeUseCase;
+import md.maib.retail.application.list_all_campaigns.ListAllCampaignsUseCase;
 import md.maib.retail.application.register_newcampaign.RegisterCampaign;
 import md.maib.retail.application.register_newcampaign.RegistrationCampaignUseCase;
 import md.maib.retail.model.campaign.*;
@@ -58,6 +59,41 @@ public class CampaignStateHandler implements StateHandler{
     FindByIdLoyaltyEffectTypeUseCase findByIdLoyaltyEffectTypeUseCase;
     @Autowired
     ActivateCampaignUseCase activateCampaignUseCase;
+
+    @Autowired
+    ListAllCampaignsUseCase listAllCampaignsUseCase;
+
+    @State("List All campaigns")
+    void listAll() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("key", "value");
+        CampaignMetaInfo metaInfo = new CampaignMetaInfo(properties);
+
+        var id = UUID.fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
+        Interval interval = Interval.of(parse("2018-11-30T18:35:24Z"), parse("2023-12-31T18:35:24Z"));
+        CampaignState state = CampaignState.ACTIVE;
+
+        LoyaltyEventField loyaltyEventField = new LoyaltyEventField(fromString("6fb2fcfd-b836-4102-8c29-f0c38c97965e"), "TestField", FieldType.STRING);
+        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(fromString("41862fa9-2054-435d-8068-c9b31725de9f"), "TestEvent", List.of(loyaltyEventField));
+
+        RuleId ruleId = RuleId.valueOf("ce888298-f1e6-41dc-ab7e-2344bf70617c");
+
+        Collection<Rule> rules = List.of(
+                new Rule(
+                        ruleId,
+                        List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
+                        List.of(new Effect(
+                                new LoyaltyEffectType(fromString("4ec0b56f-ff4c-4e7e-b257-68ce9f133a45"), "TestEffect", fromString("41862fa9-2054-435d-8068-c9b31725de9f")),
+                                "10")
+                        )
+                )
+        );
+
+        CampaignAllInfo campaignAllInfo = new CampaignAllInfo(id.toString(), metaInfo, interval, state, loyaltyEventType, List.copyOf(rules));
+
+        when(listAllCampaignsUseCase.listAll())
+                .thenReturn(List.of(campaignAllInfo));
+    }
     @State("register campaign")
     public void aCampaignToBeRegister() {
         Map<String, Object> properties = new HashMap<>();

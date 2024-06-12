@@ -29,7 +29,7 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
     }
 
     @Override
-    public Optional<Campaign> findById(CampaignId campaignId) {
+    public Optional<Campaign> getById(CampaignId campaignId) {
         return campaignRepository.findById(campaignId.toUUID())
                 .map(entity -> entity.toCampaign(true));
     }
@@ -56,7 +56,7 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
     }
 
     public boolean delete(CampaignId campaignId) {
-        Optional<Campaign> campaignOptional = findById(campaignId);
+        Optional<Campaign> campaignOptional = getById(campaignId);
         if (campaignOptional.isPresent()) {
             campaignRepository.delete(CampaignRecord.valueOf(campaignOptional.get()));
             return true;
@@ -79,5 +79,15 @@ public class SpringDataJpaCampaignRepositoryAdapter implements Campaigns {
         }
         return false;
     }
+
+    @Override
+    public List<Campaign> listAll() {
+        List<CampaignRecord> entities = campaignRepository.findAll();
+        return entities.stream()
+                .map(entity -> entity.toCampaign(true))
+                .toList();
+
+    }
+
 
 }

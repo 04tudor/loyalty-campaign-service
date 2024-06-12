@@ -1,8 +1,7 @@
 package md.maib.retail.application.services.test;
 
 import md.maib.retail.application.CampaignAllInfo;
-import md.maib.retail.application.find_campaign_by_id.FindCampaignByIdUseCase;
-import md.maib.retail.junit.UnitTest;
+import md.maib.retail.application.list_all_campaigns.ListAllCampaignsUseCase;
 import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.CampaignState;
@@ -14,32 +13,36 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@UnitTest
 @ExtendWith(MockitoExtension.class)
- class FindCampaignByIdServiceTest {
+class ListAllCampaignsTest {
     @Mock
     Campaigns campaigns;
 
-    FindCampaignByIdUseCase target;
+    ListAllCampaignsUseCase target;
 
     @BeforeEach
     void setup() {
-        target = FindCampaignByIdUseCase.defaultService(campaigns);
+        target = ListAllCampaignsUseCase.defaultService(campaigns);
     }
 
     @AfterEach
     void tearDown() {
         verifyNoMoreInteractions(campaigns);
     }
+
+
     @Test
-    void findById_CampaignAllInfo() {
+    void ListAllCampaigns() {
+        String key = "key";
+        String value = "value";
         CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());
         Campaign campaign = new Campaign(
                 campaignId,
@@ -47,23 +50,22 @@ import static org.mockito.Mockito.when;
                 null,
                 CampaignState.DRAFT,
                 null,
-                null
+                new ArrayList<>()
         );
-        when(campaigns.getById(campaignId)).thenReturn(Optional.of(campaign));
+        when(campaigns.listAll()).thenReturn(List.of(campaign));
 
-        Optional<CampaignAllInfo> result = target.findById(campaignId);
+        List<CampaignAllInfo> result = target.listAll();
 
-        assertThat(result).isPresent();
-        assertThat(CampaignId.valueOf(UUID.fromString(result.get().id()))).isEqualTo(CampaignId.valueOf(campaignId.campaignId()));
-
+        assertThat(result).isNotNull();
+        assertThat(CampaignId.valueOf(UUID.fromString(result.get(0).id()))).isEqualTo(CampaignId.valueOf(campaignId.campaignId()));
     }
 
     @Test
-    void findById_NotFound_ReturnsEmptyOptional() {
-        CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());
-        when(campaigns.getById(campaignId)).thenReturn(Optional.empty());
+    void listAll_NotFound_ReturnsEmptyList() {
 
-        Optional<CampaignAllInfo> result = target.findById(campaignId);
+        when(campaigns.listAll()).thenReturn(new ArrayList<>());
+
+        List<CampaignAllInfo> result = target.listAll();
 
         assertThat(result).isEmpty();
     }
