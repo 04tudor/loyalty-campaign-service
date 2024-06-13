@@ -7,6 +7,7 @@ import md.maib.retail.model.conditions.Rule;
 import org.threeten.extra.Interval;
 
 import java.util.Collection;
+
 @Getter
 @RequiredArgsConstructor
 public class CampaignEntity {

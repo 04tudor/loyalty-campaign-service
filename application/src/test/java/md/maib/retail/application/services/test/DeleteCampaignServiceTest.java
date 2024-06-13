@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 @UnitTest
 @ExtendWith(MockitoExtension.class)
- class DeleteCampaignServiceTest {
+class DeleteCampaignServiceTest {
     @Mock
     Campaigns campaigns;
 
@@ -38,6 +38,7 @@ import static org.mockito.Mockito.*;
     void tearDown() {
         verifyNoMoreInteractions(campaigns);
     }
+
     @Test
     void deleteExistingCampaign() {
         CampaignId campaignId = CampaignId.valueOf(CampaignId.newIdentity().campaignId());
@@ -72,7 +73,7 @@ import static org.mockito.Mockito.*;
         Campaign campaign = new Campaign(campaignId, null, null, CampaignState.ACTIVE, null, null);
         when(campaigns.getById(campaignId)).thenReturn(Optional.of(campaign));
 
-        Either <UseCaseProblemConflict, CampaignId> result = target.deleteCampaign(DeleteCampaign.create(campaignId).get());
+        Either<UseCaseProblemConflict, CampaignId> result = target.deleteCampaign(DeleteCampaign.create(campaignId).get());
 
         assertThat(result.getLeft()).isNotNull();
         assertThat(result.getLeft().getMessage()).isEqualTo("CampaignWithThisIdDoesntExistsOrActiveCampaign");

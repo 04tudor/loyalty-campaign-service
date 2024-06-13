@@ -25,7 +25,6 @@ public class RegisterCampaignService implements RegistrationCampaignUseCase {
     private final LoyaltyEffectTypes loyaltyEffectTypes;
 
 
-
     public RegisterCampaignService(Campaigns campaigns, LoyaltyEventTypes loyaltyEventTypes, LoyaltyEffectTypes loyaltyEffectTypes) {
         this.campaigns = Objects.requireNonNull(campaigns, "Campaigns must not be null");
         this.loyaltyEventTypes = Objects.requireNonNull(loyaltyEventTypes, "loyaltyEventTypes must not be null");

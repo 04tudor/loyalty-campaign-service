@@ -6,7 +6,7 @@ public record LoyaltyEffectType(
         UUID id,
         String name,
         UUID loyaltyEventTypeId
-){
+) {
 
 
 }

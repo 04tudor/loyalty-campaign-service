@@ -1,22 +1,23 @@
 package md.maib.retail.model;
 
 import md.maib.retail.junit.UnitTest;
+import md.maib.retail.model.campaign.Campaign;
 import md.maib.retail.model.campaign.CampaignId;
 import md.maib.retail.model.campaign.CampaignState;
-import md.maib.retail.model.campaign.Campaign;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 import org.threeten.extra.Interval;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @UnitTest
- class CampaignTest {
+class CampaignTest {
 
     @Test
     void twoCampaignsAreEquals() {
@@ -71,6 +72,7 @@ import java.util.UUID;
         assertTrue(activationResult, "Can activate DRAFT campaign");
         assertEquals(CampaignState.ACTIVE, campaign.getState(), "Campaign state should be ACTIVE after activation");
     }
+
     @Test
     void testCampaign() throws Exception {
         Campaign campaign = new Campaign(

@@ -7,9 +7,9 @@ import md.maib.retail.model.ports.LoyaltyEffectTypes;
 import md.maib.retail.model.ports.LoyaltyEventTypes;
 
 public interface RegistrationCampaignUseCase {
-    Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaign command);
-
     static RegistrationCampaignUseCase defaultService(Campaigns campaigns, LoyaltyEventTypes loyaltyEventTypes, LoyaltyEffectTypes loyaltyEffectTypes) {
         return new RegisterCampaignService(campaigns, loyaltyEventTypes, loyaltyEffectTypes);
     }
+
+    Either<UseCaseProblemConflict, CampaignId> registerCampaign(RegisterCampaign command);
 }

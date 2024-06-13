@@ -37,7 +37,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @Component
-public class CampaignStateHandler implements StateHandler{
+public class CampaignStateHandler implements StateHandler {
 
     @Autowired
     FindCampaignByIdUseCase findCampaignByIdUseCase;
@@ -94,6 +94,7 @@ public class CampaignStateHandler implements StateHandler{
         when(listAllCampaignsUseCase.listAll())
                 .thenReturn(List.of(campaignAllInfo));
     }
+
     @State("register campaign")
     public void aCampaignToBeRegister() {
         Map<String, Object> properties = new HashMap<>();
@@ -108,17 +109,17 @@ public class CampaignStateHandler implements StateHandler{
         EffectTypeRecord effectTypeRecord = new EffectTypeRecord("1414d3f4-7978-4f4b-a532-3ece801e253c");
 
 
-        LoyaltyEventType loyaltyEventType=new LoyaltyEventType(
+        LoyaltyEventType loyaltyEventType = new LoyaltyEventType(
                 fromString(eventTypeRecord.id()),
                 "TestEventType",
-                    List.of(new LoyaltyEventField(
-                        fromString("2cf5b5af-1986-4e0e-abe4-21be30580dd3"),"TestField",FieldType.STRING )));
+                List.of(new LoyaltyEventField(
+                        fromString("2cf5b5af-1986-4e0e-abe4-21be30580dd3"), "TestField", FieldType.STRING)));
 
-        LoyaltyEffectType loyaltyEffectType=new LoyaltyEffectType(
+        LoyaltyEffectType loyaltyEffectType = new LoyaltyEffectType(
                 fromString(effectTypeRecord.id()),
                 "TestEffectType",
                 loyaltyEventType.getId()
-                );
+        );
         when(findByIdLoyaltyEventTypeUseCase.findById(eventTypeRecord.id())).thenReturn(Optional.of(loyaltyEventType));
         when(findByIdLoyaltyEffectTypeUseCase.findById(effectTypeRecord.id())).thenReturn(Optional.of(loyaltyEffectType));
 
@@ -126,7 +127,7 @@ public class CampaignStateHandler implements StateHandler{
                 new Rule(
                         RuleId.newIdentity(),
                         List.of(new Condition(FieldType.DECIMAL, Operator.EQUALS, "5")),
-                        List.of(new Effect( loyaltyEffectType,"10"))
+                        List.of(new Effect(loyaltyEffectType, "10"))
                 )
         );
 
@@ -137,7 +138,7 @@ public class CampaignStateHandler implements StateHandler{
                 startInclusive,
                 endExclusive,
                 state,
-               eventTypeRecord,
+                eventTypeRecord,
                 rules,
                 effectTypeRecord
         ).get();
@@ -236,7 +237,7 @@ public class CampaignStateHandler implements StateHandler{
 
     @State("delete a campaign by id")
     public void aCampaignToBeDeleted() {
-        var id =fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
+        var id = fromString("d2015c09-a251-4463-9a0d-710f92559c2a");
         CampaignId campaignId = CampaignId.valueOf(id);
         DeleteCampaign deleteCampaign = new DeleteCampaign(campaignId);
 

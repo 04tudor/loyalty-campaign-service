@@ -7,11 +7,11 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
-public class CampaignsListByDateService implements CampaignsListByDateUseCase{
+public class CampaignsListByDateService implements CampaignsListByDateUseCase {
     private final Campaigns campaigns;
 
     public CampaignsListByDateService(Campaigns campaigns) {
-        this.campaigns = Objects.requireNonNull(campaigns,"Campaigns must not be null");
+        this.campaigns = Objects.requireNonNull(campaigns, "Campaigns must not be null");
     }
 
     @Override

@@ -33,15 +33,15 @@ public class ImageBuilderTestExecutionListener implements SpringApplicationRunLi
         findArg(argsList, "build.repeatable").ifPresent(type -> repeatable = "true".equalsIgnoreCase(type));
     }
 
+    private static synchronized void setAsAlreadyBuilt() {
+        alreadyBuilt = true;
+    }
+
     private Optional<String> findArg(List<String> argsList, String key) {
         return argsList.stream()
                 .filter(arg -> arg.startsWith("%s=".formatted(key)))
                 .map(arg -> arg.split("=")[1])
                 .findFirst();
-    }
-
-    private static synchronized void setAsAlreadyBuilt() {
-        alreadyBuilt = true;
     }
 
     private boolean shouldBuildImage() {

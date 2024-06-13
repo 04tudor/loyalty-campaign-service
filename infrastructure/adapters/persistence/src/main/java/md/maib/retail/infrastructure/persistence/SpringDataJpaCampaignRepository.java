@@ -18,7 +18,6 @@ public interface SpringDataJpaCampaignRepository extends JpaRepository<CampaignR
             WHERE JSONB_EXTRACT_PATH_TEXT(c.metaInfo, :key) = :value
             ORDER BY c.id ASC, rules.id ASC
             """)
-
     List<CampaignRecord> findByMetaInfo(@Param("key") String key, @Param("value") String value);
 
     @Query("""

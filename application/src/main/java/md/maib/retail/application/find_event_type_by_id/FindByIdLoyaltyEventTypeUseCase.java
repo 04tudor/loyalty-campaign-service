@@ -10,7 +10,9 @@ public interface FindByIdLoyaltyEventTypeUseCase {
     public static FindByIdLoyaltyEventTypeService defaultService(LoyaltyEventTypes loyaltyEventTypes) {
         return new FindByIdLoyaltyEventTypeService(loyaltyEventTypes);
     }
+
     Optional<LoyaltyEventType> findById(String id);
+
     Optional<LoyaltyEventType> retrieveLoyaltyEventType(EventTypeRecord eventTypeRecord);
 
 }

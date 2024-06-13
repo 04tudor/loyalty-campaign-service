@@ -8,7 +8,7 @@ public class CampaignBuilder {
 
     private CampaignId campaignId = CampaignId.newIdentity();
 
-    public CampaignBuilder (UUID campaignId) {
+    public CampaignBuilder(UUID campaignId) {
         this.campaignId = CampaignId.valueOf(campaignId);
     }
 

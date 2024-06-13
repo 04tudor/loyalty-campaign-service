@@ -23,21 +23,8 @@ import static io.vavr.control.Either.right;
 @RequiredArgsConstructor
 @ToString
 public final class RegisterCampaign {
-    private final CampaignMetaInfo metaInfo;
-    private final Instant startInclusive;
-    private final Instant endExclusive;
-    private final CampaignState state;
-    private final EventTypeRecord loyaltyEventType;
-    private final List<Rule> rules;
-    private final EffectTypeRecord loyaltyEffectType;
-
     private static final String NOTNULL = "must not be null";
     private static final String DRAFT = "must be DRAFT";
-
-    private boolean validateRange() {
-        return startInclusive != null && endExclusive != null && startInclusive.isBefore(endExclusive);
-    }
-
     private static final Validator<RegisterCampaign> validator = ValidatorBuilder
             .<RegisterCampaign>of()
             ._object(RegisterCampaign::metaInfo, "metaInfo", c -> c.notNull().message(NOTNULL))
@@ -52,12 +39,23 @@ public final class RegisterCampaign {
             ._object(RegisterCampaign::loyaltyEffectType, "loyaltyEffectType", c -> c.notNull().message(NOTNULL))
             ._collection(RegisterCampaign::rules, "rules", c -> c.notNull().message(NOTNULL))
             .build();
+    private final CampaignMetaInfo metaInfo;
+    private final Instant startInclusive;
+    private final Instant endExclusive;
+    private final CampaignState state;
+    private final EventTypeRecord loyaltyEventType;
+    private final List<Rule> rules;
+    private final EffectTypeRecord loyaltyEffectType;
 
     public static Either<ConstraintViolations, RegisterCampaign> create(CampaignMetaInfo metaInfo, Instant startInclusive, Instant endExclusive, CampaignState state, EventTypeRecord loyaltyEventType, List<Rule> rules, EffectTypeRecord loyaltyEffectType) {
 
         var command = new RegisterCampaign(metaInfo, startInclusive, endExclusive, state, loyaltyEventType, rules, loyaltyEffectType);
         var violations = validator.validate(command);
         return violations.isValid() ? right(command) : left(violations);
+    }
+
+    private boolean validateRange() {
+        return startInclusive != null && endExclusive != null && startInclusive.isBefore(endExclusive);
     }
 
 

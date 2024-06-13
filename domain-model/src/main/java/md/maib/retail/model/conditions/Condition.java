@@ -9,7 +9,7 @@ import md.maib.retail.model.campaign.FieldType;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Condition  {
+public class Condition {
     private FieldType field;
     private Operator operator;
     private String value;

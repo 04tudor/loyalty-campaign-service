@@ -16,14 +16,13 @@ import static io.vavr.control.Either.right;
 @RequiredArgsConstructor
 @ToString
 public final class DeleteCampaign {
-    private final CampaignId id;
-
     private static final Validator<DeleteCampaign> validator = ValidatorBuilder
             .<DeleteCampaign>of()
             ._object(DeleteCampaign::id, "id", c -> c.notNull().message("Id must not be Null"))
             .build();
+    private final CampaignId id;
 
-    public  static Either<ConstraintViolations, DeleteCampaign> create(CampaignId id) {
+    public static Either<ConstraintViolations, DeleteCampaign> create(CampaignId id) {
         var command = new DeleteCampaign(id);
         var violations = validator.validate(command);
         return violations.isValid() ? right(command) : left(violations);
