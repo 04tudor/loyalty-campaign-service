@@ -8,6 +8,7 @@ The Loyalty Campaign Service manages loyalty campaigns.
 - [Features](#features)
 - [User Stories](#user-stories)
 - [Prerequisites](#prerequisites)
+- [Technologies](#technologies)
 - [Installation](#installation)
   - [Clone Repository](#clone-repository)
   - [Set Environment Variables](#set-environment-variables)
@@ -51,6 +52,30 @@ Before you begin, ensure you have the following installed:
 - Java 21 or higher
 - Maven 3.9.5 or higher
 - PostgreSQL 15.4
+## Technologies
+* Spring Boot: Simplifies the development of Java applications by providing a powerful framework for stand-alone Spring-based applications.
+* Spring JPA: Enables easy and efficient data access using the Java Persistence API within the Spring ecosystem.
+* Lombok: Reduces boilerplate code in Java classes, enhancing readability and maintainability.
+* Yavi Validation: Provides lightweight and expressive validation for Java objects, ensuring data integrity and consistency.
+* Jackson Core: Facilitates JSON data binding and manipulation in Java applications, simplifying serialization and deserialization tasks.
+* Flyway: Simplifies database schema migration, ensuring smooth and consistent updates across environments.
+* PostgreSQL: Offers a powerful, open-source relational database management system for storing and managing your application's data.
+* Test Frameworks: Includes JUnit, AssertJ,and IntegrationTests for comprehensive testing coverage, ensuring the reliability and correctness of application
+* Pact-Provider Tests: Ensures compatibility and contract adherence between services in a distributed system.
+* DbRider , Test Containers:Enables efficient database testing through tools that provide lightweight, disposable database instances for testing scenarios.
+* Azure Database for PostgreSQL Flexible Server is a fully managed database service provided by Microsoft Azure for hosting PostgreSQL databases
+* Clean architecture. https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+* Domain Driven Design (DDD): Aligns software design with the business domain, fostering modular, maintainable codebases.
+* Hexagonal Architecture: Ensures clean separation of concerns by organizing code around the core domain logic, promoting flexibility and testability.
+* Multi-Module Application: Facilitates modular development, enhancing code organization and reusability.
+* Docker and Podman: Streamlines application deployment by containerizing your services, ensuring consistency across environments.
+* Kubernetes is an open-source container orchestration platform for automating the deployment, scaling, and management of containerized applications
+* Grafana + Prometheus: Grafana is a visualization tool, while Prometheus is a monitoring solution for collecting metrics. Together, they provide robust monitoring capabilities for applications.
+* Maven and Jib for Containerization: Automates the packaging and deployment of your application into containers with Maven and Jib, respectively.
+* GitHub and GitHub Workflows Actions leverage version control and automated workflows to enhance collaboration and streamline development.
+* WSL and Hyper-V: Enhances development experience on Windows systems by providing compatibility layers and virtualization capabilities.
+* ELK (Elasticsearch, Logstash, Kibana): ELK is a stack used for centralized logging. Elasticsearch is a search engine, Logstash is a log pipeline tool, and Kibana is a visualization dashboard for Elasticsearch data. Together, they provide a comprehensive logging solution. 
+
 
 ## Installation
 
@@ -78,11 +103,9 @@ Follow these steps to install and run the Loyalty Campaign Service:
 ### Build and Run
 
 3. Build and run the application:
-
-    ```bash
-    mvn clean package -Dsha1={sha1}
-    mvn spring-boot:run
-    ```
+```bash
+./mvnw clean install
+```
  ##### Health
 
 * liveness `curl localhost:8080/livez`
