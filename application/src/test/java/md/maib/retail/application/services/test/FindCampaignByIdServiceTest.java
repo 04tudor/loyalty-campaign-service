@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 @UnitTest
 @ExtendWith(MockitoExtension.class)
- class FindCampaignByIdServiceTest {
+class FindCampaignByIdServiceTest {
     @Mock
     Campaigns campaigns;
 
@@ -38,6 +38,7 @@ import static org.mockito.Mockito.when;
     void tearDown() {
         verifyNoMoreInteractions(campaigns);
     }
+
     @Test
     void findById_CampaignAllInfo() {
         CampaignId campaignId = new CampaignId(CampaignId.newIdentity().campaignId());

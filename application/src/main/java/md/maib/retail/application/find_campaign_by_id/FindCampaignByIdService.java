@@ -7,11 +7,11 @@ import md.maib.retail.model.ports.Campaigns;
 import java.util.Objects;
 import java.util.Optional;
 
- public class FindCampaignByIdService implements FindCampaignByIdUseCase {
+public class FindCampaignByIdService implements FindCampaignByIdUseCase {
     private final Campaigns campaigns;
 
     public FindCampaignByIdService(Campaigns campaigns) {
-        this.campaigns = Objects.requireNonNull(campaigns,"Campaigns must not be null");
+        this.campaigns = Objects.requireNonNull(campaigns, "Campaigns must not be null");
     }
 
     @Override

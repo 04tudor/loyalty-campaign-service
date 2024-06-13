@@ -260,8 +260,8 @@
           "Content-Type": "application/json"
         }
       }
-    }
-  ,{
+    },
+    {
       "description": "Register a new Campaign",
       "providerStates": [
         {
@@ -335,10 +335,7 @@
         "status": 200
       }
     }
-
-
   ],
-
   "metadata": {
     "pact-jvm": {
       "version": "4.6.1"

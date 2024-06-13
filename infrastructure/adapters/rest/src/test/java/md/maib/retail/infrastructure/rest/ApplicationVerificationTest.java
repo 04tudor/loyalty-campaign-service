@@ -23,7 +23,7 @@ import java.util.List;
 @PactFolder("pacts")
 @IgnoreNoPactsToVerify
 @VerificationReports(value = {"console", "json"}, reportDir = "target/pact/reports")
- class ApplicationVerificationTest {
+class ApplicationVerificationTest {
 
     @BeforeEach
     void before(@Nullable PactVerificationContext context, @LocalServerPort int port,

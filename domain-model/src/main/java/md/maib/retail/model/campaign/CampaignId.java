@@ -1,17 +1,16 @@
 package md.maib.retail.model.campaign;
 
 import java.util.UUID;
+
 import static java.util.Objects.requireNonNull;
 import static java.util.UUID.randomUUID;
 
-public record CampaignId (UUID campaignId){
+public record CampaignId(UUID campaignId) {
 
     public CampaignId {
         requireNonNull(campaignId, "Campaign Id must not be null.");
     }
-    public UUID toUUID() {
-        return campaignId;
-    }
+
     public static CampaignId newIdentity() {
         return new CampaignId(randomUUID());
     }
@@ -19,7 +18,12 @@ public record CampaignId (UUID campaignId){
     public static CampaignId valueOf(UUID value) {
         return new CampaignId(value);
     }
+
     public static String stringvalueOf(CampaignId campaignId1) {
         return String.valueOf(campaignId1);
+    }
+
+    public UUID toUUID() {
+        return campaignId;
     }
 }

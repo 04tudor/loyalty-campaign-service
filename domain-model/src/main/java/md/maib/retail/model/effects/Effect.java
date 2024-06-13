@@ -1,8 +1,7 @@
-    package md.maib.retail.model.effects;
+package md.maib.retail.model.effects;
 
-    public record Effect (
-         LoyaltyEffectType effectType,
-         String value
-    )
-    {
-    }
+public record Effect(
+        LoyaltyEffectType effectType,
+        String value
+) {
+}

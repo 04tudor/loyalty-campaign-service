@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
- class CampaignsListByDateServiceTest {
+class CampaignsListByDateServiceTest {
     @Mock
     Campaigns campaigns;
 
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 
     @BeforeEach
     void setup() {
-        target =  CampaignsListByDateUseCase.defaultService(campaigns);
+        target = CampaignsListByDateUseCase.defaultService(campaigns);
     }
 
     @AfterEach
@@ -69,6 +69,6 @@ import static org.mockito.Mockito.when;
 
         List<CampaignSomeInfo> result = target.activeCampaignsByDate(date);
 
-            assertThat(result).isEmpty();
+        assertThat(result).isEmpty();
     }
 }

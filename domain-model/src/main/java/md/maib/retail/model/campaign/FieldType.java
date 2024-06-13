@@ -1,7 +1,7 @@
-    package md.maib.retail.model.campaign;
+package md.maib.retail.model.campaign;
 
-    public enum FieldType {
-        STRING,
-        DECIMAL,
-        BOOLEAN
-    }
+public enum FieldType {
+    STRING,
+    DECIMAL,
+    BOOLEAN
+}

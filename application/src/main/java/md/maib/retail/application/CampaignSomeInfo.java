@@ -8,6 +8,7 @@ import md.maib.retail.model.campaign.CampaignMetaInfo;
 import md.maib.retail.model.campaign.CampaignState;
 import md.maib.retail.model.campaign.LoyaltyEventType;
 import org.threeten.extra.Interval;
+
 @Getter
 @RequiredArgsConstructor
 public class CampaignSomeInfo {

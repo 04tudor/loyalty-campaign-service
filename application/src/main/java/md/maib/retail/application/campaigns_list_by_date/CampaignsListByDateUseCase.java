@@ -10,5 +10,6 @@ public interface CampaignsListByDateUseCase {
     static CampaignsListByDateUseCase defaultService(Campaigns campaigns) {
         return new CampaignsListByDateService(campaigns);
     }
+
     List<CampaignSomeInfo> activeCampaignsByDate(Instant date);
 }

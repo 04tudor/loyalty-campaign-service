@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,11 +16,11 @@ public class LoyaltyEventType {
 
     private String name;
 
-    private List<LoyaltyEventField>fields;
+    private List<LoyaltyEventField> fields;
 
 
-    public LoyaltyEventType(String id){
-        this.id= UUID.fromString(id);
+    public LoyaltyEventType(String id) {
+        this.id = UUID.fromString(id);
     }
 }
 

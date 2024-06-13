@@ -17,10 +17,17 @@ public class RuleId {
     public RuleId(String id) {
         this.id = UUID.fromString(id);
     }
+
     public static RuleId newIdentity() {
         return new RuleId(randomUUID());
     }
+
     public static RuleId valueOf(String id) {
+        return new RuleId(UUID.fromString(id));
+    }
+
+    @JsonCreator
+    public static RuleId fromString(String id) {
         return new RuleId(UUID.fromString(id));
     }
 
@@ -31,9 +38,5 @@ public class RuleId {
     @JsonValue
     public String toString() {
         return id.toString();
-    }
-    @JsonCreator
-    public static RuleId fromString(String id) {
-        return new RuleId(UUID.fromString(id));
     }
 }

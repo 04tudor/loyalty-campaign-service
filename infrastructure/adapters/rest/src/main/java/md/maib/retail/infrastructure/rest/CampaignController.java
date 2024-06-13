@@ -114,7 +114,6 @@ public final class CampaignController {
     }
 
 
-
     @GetMapping(path = "/date/{date}", produces = APPLICATION_JSON_VALUE)
     public List<CampaignSomeInfo> listByDate(@PathVariable Instant date) {
         return campaignsListByDateUseCase.activeCampaignsByDate(date);

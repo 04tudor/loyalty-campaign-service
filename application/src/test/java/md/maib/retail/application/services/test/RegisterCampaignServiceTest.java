@@ -126,6 +126,7 @@ class RegisterCampaignServiceTest {
         assertThat(result.getLeft()).isInstanceOf(UseCaseProblemConflict.class);
         assertThat(result.getLeft().getMessage()).isEqualTo("Failed to retrieve LoyaltyEventType or LoyaltyEffectType");
     }
+
     @Test
     void registerNewCampaign_Fail_AlreadyExists() {
         when(campaigns.add(any(Campaign.class))).thenReturn(false);
@@ -164,6 +165,7 @@ class RegisterCampaignServiceTest {
         assertThat(result.getLeft()).isInstanceOf(UseCaseProblemConflict.class);
         assertThat(result.getLeft().getMessage()).isEqualTo("CampaignWithSameIdAlreadyExists");
     }
+
     @Test
     void registerNewCampaign_Fail_InvalidCommand() {
         RegisterCampaign command = new RegisterCampaign(
@@ -197,7 +199,6 @@ class RegisterCampaignServiceTest {
         assertThat(result.isLeft()).isTrue();
         assertThat(result.getLeft().violations()).isNotEmpty();
     }
-
 
 
 }

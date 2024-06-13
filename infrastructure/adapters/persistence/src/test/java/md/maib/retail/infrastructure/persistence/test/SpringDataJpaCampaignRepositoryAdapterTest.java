@@ -117,6 +117,7 @@ class SpringDataJpaCampaignRepositoryAdapterTest {
         assertThat(campaigns).isNotEmpty();
         assertThat(campaigns.size()).isOne();
     }
+
     @Test
     @DataSet("/datasets/campaigns.yaml")
     void testFindByLocalDate() {

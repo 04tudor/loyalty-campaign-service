@@ -30,7 +30,7 @@ class FindCampaignByMetaInfoServiceTest {
 
     @BeforeEach
     void setup() {
-        target =  FindCampaignByMetaInfoUseCase.defaultService(campaigns);
+        target = FindCampaignByMetaInfoUseCase.defaultService(campaigns);
     }
 
     @AfterEach

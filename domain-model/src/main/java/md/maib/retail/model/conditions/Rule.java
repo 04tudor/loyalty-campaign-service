@@ -13,12 +13,12 @@ import java.util.Objects;
 
 @Getter
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded=true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class Rule {
     @Getter
     @EqualsAndHashCode.Include
     private final RuleId id;
-    private Collection<Condition>conditions;
+    private Collection<Condition> conditions;
     @Getter
     private List<Effect> effects;
 
@@ -31,6 +31,7 @@ public final class Rule {
         this.conditions = conditions;
         this.effects = effects;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
